@@ -249,11 +249,13 @@ Pour vérifier et valider la force du mot de passe (son niveau de sécurisation)
 ### Authentification avec JSON Web Token (JWT)
 - Installation du bundle LexikJwtAuthentication avec la commande ```composer require "lexik/jwt-authentication-bundle"```
 - Création d'un nouveau dossier dans le dossier config avec ```mkdir -p config/jwt```
-- Génération des clés de sécurité (voir doc) en utilisant la "pass phrase" qui a été générée dans le fichier .env
-- configuration du firewall dans le fichier security.yaml (voir doc) et de la route pour login dans le fichier routes.yaml (voir doc)
+- Génération des clés de sécurité (voir doc) en utilisant la "pass phrase" qui a été générée dans le fichier .env :
+    - ```openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096```
+    - ```openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout```
+- configuration du firewall dans le fichier security.yaml (voir doc) et de la route pour login dans le fichier routes.yaml (voir doc) :
 
 ### configurations de sécurité
-- Création d'un firewall pour la création d'un nouvel utilisateur dans le fichier security.yaml : les routes "/api/users" sont ouvertes aux utilisateurs anonymes (non connectés) uniquement en méthode POST pour créer un nouvel utilisateur (impossible donc de récupérer la liste des utilisateurs avec la méthode GET en n'étant pas connecté)
+- Création d'un firewall pour la création d'un nouvel utilisateur dans le fichier security.yaml : les routes "/api/users" sont ouvertes aux utilisateurs anonymes (non connectés) uniquement en méthode POST pour créer un nouvel utilisateur (impossible donc de récupérer la liste des utilisateurs avec la méthode GET en n'étant pas connecté). 
 - Ouverture des routes "/api" aux anonymes pour documenter l'api aux éventuels développeurs
 __Contrôles d'accés Sécurisé :__  
 - configuration dans security.yaml d'accès pour certaines routes :
