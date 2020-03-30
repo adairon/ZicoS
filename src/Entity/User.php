@@ -17,7 +17,8 @@ use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
  *  itemOperations={"GET", "PUT", "DELETE", "PATCH"},
  *  normalizationContext={
  *      "groups"={"user_read"}
- *  }
+ *  },
+ *  denormalizationContext={"disable_type_enforcement"=true},
  * )
  * @UniqueEntity("email", message="Un compte existe déjà avec cette adresse email !")
  */
@@ -62,7 +63,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="date")
      * @Groups({"user_read","profiles_read"})
-     * @Assert\Date(message="La date doit être au format AAAA-MM-JJ (annéé-mois-jour ; on y travaille...)")
+     * @Assert\Date(message="La date doit être au format AAAA-MM-JJ (année-mois-jour ; on y travaille...)")
      */
     private $birthDate;
 
@@ -166,7 +167,7 @@ class User implements UserInterface
         return $this->birthDate;
     }
 
-    public function setBirthDate(\DateTimeInterface $birthDate): self
+    public function setBirthDate($birthDate): self
     {
         $this->birthDate = $birthDate;
 

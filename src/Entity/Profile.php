@@ -112,8 +112,8 @@ class Profile
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="profile", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="Un User est obligatoire")
      * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
-     * @Assert\NotBlank(message="Un Utilisateur est obligatoire")
      */
     private $user;
 

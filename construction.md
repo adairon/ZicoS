@@ -222,6 +222,9 @@ On créé alors un normaliseur personnalisé pour les dates :
     - on modifie le nom de la classe ```PatchedDateTimeNormalizer``` et le name space ```namespace App\Serializer;```
     - on importe bien toutes les interfaces nécessaires
     - on ajoute une condition pour préciser au normalizer de prendre en compte la data si le renforcement des types est désactivé et ça afin de pouvoir déplacer la validation de cette donnée au niveau de ce que l'on paramètre dans l'entité
+    - dans le fichier ```service.yaml```, on configure l'utilisation de ce normalizer en ajoutant :  
+    ```App\Serializer\PatchedDateTimeNormalizer:```  
+            ```tags: [serializer.normalizer]```
 
 ### Création d'un utilisateur et sécurité :
 - Validation de l'email :
