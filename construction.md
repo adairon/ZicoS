@@ -1,4 +1,4 @@
-# Zicos : Construction
+# Zicos VERSION 0.1 : Construction
 
 ## Install Symfony version 4.x.x
 Utilisation de la version 4.4 de Symfony et non de la version 5 car version 4.4 mieux maitrisée. Mise à jour éventuelle vers la version 5 dans un deuxième temps.  
@@ -23,23 +23,19 @@ __IMPORTANT :__ penser à modifier le port mySql par 8889 (pour les utilisateurs
 ### Entités
 Les types de données de l'application :  
     On a plusieurs tables à créer :  
-1. Profil :  
+1. Profile :  
 - id (généré automatiquement)
-- nom (type="string", nullable="no")
-- prenom (type="string", nullable="yes") 
-- email (type="string", nullable="yes")
-- dateNaissance (type="date", nullable="no")
-- biographie (type="text", nullable="yes")
-- urlPhoto (type="string", nullable="yes")
-- urlAudio (type="string", nullable="yes")
-- urlVideo (type="string", nullable="yes")
-- urlLien (type="string", nullable="yes")
+- firstName (type="string", nullable="no")
+- lastName (type="string", nullable="yes") 
+- email (type="string", nullable="no")
+- biography (type="text", nullable="yes")
+- pictureUrl (type="string", nullable="yes")
+- linkUrl (type="string", nullable="yes")
 - type (type="relation" - "ManyToOne")
 - instrument (type="relation" - "ManyToOne")
-- localisation (type="relation" - "ManyToOne")
-- experience (type="relation" - "ManyToOne")
+- localization (type="relation" - "ManyToOne")
+- level (type="relation" - "ManyToOne")
 - style (type="relation" - "ManyToOne")
-- influence (type="string")
 - user (type="relation" - "ManyToOne" - __attention :__ un user peut ne pas avoir de profil rattaché (ce sera notamment le cas lors de la création du compte : on créé d'abord un utilisateur puis ensuite son profil))
 
     - Dans un premier temps : un profil ne peut avoir qu'un seul instrument, style ou influence.
@@ -48,32 +44,29 @@ Les types de données de l'application :
 - id (généré automatiquement)
 - email (type="string")
 - password (type="string")
+- birthDate (type="date", nullable="no")
 
-3. TypeProfil (de profil) :
+3. Type (de profil) :
 - id (généré automatiquement)
-- type (type="string")
+- name (type="string")
 
-4. StyleMusique (de musique) :
+4. Style (de musique) :
 - id (généré automatiquement)
-- style (type="string")
+- name (type="string")
 
-5. Influence (ou inspirations musciales) :
+5. Instrument (de musique) :
 - id (généré automatiquement)
-- influence (type="string")
+- name (type="string")
 
-6. Instrument (de musique) :
-- id (généré automatiquement)
-- instrument (type="string")
-
-7. Localisation (Lieu d'habitation) :
+6. Localization (Lieu d'habitation) :
 - id (généré automatiquement)
 - region (type="string", nullable="yes")
-- numero_departement (type="integer", nullable="yes")
+- departementNumber (type="integer", nullable="yes")
 - departement (type="string", nullable="yes")
 
-8. Experience (niveau / années de partique) :
+7. Level (niveau d'expérience) :
 - id (généré automatiquement)
-- experience (type="string")
+- name (type="string")
 
 __à voir plus tard :__
 
@@ -108,8 +101,6 @@ Pour créer l'entité User : ```bin/console make:user```
 puis  
 ```bin/console make:fixtures```
 
-- on utilise la librairie faker pour générer des faux users et faux profils :  
-```composer require fzaninotto/faker```
 
 
 1. types de musique à créer :  
