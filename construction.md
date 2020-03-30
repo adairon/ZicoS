@@ -159,7 +159,7 @@ puis
 
 #### Mise en place et configuration :
 1. Installation du composant API Platform :  
-```composer require API```
+```composer require api```
 
 2. Annoter les ressources que l'on veut récupérer dans l'API avec l'annotation ```@ApiResource```  
     - Il faut également importer ApiResource dans l'entité avec ```use ApiPlatform\Core\Annotation\ApiResource;```
@@ -275,20 +275,6 @@ Problème : le mot de passe est stocké en clair dans la base de donnée. On va 
 #### Relier la création du profil à l'utilisateur connecté
 On veut que le profil créé soit automatiquement relié à l'utilisateur actuellement connecté en utilisant les données contenues dans le token.
 - On créé un nouvel évènement : ProfilUserSubscriber
-
-
-<!-- ### Make CRUD
-Pour créer automatiquement le crud (Create Read Update Delete) sur les entités créées :
-1. ```bin/console make:crud```
-2. préciser le nom de l'entité sur laquelle créer le crud (Candidature).
-- cette commande créera automatiquement les controlleurs et les vues (avec les formulaires) pour l'entité
-3. Pour mettre en forme les formulaires, on va dans config/package/twig.yaml
-- on ajoute :     ```form_themes: ['bootstrap_4_layout.html.twig']```
-
-### Controllers
-Dans notre cas, le controller et la vue ont été créés automatiquement avec la commande make:crud
-Penser à modifier la route pour la page d'accueil :   
-```@Route("/candidature")```devient : ```@Route("/")``` -->
 
 ## Développement Front-End
 

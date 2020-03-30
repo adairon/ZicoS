@@ -2,12 +2,24 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InstrumentRepository")
+ * @ApiResource(
+ *  collectionOperations={"GET", "POST"},
+ *  itemOperations={"GET", "PUT", "DELETE", "PATCH"},
+ *  normalizationContext={
+ *      "groups"={"instrument_read"}
+ *  },
+ *  attributes={
+ *      "order":{"name" : "ASC"}
+ *  }
+ * )
  */
 class Instrument
 {
@@ -15,16 +27,19 @@ class Instrument
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"instrument_read", "profiles_read", "type_read", "level_read", "localization_read","style_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Groups({"instrument_read", "profiles_read", "type_read", "level_read", "localization_read","style_read"})
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Profile", mappedBy="instrument")
+     * @Groups({"instrument_read"})
      */
     private $profiles;
 

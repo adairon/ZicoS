@@ -3,9 +3,28 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProfileRepository")
+ * @ApiResource(
+ *  collectionOperations={"GET", "POST"},
+ *  itemOperations={"GET", "PUT", "DELETE", "PATCH"},
+ *  normalizationContext={
+ *      "groups"={"profiles_read"}
+ *  },
+ *  denormalizationContext={"disable_type_enforcement"=true},
+ *  attributes={
+ *      "order"={"id":"DESC"}
+ *  }
+ * )
+ * @ApiFilter(SearchFilter::class)
+ * @ApiFilter(OrderFilter::class)
  */
 class Profile
 {
@@ -13,69 +32,88 @@ class Profile
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Assert\NotBlank(message="Votre nom ou celui de votre groupe est obligatoire")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Assert\NotBlank(message="Un email est obligatoire")
+     * @Assert\Email(message="Le format de l'adresse email '{{ value }}' n'est pas valide")
      */
     private $email;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Assert\Length(max=500, maxMessage="Votre texte est un peu trop long ! Il ne doit pas dépasser les {{ limit }} caractères")
      */
     private $biography;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
      */
     private $pictureUrl;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Assert\Url(message="'{{ value }}' n'est pas une url valide !")
      */
     private $linkUrl;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="profiles")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"profiles_read", "instrument_read", "level_read", "localization_read", "style_read"})
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Instrument", inversedBy="profiles")
+     * @Groups({"profiles_read", "type_read", "level_read", "localization_read", "style_read"})
      */
     private $instrument;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Localization", inversedBy="profiles")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "style_read"})
      */
     private $localization;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Level", inversedBy="profiles")
+     * @Groups({"profiles_read", "type_read", "instrument_read", "localization_read", "style_read"})
      */
     private $level;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Style", inversedBy="profiles")
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read"})
      */
     private $style;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="profile", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Assert\NotBlank(message="Un Utilisateur est obligatoire")
      */
     private $user;
 

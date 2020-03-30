@@ -3,10 +3,23 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints\NotCompromisedPassword;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ApiResource(
+ *  collectionOperations={"GET", "POST"},
+ *  itemOperations={"GET", "PUT", "DELETE", "PATCH"},
+ *  normalizationContext={
+ *      "groups"={"user_read"}
+ *  }
+ * )
+ * @UniqueEntity("email", message="Un compte existe déjà avec cette adresse email !")
  */
 class User implements UserInterface
 {
@@ -14,11 +27,15 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"user_read","profiles_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user_read","profiles_read"})
+     * @Assert\NotBlank(message="Une adresse email est obligatoire pour se créer un compte !")
+     * @Assert\Email(message="Le format de l'adresse email '{{ value }}' n'est pas valide")
      */
     private $email;
 
@@ -30,16 +47,22 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Un mot de passe est obligatoire !")
+     * Assert\Length(min=8, minMessage="pour être un minimum sécurisé, votre mot de passe doit faire au moins {{ limit }} caractères")
+     * @Assert\NotCompromisedPassword(message="Attention, ce mot de passe a déjà été compromis lors d'une fuite de données (à voir sur haveibeenpwned.com), merci de renseigner un mot de passe plus sécurisé.")
      */
     private $password;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Profile", mappedBy="user", cascade={"persist", "remove"})
+     * @Groups({"user_read"})
      */
     private $profile;
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"user_read","profiles_read"})
+     * @Assert\Date(message="La date doit être au format AAAA-MM-JJ (annéé-mois-jour ; on y travaille...)")
      */
     private $birthDate;
 

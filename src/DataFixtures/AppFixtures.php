@@ -92,7 +92,7 @@ class AppFixtures extends Fixture
                              ->setDepartementNumber($faker->departmentNumber)
                              ->setRegion($faker->region);
                 $manager->persist($localization);
-                //Si c'est un musicien : alors on créé le profil comme suit :
+                //Si c'est un musicien : alors on créé le profil avec nom de famille, instrument et niveau 
                 if($type->getName() === "musicien.ne"){
                     //On créé une nouvelle instance de l'entité Profile
                     $profile = new Profile();
@@ -110,7 +110,7 @@ class AppFixtures extends Fixture
                              -> setInstrument($faker->randomElement($tabObjInstrus))
                              -> setLevel($faker->randomElement($tabObjLevel));
                 } elseif ($type->getName() === "groupe"){
-                    //On créé une nouvelle instance de l'entité Profile
+                    //On créé une nouvelle instance de l'entité Profile et si c'est un groupe, on le fait comme suit :
                     $profile = new Profile();
                     // On "rempli les différents champs du profil
                     $profile -> setFirstName($faker->firstName())

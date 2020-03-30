@@ -2,12 +2,23 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StyleRepository")
+ * @ApiResource(collectionOperations={"GET", "POST"},
+ *  itemOperations={"GET", "PUT", "DELETE", "PATCH"},
+ *  normalizationContext={
+ *      "groups"={"style_read"}
+ *  },
+ *  attributes={
+ *      "order":{"name" : "ASC"}
+ *  }
+ * )
  */
 class Style
 {
@@ -15,16 +26,19 @@ class Style
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"style_read", "profiles_read", "type_read", "instrument_read", "level_read", "localization_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"style_read", "profiles_read", "type_read", "instrument_read", "level_read", "localization_read"})
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Profile", mappedBy="style")
+     * @Groups({"style_read"})
      */
     private $profiles;
 
