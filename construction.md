@@ -301,11 +301,19 @@ On veut que le profil créé soit automatiquement relié à l'utilisateur actuel
 - Dans fichier webpack.config.js : on décommente la ligne 70 : ```.enableReactPreset()```
 - Installation du preset react de Babel (pour traduire du jsx) : ```npm install @babel/preset-react@^7.0.0 --save-dev```
 - Installations depuis le terminal :
-    -  de la version 16.8.6 de react (version mieux maitriséé car vue en formation) :
+    - de la version 16.8.6 de react (version mieux maitriséé car vue en formation) :
     - de react-dom version 16.8.6
     - de react-router-dom version 5.0.0
-    - de axios version 0.18.0
-    - avec la commande :  ```npm install react@16.8.6 react-dom@16.8.6 react-router-dom@5.0.0 axios@0.18.0```
+    - de axios version 0.18.1
+    - avec la commande :  ```npm install react@16.8.6 react-dom@16.8.6 react-router-dom@5.0.0 axios@0.18.1```
+
+### "Branchement" de la page d'accueil
+- dans le fichier (dossier templates/app) ```index.html.twig```, on créé une div avec l'id "app" dans le block body.
+- dans le fichier ```app.js``` (dossier assets/js), on importe react & react-dom, on créé une constante "App" : fonction qui retournera nos composants React.
+    - on résupère la div "app"
+        - ```const rootElement = document.querySelector('#app');```
+    - avec react-dom, on fait le rendu de notre constante App dans cette div :
+        - ```ReactDOM.render(<App/>, rootElement);```
 
 ### structure des dossiers
 Dans le dossier assets/js, on va créer 3 nouveaux dossiers :
@@ -324,7 +332,7 @@ __Dans le fichier app.js :__
 - Balises scripts depuis bootstrap et css depuis bootswatch
 
 ### Composants React si collage de code html
-- fermeture des balises auto fermantes (img, input, etc...) : <input> => <input/>
+- fermeture des balises auto fermantes (img, input, etc...) : ```<input>``` => ```<input/>```
 - On remplace tous les attributs "class" en "className"
 
 ### Pagination
