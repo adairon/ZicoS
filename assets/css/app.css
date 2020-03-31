@@ -11,6 +11,17 @@ a{
     text-decoration: none;
 }
 
+/* ============================== NAVBAR ========================================= */
+.navbar{
+    /* height: 3.5rem; */
+}
+.navbar-brand{
+    height: 50px;
+}
+.logo{
+    height: 50px;
+}
+
 /*  ============================== PAGE DES PROFILS ============================== */
 
 #btnRecherche{

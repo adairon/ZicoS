@@ -1,12 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Logo from "../images/Logo-ZicoS-1.png";
 
 const Navbar = props => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <a className="navbar-brand" href="#">
-        ZicoS
-      </a>
+      <Link to="/" className="navbar-brand">
+        <figure className="">
+          <img className="logo" src={Logo} alt=""/>
+        </figure>
+      </Link>
       <button
         className="navbar-toggler"
         type="button"

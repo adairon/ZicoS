@@ -24,7 +24,7 @@ const App = () => {
     return (
         <HashRouter>
             <Navbar />
-            <main className="container pt-5">
+            <main className="container pt-3">
                 <Switch>
                     <Route path="/profils/:id" component={ProfilePage} />
                     <Route path="/profils" component={ProfilesPage} />
