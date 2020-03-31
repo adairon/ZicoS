@@ -211,8 +211,9 @@ const ProfilesPage = props => {
       </div> */}
 
       {/*  =============================== PROFILS ============================ */}
-
-      <ProfilesCards paginatedProfiles={paginatedProfiles} />
+      <div className="container">
+        <ProfilesCards paginatedProfiles={paginatedProfiles} />
+      </div>
 
       {/* ================== PAGINATION ============================== */}
 

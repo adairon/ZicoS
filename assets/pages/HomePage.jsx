@@ -1,22 +1,84 @@
 import React from "react";
+import bigLogo from "../images/logos/ZicoS-grey.png";
 
 const HomePage = props => {
   return (
-    <div className="jumbotron">
-      <h1 className="display-3">Salut les ZicoS !</h1>
-      <p className="lead">
-       Ceci est un simple paragraphe de test.
-      </p>
-      <hr className="my-4" />
-      <p>
-        La page d'accueil sera rapidement enrichie. Stay tuned !
-      </p>
-      <p className="lead">
-        <a className="btn btn-primary btn-lg" href="#" role="button">
-          Plus de détails
-        </a>
-      </p>
-    </div>
+    <>
+      <div className="homeContainer">
+        <div className="homeDiv home1">
+          <div className="container">
+            <div className="row justify-content-center">
+              <figure className="pt-4 m-0 col-12 d-flex">
+                <img className="bigLogo" src={bigLogo} alt="ZicoS" />
+              </figure>
+            </div>
+            <div className="home1_text d-flex mt-2 mb-4">
+              <p className="m-auto text-center">
+                Rencontrez des musiciens.nes, <br />
+                Rejoignez un groupe : <br />
+                Faites de la musique ! <br />
+              </p>
+            </div>
+            <div className="register_links d-flex flex-wrap justify-content-center my-4">
+              <div className="btn-group mx-2" role="group" aria-label="Button group with nested dropdown">
+                <button type="button" className="btn btn-dark">
+                  Je suis ...
+                </button>
+                <div className="btn-group" role="group">
+                  <button id="btnGroupDrop1" type="button" className="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  </button>
+                  <div className="dropdown-menu bg-dark" aria-labelledby="btnGroupDrop1">
+                    <a className="dropdown-item text-lightgrey dropdown_home1" href="#">
+                      Musicien.ne
+                    </a>
+                    <a className="dropdown-item text-lightgrey dropdown_home1" href="#">
+                      un Groupe
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-dark mx-2">C'est parti !</button>
+            </div>
+            <div className="login_link d-flex justify-content-center my-4">
+              <button type="button" class="btn btn-secondary mx-2">j'ai déjà un compte</button>
+            </div>
+          </div>
+        </div>
+        <div className="homeDiv home2">
+          <div className="container">
+            <div className="row justify-content-end">
+              <h2 className="pt-5 home_title col-lg-8 col-md-12 col-sm-12 text-center">
+                Musicien.ne Reherche groupe
+              </h2>
+            </div>
+            <div className="home_text row justify-content-start">
+              <p className="text-center col-lg-4 col-md-12 col-sm-12">
+              Grace à ZicoS, trouvez un <br/>
+              groupe près de chez vous <br/>
+              qui vous ressemble.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="homeDiv home3">
+          <div className="container">
+            <div className="row justify-content-start">
+              <h2 className="pt-5 home_title col-lg-8 col-md-12 col-sm-12 text-center">
+                Groupe recherche musicien.ne
+              </h2>
+            </div>
+            <div className="home_text row justify-content-end">
+              <p className="text-center col-lg-4 col-md-12 col-sm-12">
+                Avec ZicoS, trouvez les <br/>
+                musiciens.nes dont vous avez <br/>
+                besoin et intégrez un nouveau <br/>
+                membre à votre groupe. 
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

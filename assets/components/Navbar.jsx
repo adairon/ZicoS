@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../images/Logo-ZicoS-1.png";
+import Logo from "../images/logos/Logo-ZicoS-1.png";
 
 const Navbar = props => {
   return (
@@ -25,24 +25,24 @@ const Navbar = props => {
       <div className="collapse navbar-collapse" id="navbarColor02">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link className="nav-link" to="/profils/">
+            <Link className="btn btn-outline-secondary btnProfiles my-1" to="/profils/">
               Profils
             </Link>
           </li>
         </ul>
         <ul className="navbar-nav mal-auto">
           <li className="nav-item">
-            <a href="#" className="nav-link">
+            <a href="#" className="nav-link mx-1 my-1">
               Inscription
             </a>
           </li>
           <li className="nav-item">
-            <a href="#" className="btn btn-success">
+            <a href="#" className="btn btn-outline-success mx-1 my-1">
               Connexion
             </a>
           </li>
           <li className="nav-item">
-            <a href="#" className="btn btn-danger">
+            <a href="#" className="btn btn-outline-danger mx-1 my-1">
               Déconnexion
             </a>
           </li>

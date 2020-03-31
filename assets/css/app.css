@@ -1,3 +1,28 @@
+@font-face {
+    font-family: 'Big John PRO Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Big John PRO Regular'), url('./fonts/BigJohnPRO-Regular.woff') format('woff');
+    }
+    
+    
+    @font-face {
+    font-family: 'Big John PRO Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Big John PRO Bold'), url('./fonts/BigJohnPRO-Bold.woff') format('woff');
+    }
+    
+    
+    @font-face {
+    font-family: 'Big John PRO Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Big John PRO Light'), url('./fonts/BigJohnPRO-Light.woff') format('woff');
+    }
+
+
+
 /* ================================ REÈGLES GÉNÉRALES =========================== */
 body {
     /* background-color: lightgrey; */
@@ -11,16 +36,114 @@ a{
     text-decoration: none;
 }
 
+:root{
+    --color-dark : #333333;
+    --color-darkOpaque : rgba(51, 51, 51, 0.8);
+}
+
 /* ============================== NAVBAR ========================================= */
 .navbar{
     /* height: 3.5rem; */
 }
+
 .navbar-brand{
-    height: 50px;
+    height: 40px;
+    padding: 0;
 }
 .logo{
-    height: 50px;
+    height: 40px;
 }
+
+.btnProfiles{
+    color: white;
+    text-decoration: none;
+}
+
+/* ================================= HOME PAGE =================================== */
+.homeContainer{
+    width: 100%;
+    font-family: "Big John PRO Regular";
+}
+
+.homeDiv{
+    width: 100%;
+    height: 550px;
+}
+.home_title{
+    font-size: 3rem;
+}
+.home1{
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.80);
+}
+/*pour gérer la transparence de l'image de fond*/
+.home1::after{
+    content:"";
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url(../images/photos/band-gig.jpg);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -1;
+}
+.bigLogo{
+    width: 400px;
+    margin: auto;
+}
+.home_text{
+    font-size: 1.5rem;
+    margin-top: 200px;
+}
+.home1_text{
+    font-size: 1.5rem;
+}
+.dropdown_home1>a:hover{
+    color: black !important;
+}
+
+
+.home2{
+    position: relative;
+    background-color: var(--color-darkOpaque);
+    color: white;
+}
+.home2::after{
+    content:"";
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url(../images/photos/bassist-gig.jpg);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+
+.home3{
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.80);
+}
+.home3::after{
+    content:"";
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url(../images/photos/guitarist-gig1.jpg);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -1;
+}
+
 
 /*  ============================== PAGE DES PROFILS ============================== */
 
@@ -36,7 +159,7 @@ a{
 }
 
 .card-deck .card {
-margin: 0 0 1rem;
+    margin: 0 0 1rem;
 }
 
 .card{
