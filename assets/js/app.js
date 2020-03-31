@@ -14,6 +14,7 @@ import Navbar from '../components/Navbar';
 import HomePage from '../pages/HomePage';
 import ProfilesPage from '../pages/ProfilesPages';
 import ProfilePage from '../pages/ProfilePage';
+import Footer from '../components/Footer';
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
@@ -29,6 +30,7 @@ const App = () => {
                 <Route path="/profils" component={ProfilesPage} />
                 <Route path="/" component={HomePage}/>
             </Switch>
+            <Footer />
         </HashRouter>
     )
 }

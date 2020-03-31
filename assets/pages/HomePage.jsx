@@ -48,7 +48,7 @@ const HomePage = props => {
           <div className="container">
             <div className="row justify-content-end">
               <h2 className="pt-5 home_title col-lg-8 col-md-12 col-sm-12 text-center">
-                Musicien.ne Reherche groupe
+                Musicien.ne reherche groupe
               </h2>
             </div>
             <div className="home_text row justify-content-start">
