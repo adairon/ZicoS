@@ -12,7 +12,7 @@ const HomePage = props => {
                 <img className="bigLogo" src={bigLogo} alt="ZicoS" />
               </figure>
             </div>
-            <div className="home1_text d-flex mt-2 mb-4">
+            <div className="home_text d-flex mt-2 mb-4">
               <p className="m-auto text-center">
                 Rencontrez des musiciens.nes, <br />
                 Rejoignez un groupe : <br />
@@ -52,9 +52,9 @@ const HomePage = props => {
               </h2>
             </div>
             <div className="home_text row justify-content-start">
-              <p className="text-center col-lg-4 col-md-12 col-sm-12">
-              Grace à ZicoS, trouvez un <br/>
-              groupe près de chez vous <br/>
+              <p className="text-center col-lg-6 col-md-12 col-sm-12">
+              Grace à ZicoS, trouvez un
+              groupe près de chez vous
               qui vous ressemble.
               </p>
             </div>
@@ -68,11 +68,10 @@ const HomePage = props => {
               </h2>
             </div>
             <div className="home_text row justify-content-end">
-              <p className="text-center col-lg-4 col-md-12 col-sm-12">
-                Avec ZicoS, trouvez les <br/>
-                musiciens.nes dont vous avez <br/>
-                besoin et intégrez un nouveau <br/>
-                membre à votre groupe. 
+              <p className="text-center col-lg-6 col-md-12 col-sm-12">
+                Avec ZicoS, trouvez les musiciens.nes
+                dont vous avez besoin
+                et intégrez un nouveau membre à votre groupe. 
               </p>
             </div>
           </div>

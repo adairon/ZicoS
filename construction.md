@@ -331,6 +331,12 @@ __Dans le fichier app.js :__
 - Utilisation du thème Bootswatch : Lumen
 - Balises scripts depuis bootstrap et css depuis bootswatch
 
+### Titres des pages
+Afin de changer les titres (title) des différentes pages dynamiquement avec React, on va utiliser le composant React "HELMET" :
+- installation :```npm install --save react-helmet```
+- utilisation : voir la doc : https://github.com/nfl/react-helmet
+
+
 ### Composants React si collage de code html
 - fermeture des balises auto fermantes (img, input, etc...) : ```<input>``` => ```<input/>```
 - On remplace tous les attributs "class" en "className"
