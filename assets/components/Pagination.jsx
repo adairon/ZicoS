@@ -12,8 +12,8 @@ const Pagination = ({ currentPage, itemsPerPage, length, onPageChanged }) => {
   }
 
   return (
-    <div>
-      <ul className="pagination">
+    <div className="pages_list d-flex justify-content-center">
+      <ul className="pagination mb-0 pb-3">
         {/* Si on est sur la 1ère page, le bouton page précédente est désactivé */}
         <li className={"page-item" + (currentPage === 1 && " disabled")}>
           {/* bouton pour aller sur la page précédente avec la fct handlePageChange - 1 page */}

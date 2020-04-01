@@ -101,7 +101,7 @@ a{
 .home1_text{
     font-size: 1.5rem;
 }
-.dropdown_home1>a:hover{
+.dropdown_home1:hover{
     color: black !important;
 }
 
@@ -146,6 +146,18 @@ a{
 
 
 /*  ============================== PAGE DES PROFILS ============================== */
+.bigLogo_Profiles{
+    height: 3rem;
+}
+.Profiles_title{
+    font-family: "Big John PRO Regular";
+}
+.Profiles_title>h1{
+    font-size: 3rem;
+}
+.Profiles_title>p{
+    font-size: 1.5rem;
+}
 
 #btnRecherche{
     display: block;
@@ -179,6 +191,7 @@ a{
 /* =========================== FOOTER ================================================ */
 footer{
     height: 500px;
+    border-top: white 3px solid;
 }
 
 /* ----------------------Media Queries ------------------------ */

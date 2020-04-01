@@ -28,19 +28,19 @@ const HomePage = props => {
                   <button id="btnGroupDrop1" type="button" className="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   </button>
                   <div className="dropdown-menu bg-dark" aria-labelledby="btnGroupDrop1">
-                    <a className="dropdown-item text-lightgrey dropdown_home1" href="#">
+                    <a className="dropdown-item text-lightgrey dropdown_home1 text-white" href="#">
                       Musicien.ne
                     </a>
-                    <a className="dropdown-item text-lightgrey dropdown_home1" href="#">
+                    <a className="dropdown-item text-lightgrey dropdown_home1 text-white" href="#">
                       un Groupe
                     </a>
                   </div>
                 </div>
               </div>
-              <button type="button" class="btn btn-dark mx-2">C'est parti !</button>
+              <button type="button" className="btn btn-dark mx-2">C'est parti !</button>
             </div>
             <div className="login_link d-flex justify-content-center my-4">
-              <button type="button" class="btn btn-secondary mx-2">j'ai déjà un compte</button>
+              <button type="button" className="btn btn-secondary mx-2">j'ai déjà un compte</button>
             </div>
           </div>
         </div>
