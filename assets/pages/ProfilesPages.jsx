@@ -6,7 +6,7 @@ import TypeAPI from "../services/typeAPI";
 import StylesAPI from "../services/stylesAPI";
 
 import ProfilesCards from "../components/ProfilesCards";
-
+import {Helmet} from "react-helmet";
 import logoProfiles from "../images/logos/ZicoS.png";
 
 const ProfilesPage = props => {
@@ -97,6 +97,9 @@ const ProfilesPage = props => {
 
   return (
     <>
+      <Helmet>
+        <title>Zicos : Profils</title>
+      </Helmet>
       <div className="bg-dark">
         <div className="container">
           <div className="Profiles_title pt-3 text-white">

@@ -1,9 +1,14 @@
 import React from "react";
 import bigLogo from "../images/logos/ZicoS-grey.png";
+import { Helmet } from "react-helmet";
+
 
 const HomePage = props => {
   return (
     <>
+      <Helmet>
+        <title>Zicos : Jouez !</title>
+      </Helmet>
       <div className="homeContainer">
         <div className="homeDiv home1">
           <div className="container">
@@ -53,9 +58,9 @@ const HomePage = props => {
             </div>
             <div className="home_text row justify-content-start">
               <p className="text-center col-lg-6 col-md-12 col-sm-12">
-              Grace à ZicoS, trouvez un
-              groupe près de chez vous
-              qui vous ressemble.
+                Grace à ZicoS, trouvez un
+                groupe près de chez vous
+                qui vous ressemble.
               </p>
             </div>
           </div>
@@ -71,7 +76,7 @@ const HomePage = props => {
               <p className="text-center col-lg-6 col-md-12 col-sm-12">
                 Avec ZicoS, trouvez les musiciens.nes
                 dont vous avez besoin
-                et intégrez un nouveau membre à votre groupe. 
+                et intégrez un nouveau membre à votre groupe.
               </p>
             </div>
           </div>
