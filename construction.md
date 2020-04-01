@@ -155,6 +155,11 @@ puis
 
 - on charge les données créées dans les fixtures : ```bin/console doctrine:fixtures:load```
 
+### Upload de Photo
+- utiliser le bundle Symfony VichUploaderBundle
+- voir tuto : https://www.youtube.com/watch?v=OZBVd4ZTIqk
+
+
 ### API Platform
 
 #### Mise en place et configuration :
@@ -356,13 +361,18 @@ Requêtes http partielles et paginées (si requêtes trop lourdes car bcp d'él�
 HomePage.jsx
 #### fonctions
 
+### Connexion
+- Création page LoginPage.jsx avec le formulaire de connexion
+- Création et utilisation d'un service authAPI pour gérer les requêtes avec le serveur
+- pour gérer le chargement du token au changement de page, on utilise le bundle jwt-decode :
+    - ```npm install jwt-decode```
+#### Composants
+#### fonctions
+
 ### Inscription
 #### Composants
 #### fonctions
 
-### Connexion
-#### Composants
-#### fonctions
 
 ### Page de Profil
 #### Composants

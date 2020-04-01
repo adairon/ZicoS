@@ -124,9 +124,8 @@ const ProfilePage = props => {
             </p>
           </div>
           <div className="profil_contact d-flex my-3">
-            <button className="btn btn-primary m-auto" type="button">
+            <button className="btn btn-primary m-auto p-3" type="button">
                 <a className="text-white" href={"mailto:" + profile.user.email}> 
-                  Ce profil vous intéresse ? <br/>
                   Envoyer un mail
                 </a>
             </button>

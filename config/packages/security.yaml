@@ -47,8 +47,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-    # - { path: ^/api/profils/id, roles: IS_AUTHENTICATED_FULLY }
-    - { path: ^/api/profiles, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+    - { path: ^/api/profiles, roles: IS_AUTHENTICATED_FULLY}
     - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods: [GET, PUT, DELETE]}
     - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api//api/levels, roles: IS_AUTHENTICATED_FULLY }

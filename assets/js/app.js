@@ -15,17 +15,23 @@ import HomePage from '../pages/HomePage';
 import ProfilesPage from '../pages/ProfilesPages';
 import ProfilePage from '../pages/ProfilePage';
 import Footer from '../components/Footer';
+import LoginPage from '../pages/LoginPage';
+import AuthAPI from "../services/authAPI"
+
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
 
 console.log('Salut ami ZicoS ! Alors, on joue de la console ;-) ?');
 
+AuthAPI.setup()
+
 const App = () => {
     return (
         <HashRouter>
             <Navbar />
             <Switch>
+                <Route path="/login" component={LoginPage} />
                 <Route path="/profils/:id" component={ProfilePage} />
                 <Route path="/profils" component={ProfilesPage} />
                 <Route path="/" component={HomePage}/>

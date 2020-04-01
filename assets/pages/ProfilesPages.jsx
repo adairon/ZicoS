@@ -6,7 +6,7 @@ import TypeAPI from "../services/typeAPI";
 import StylesAPI from "../services/stylesAPI";
 
 import ProfilesCards from "../components/ProfilesCards";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 import logoProfiles from "../images/logos/ZicoS.png";
 
 const ProfilesPage = props => {
@@ -20,6 +20,8 @@ const ProfilesPage = props => {
   // state pour gérer la recherche
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState([]);
+
+ /* =========================== FONCTIONS REQUETES AXIOS ========================== */
 
   // fonction asynchrone à utiliser dans le useEffect pour récupérer les profils
   const fetchProfiles = async () => {
@@ -59,12 +61,10 @@ const ProfilesPage = props => {
     fetchStyles();
   }, []);
 
-  // Gestion du changement de page
-  const handlePageChange = page => setCurrentPage(page);
+  /* ==================================GESTION DES DISPLAYS==============================*/
 
-  // Nb de profils par page :
-  const itemsPerPage = 12;
 
+   /*------------------------------GESTION DE LA RECHERCHE------------------------------ */
   // gestion de la recherche
   const handleSearch = ({ currentTarget }) => setSearch(currentTarget.value);
   const handleClick = ({ currentTarget }) => {
@@ -88,13 +88,21 @@ const ProfilesPage = props => {
       p.instrument.name.toLowerCase().includes(search.toLowerCase()) ||
       p.style.name.toLowerCase().includes(search.toLowerCase())
   );
+  /*------------------------------GESTION PAGINATION-------------------------------- */
+ 
+   // Gestion du changement de page
+   const handlePageChange = page => setCurrentPage(page);
 
+   // Nb de profils par page :
+   const itemsPerPage = 12;
+   
   //Pagination des données
   const paginatedProfiles =
     filteredProfiles.length > itemsPerPage
       ? Pagination.getData(filteredProfiles, currentPage, itemsPerPage)
       : filteredProfiles;
 
+  /*======================================= VIEW ========================================= */
   return (
     <>
       <Helmet>
@@ -113,117 +121,77 @@ const ProfilesPage = props => {
           </div>
 
           {/* ----------------------- Menus dropdowns ------------------------ */}
-          {/* <div className="form-group">
+          <div className="form-group">
 
-        <button type="button" className="btn btn-danger mx-1" onClick={cleanFilter}>
-
-          Effacer les filtres
-        </button> */}
-          {/* ---- Filtre Par Type ------ */}
-          {/* <div
-          className="btn-group my-3 mx-1"
-          role="group"
-          aria-label="Button group with nested dropdown"
-        >
-          <button type="button" className="btn btn-primary">
-            Type de profil
+            <button type="button" className="btn btn-danger mx-1" onClick={cleanFilter}>
+                  Effacer les filtres
+            </button>
+            {/* ---- Filtre Par Type ------ */}
+            <div
+              className="btn-group my-3 mx-1"
+              role="group"
+              aria-label="Button group with nested dropdown"
+            >
+              <button type="button" className="btn btn-primary">
+                Type de profil
           </button>
-          <div className="btn-group" role="group">
-            <button
-              id="btnGroupDrop1"
-              type="button"
-              className="btn btn-primary dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            ></button>
-
-            <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <button
-                className="dropdown-item font-weight-bold"
-                // onClick={handleClick}
-              >
-                Tous
-              </button>
-              {types.map(type => (
+              <div className="btn-group" role="group">
                 <button
-                  key={type.id}
-                  className="dropdown-item"
-                  onClick={handleClick}
-                  id={type.type}
-                >
-                  {type.type}
-                </button>
-              ))}
+                  id="btnGroupDrop1"
+                  type="button"
+                  className="btn btn-primary dropdown-toggle"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                ></button>
+
+                <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                  <button
+                    className="dropdown-item font-weight-bold"
+                  // onClick={handleClick}
+                  >
+                    Tous
+              </button>
+                  {types.map(type => (
+                    <button
+                      key={type.id}
+                      className="dropdown-item"
+                      onClick={handleClick}
+                      id={type.name}
+                    >
+                      {type.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
-        </div> */}
-          {/* ---- Filtre Par Style ------ */}
-          {/* <div
-          className="btn-group my-3 mx-1"
-          role="group"
-          aria-label="Button group with nested dropdown"
-        >
-          <button type="button" className="btn btn-primary">
-            Style de Musique
-          </button>
-          <div className="btn-group" role="group">
-            <button
-              id="btnGroupDrop1"
-              type="button"
-              className="btn btn-primary dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            ></button>
-
-            <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-              <button
-                className="dropdown-item font-weight-bold"
-                // onClick={}
-              >
-                Tous
-              </button>
-              {styles.map(style => (
-                <button
-                  key={style.id}
-                  className="dropdown-item"
-                  onClick={handleClick}
-                  id={style.style}
-                >
-                  {style.style}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div> */}
           {/* ========================= RECHERCHE ================================ */}
-          {/* <button
-        className="btn btn-secondary mx-auto my-3"
-        id="btnRecherche"
-        type="button"
-        data-toggle="collapse"
-        data-target="#collapseExample"
-        aria-expanded="false"
-        aria-controls="collapseExample"
-        onClick={showSearch}
-      >
-        Recherche
+          <button
+            className="btn btn-secondary mx-auto my-3"
+            id="btnRecherche"
+            type="button"
+            data-toggle="collapse"
+            data-target="#collapseExample"
+            aria-expanded="false"
+            aria-controls="collapseExample"
+            onClick={showSearch}
+          >
+            Recherche
       </button>
 
-      <div className="collapse" id="collapseExample"> */}
-          {/*  ---------------------- Champs de recherche ---------------------- */}
-          {/* <div className="form-group">
-          <input
-            type="text"
-            onChange={handleSearch}
-            value={search}
-            className="form-control"
-            placeholder="Rechercher..."
-          />
-        </div>
-      </div> */}
+          <div className="collapse" id="collapseExample">
+            {/*  ---------------------- Champs de recherche ---------------------- */}
+            <div className="form-group">
+              <input
+                type="text"
+                onChange={handleSearch}
+                value={search}
+                className="form-control"
+                placeholder="Rechercher..."
+              />
+            </div>
+          </div>
 
           {/*  =============================== PROFILS ============================ */}
 

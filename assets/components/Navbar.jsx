@@ -1,15 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Logo from "../images/logos/Logo-ZicoS-1.png";
+import AuthAPI from "../services/authAPI";
 
 const Navbar = props => {
+
+  const handleLogout = () => {
+    AuthAPI.logout();
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <Link to="/" className="navbar-brand">
+      <NavLink to="/" className="navbar-brand">
         <figure className="">
           <img className="logo" src={Logo} alt=""/>
         </figure>
-      </Link>
+      </NavLink>
       <button
         className="navbar-toggler"
         type="button"
@@ -25,26 +31,26 @@ const Navbar = props => {
       <div className="collapse navbar-collapse" id="navbarColor02">
         <ul className="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link className="btn btn-outline-secondary btnProfiles my-1" to="/profils/">
+            <NavLink className="btn btn-outline-secondary btnProfiles my-1" to="/profils">
               Profils
-            </Link>
+            </NavLink>
           </li>
         </ul>
         <ul className="navbar-nav mal-auto">
           <li className="nav-item">
-            <a href="#" className="nav-link mx-1 my-1">
+            <NavLink to="/register" className="nav-link mx-1 my-1">
               Inscription
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a href="#" className="btn btn-outline-success mx-1 my-1">
+            <NavLink to="/login" className="btn btn-outline-success mx-1 my-1">
               Connexion
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a href="#" className="btn btn-outline-danger mx-1 my-1">
+            <button onClick={handleLogout} className="btn btn-outline-danger mx-1 my-1">
               Déconnexion
-            </a>
+            </button>
           </li>
         </ul>
       </div>
