@@ -106,7 +106,7 @@ const ProfilesPage = props => {
                 <img className="bigLogo_Profiles" src={logoProfiles} alt="ZicoS" />
               </figure>
             </div>
-            <p className="text-center">Cherchez, trouvez, contactez</p>
+            <p className="text-center">Cherchez, trouvez, jouez !</p>
           </div>
 
           {/* ----------------------- Menus dropdowns ------------------------ */}

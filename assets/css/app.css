@@ -175,17 +175,22 @@ a{
 }
 
 .card{
-    height: 200px;
+    height: 203px;
+    font-family: "Big John PRO Bold";
+    border: white solid 3px;
+    z-index: 99;
 }
 
 .card-img{
     height: 200px;
-    opacity: 0.2;
+    opacity: 0.4;
     object-fit: cover;
+    padding-bottom: 3px; /*padding bottom de la même taille que la bordure pour ne pas que l'image "déborde" sur la bordure*/
 }
 
 .card-img-overlay>a{
     color: white;
+    text-shadow: black 1px 1px 5px;
 }
 
 /* =========================== FOOTER ================================================ */
