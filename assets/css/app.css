@@ -191,13 +191,40 @@ a{
     text-shadow: black 1px 1px 5px;
 }
 
+/* =========================== PAGE DE PROFIL ======================================== */
+.profile{
+    font-family: "Big John PRO Regular";
+    font-size: 1.5rem;
+}
+
+.profile_picture{
+    width: 600px;
+    height: 500px;
+    object-fit: cover;
+    margin: auto;
+}
+.profile_name{
+    font-family: "Big John PRO Bold";
+    font-size: 3rem;
+}
+.profile_type{
+    font-size: 2rem;
+}
+.profile_subtitle{
+    font-family: "Big John PRO Bold";
+}
+.profile_link_url>a{
+    color: black !important;
+}
+
+
 /* =========================== FOOTER ================================================ */
 footer{
     height: 500px;
     border-top: white 3px solid;
 }
 
-/* ----------------------Media Queries ------------------------ */
+/* ---------------------------------Media Queries ----------------------------------- */
 @media (min-width: 576px) and (max-width: 767.98px) {
     .card-deck .card {
       -ms-flex: 0 0 48.7%;
