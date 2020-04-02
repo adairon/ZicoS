@@ -32,26 +32,26 @@ class Profile
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      * @Assert\NotBlank(message="Votre nom ou celui de votre groupe est obligatoire")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      * @Assert\NotBlank(message="Un email est obligatoire")
      * @Assert\Email(message="Le format de l'adresse email '{{ value }}' n'est pas valide")
      */
@@ -59,20 +59,20 @@ class Profile
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      * @Assert\Length(max=500, maxMessage="Votre texte est un peu trop long ! Il ne doit pas dépasser les {{ limit }} caractères")
      */
     private $biography;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      */
     private $pictureUrl;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      * @Assert\Url(message="'{{ value }}' n'est pas une url valide !")
      */
     private $linkUrl;
@@ -80,32 +80,32 @@ class Profile
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="profiles")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"profiles_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Instrument", inversedBy="profiles")
-     * @Groups({"profiles_read", "type_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "level_read", "localization_read", "style_read", "user_read"})
      */
     private $instrument;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Localization", inversedBy="profiles")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "style_read", "user_read"})
      */
     private $localization;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Level", inversedBy="profiles")
-     * @Groups({"profiles_read", "type_read", "instrument_read", "localization_read", "style_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "localization_read", "style_read", "user_read"})
      */
     private $level;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Style", inversedBy="profiles")
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "user_read"})
      */
     private $style;
 

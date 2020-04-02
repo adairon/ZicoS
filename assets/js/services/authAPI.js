@@ -60,7 +60,7 @@ function setup() {
 function isAuthenticated() {
   // 1. voir si on a un token
   const token = window.localStorage.getItem("authToken");
-  // 2. voir si le token est toujours valide avec jwy-decode (bundle npm)
+  // 2. voir si le token est toujours valide avec jwt-decode (bundle npm)
   if (token) {
     //on récupère le timeStamp d'expiration du token
     const { exp: expiration } = jwtDecode(token);
@@ -75,9 +75,29 @@ function isAuthenticated() {
   return false;
 }
 
+function userId(){
+  // 1. voir si on a un token
+  const token = window.localStorage.getItem("authToken");
+  // 2. voir si le token est toujours valide avec jwt-decode (bundle npm)
+  if (token) {
+    //on récupère l'id du user authentifié via le token et on vérifie la validité du token
+    const {id: userId} = jwtDecode(token);
+    const { exp: expiration } = jwtDecode(token);
+    //on vérifie si le token n'est pas expiré encomparant son timeStamp (convertit de ms en s) avec maintenant
+    if (expiration * 1000 > new Date().getTime()) {
+      // si on a un token et qu'il est valide, alors on est connecté, on renvoie l'id
+      return userId;
+    }
+    //sinon, c'est qu'on est pas connecté, on renvoi ""
+    return "";
+  }
+  return "";
+}
+
 export default {
   authenticate,
   logout,
   setup,
-  isAuthenticated
+  isAuthenticated,
+  userId
 };

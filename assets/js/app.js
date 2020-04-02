@@ -24,13 +24,16 @@ import LoginPage from "./pages/LoginPage";
 import AuthAPI from "./services/authAPI";
 import AuthContext from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
+import UserContext from "./contexts/UserContext";
+import userProfilePage from "./pages/UserProfilePage";
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
 
 console.log("Salut ami ZicoS ! Alors, on joue de la console ;-) ?");
-
+// fonction pour charger le token
 AuthAPI.setup();
+
 
 const App = () => {
   // state pour gérer le statut de connexion dans l'app en vérifiant avec AuthAPI
@@ -38,25 +41,32 @@ const App = () => {
     AuthAPI.isAuthenticated()
   );
 
+  const [userId, setUserId] = useState(AuthAPI.userId());
+
   // on créé un nouveau composant depuis la Navbar pour pouvoir lui passer en props history avec withRouter
   const NavBarWithRouter = withRouter(Navbar);
 
   return (
     <AuthContext.Provider value={{
       isAuthenticated,
-      setIsAuthenticated
+      setIsAuthenticated,
     }}>
-      <HashRouter>
-        <NavBarWithRouter />
-        <Switch>
-          {/* pour la page de login, on lui passe en props une fonction pour gérer le statut de connexion */}
-          <Route path="/login" component={LoginPage} />
-          <Route path="/profils/:id" component={ProfilePage} />
-          <PrivateRoute path="/profils" component={ProfilesPage} />
-          <Route path="/" component={HomePage} />
-        </Switch>
-        <Footer />
-      </HashRouter>
+      <UserContext.Provider value={{
+        userId,
+        setUserId
+      }}>
+        <HashRouter>
+          <NavBarWithRouter />
+          <Switch>
+            <Route path="/login" component={LoginPage} />
+            <PrivateRoute path="/profils/:id" component={ProfilePage} />
+            <PrivateRoute path="/profils" component={ProfilesPage} />
+            <PrivateRoute path="/users/:id" component={userProfilePage}/>
+            <Route path="/" component={HomePage} />
+          </Switch>
+          <Footer />
+        </HashRouter>
+      </UserContext.Provider>
     </AuthContext.Provider>
   );
 };

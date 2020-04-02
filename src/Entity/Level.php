@@ -27,13 +27,13 @@ class Level
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"level_read", "profiles_read", "type_read", "instrument_read", "localization_read","style_read"})
+     * @Groups({"level_read", "profiles_read", "type_read", "instrument_read", "localization_read","style_read", "user_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"level_read", "profiles_read", "type_read", "instrument_read", "localization_read","style_read"})
+     * @Groups({"level_read", "profiles_read", "type_read", "instrument_read", "localization_read","style_read", "user_read"})
      */
     private $name;
 

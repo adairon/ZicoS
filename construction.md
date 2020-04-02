@@ -286,6 +286,11 @@ Problème : le mot de passe est stocké en clair dans la base de donnée. On va 
 On veut que le profil créé soit automatiquement relié à l'utilisateur actuellement connecté en utilisant les données contenues dans le token.
 - On créé un nouvel évènement : ProfilUserSubscriber
 
+#### Enrichir le token
+On veut que , depuis le token, on puisse récupérer l'id de l'utilisateur connecté (utile pour ensuite afficher son profil).
+- doc : https://github.com/lexik/LexikJWTAuthenticationBundle/blob/master/Resources/doc/2-data-customization.md
+- On créé un nouvel évènement : jwtCreatedSubscriber
+
 ## Développement Front-End
 
 ### Mise en place de Webpack Encore
@@ -395,6 +400,7 @@ HomePage.jsx
 
 ### Page de Profil
 #### Composants
+- on créé un composant qui affiche la page de profil pour l'utiliser dans la navigation de l'app mais aussi pour afficher le profil de l'user connecté
 #### fonctions
 
 ### Page de Recherche

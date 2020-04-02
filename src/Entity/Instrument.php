@@ -30,13 +30,13 @@ class Instrument
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"instrument_read", "profiles_read", "type_read", "level_read", "localization_read","style_read"})
+     * @Groups({"instrument_read", "profiles_read", "type_read", "level_read", "localization_read","style_read", "user_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
-     * @Groups({"instrument_read", "profiles_read", "type_read", "level_read", "localization_read","style_read"})
+     * @Groups({"instrument_read", "profiles_read", "type_read", "level_read", "localization_read","style_read", "user_read"})
      */
     private $name;
 

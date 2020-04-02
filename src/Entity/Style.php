@@ -29,13 +29,13 @@ class Style
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"style_read", "profiles_read", "type_read", "instrument_read", "level_read", "localization_read"})
+     * @Groups({"style_read", "profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "user_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"style_read", "profiles_read", "type_read", "instrument_read", "level_read", "localization_read"})
+     * @Groups({"style_read", "profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "user_read"})
      */
     private $name;
 

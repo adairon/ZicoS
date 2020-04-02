@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "../../images/logos/Logo-ZicoS-1.png";
 import AuthAPI from "../services/authAPI";
 import AuthContext from "../contexts/AuthContext";
+import UserContext from "../contexts/UserContext";
 
 const Navbar = ({ history }) => {
 
   //On utilise le hook useContext pour récupérer les infos de connexion passées via le contexte AuthContext
   const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
+  const {userId} = useContext(UserContext)
 
 
   // fonction pour gérer la déconnexion
@@ -22,6 +24,7 @@ const Navbar = ({ history }) => {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+   
       <NavLink to="/" className="navbar-brand">
         <figure className="">
           <img className="logo" src={Logo} alt="" />
@@ -68,11 +71,18 @@ const Navbar = ({ history }) => {
               </li>
             </>
           )) || (
-            <li className="nav-item">
-              <button onClick={handleLogout} className="btn btn-outline-danger mx-1 my-1">
-                Déconnexion
-              </button>
-            </li>
+            <>
+              <li className="nav-item">
+                <NavLink to={"/users/" + userId} className="btn btn-outline-primary mx-1 my-1">
+                  Voir mon profil
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <button onClick={handleLogout} className="btn btn-outline-danger mx-1 my-1">
+                  Déconnexion
+                </button>
+              </li>
+            </>
           )}
         </ul>
       </div>

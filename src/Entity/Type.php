@@ -24,13 +24,13 @@ class Type
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"type_read","profiles_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"type_read","profiles_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"type_read","profiles_read", "instrument_read", "level_read", "localization_read", "style_read"})
+     * @Groups({"type_read","profiles_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
      */
     private $name;
 

@@ -27,25 +27,25 @@ class Localization
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"localization_read", "profiles_read", "type_read", "instrument_read", "level_read", "style_read"})
+     * @Groups({"localization_read", "profiles_read", "type_read", "instrument_read", "level_read", "style_read", "user_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"localization_read", "profiles_read", "type_read", "instrument_read", "level_read", "style_read"})
+     * @Groups({"localization_read", "profiles_read", "type_read", "instrument_read", "level_read", "style_read", "user_read"})
      */
     private $region;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"localization_read", "profiles_read", "type_read", "instrument_read", "level_read", "style_read"})
+     * @Groups({"localization_read", "profiles_read", "type_read", "instrument_read", "level_read", "style_read", "user_read"})
      */
     private $departement;
 
     /**
      * @ORM\Column(type="integer", length=255, nullable=true)
-     * @Groups({"localization_read", "profiles_read", "type_read", "instrument_read", "level_read", "style_read"})
+     * @Groups({"localization_read", "profiles_read", "type_read", "instrument_read", "level_read", "style_read", "user_read"})
      */
     private $departementNumber;
 

@@ -1,10 +1,12 @@
 import React, { useState, useContext } from "react";
 import AuthAPI from "../services/authAPI";
 import AuthContext from "../contexts/AuthContext";
+import Field from "../components/forms/Field";
+import UserContext from "../contexts/UserContext";
 
-const LoginPage = ({history}) => {
-
-  const { setIsAuthenticated} = useContext(AuthContext);
+const LoginPage = ({ history }) => {
+  const { setIsAuthenticated } = useContext(AuthContext);
+  const {userId} = useContext(UserContext)
 
   // State pour gérer les identifiants : objet vide par défaut
   const [credentials, setCredentials] = useState({
@@ -16,7 +18,7 @@ const LoginPage = ({history}) => {
 
   // fonction pour enregistrer la valeur saisie dans le champs du formulaire et la passer dans le state
   const handleChange = ({ currentTarget }) => {
-  const { value, name } = currentTarget;
+    const { value, name } = currentTarget;
 
     setCredentials({ ...credentials, [name]: value });
   };
@@ -32,8 +34,10 @@ const LoginPage = ({history}) => {
       setError("");
       // on précise à la props qu'on est connecté
       setIsAuthenticated(true);
+      console.log(userId)
       // on se redirige vers la page des profils avec la props history de react-router-dom
       history.replace("/profils");
+      console.log(token)
     } catch (error) {
       console.log(error.response);
       //si erreur de connexion : on définit un message qui s'affichera sous le champs du formulaire
@@ -48,31 +52,21 @@ const LoginPage = ({history}) => {
       <h1>Connexion à ZicoS</h1>
       <div className="container">
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="username">Adresse email</label>
-            <input
-              onChange={handleChange}
-              value={credentials.username}
-              type="email"
-              placeholder="Adresse email de connexion"
-              name="username"
-              id="username"
-              className={"form-control" + (error && " is-invalid")}
-            />
-            {error && <p className="invalid-feedback"> {error} </p>}
-          </div>
-          <div className="form-group">
-            <label htmlFor="_assword">Mot de passe</label>
-            <input
-              onChange={handleChange}
-              value={credentials.password}
-              type="password"
-              placeholder="Mot de passe"
-              name="password"
-              id="password"
-              className="form-control"
-            />
-          </div>
+          <Field
+            label="Adresse email"
+            name="username"
+            value={credentials.username}
+            onChange={handleChange}
+            placeholder="Adresse email de connexion"
+            error={error}
+          />
+          <Field
+            label="Mot de passe"
+            name="password"
+            value={credentials.password}
+            onChange={handleChange}
+            type="password"
+          />
           <div className="form-group">
             <button type="submit" className="btn btn-success">
               Se connecter
