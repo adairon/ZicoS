@@ -331,6 +331,12 @@ Dans le dossier assets/js, on va créer 3 nouveaux dossiers :
 __Dans le fichier app.js :__  
 - Mise en place de HashRouter avec react-router-dom pour être toujours sur la même route gérée par le AppController
 - Mise en place d'un Switch pour gérer différentes routes vers nos composants
+- Mise en place de routes protégées (PrivateRoute) inaccessibles aux utilisateurs non connectés
+    - Si l'utilisateur est connecté : il a accès à la page des profils,
+    - sinon : il est redirigé vers la page de connexion
+
+### contextes
+On créé un contexte react pour passer les informations de connexion à tous les composants
 
 ### bootstrap :
 - Utilisation du thème Bootswatch : Lumen
@@ -356,6 +362,14 @@ Requêtes http partielles et paginées (si requêtes trop lourdes car bcp d'él�
 - On créé des services pour gérer les requêtes Http via axios :
     - requêtes GET vers tous les profils
 
+### Navbar
+#### Composant
+- Création d'un composant Navbar avec une navbar bootstrap responsive
+#### Fonctions
+- appel au service authAPI pour gérer la déconnexion et lien vers la page de login pour la connexion.
+- Affichage conditionnel (en faisant passer des props via app.js) : 
+    - si l'utilisateur n'est pas connecté : seront affichés les liens d'inscription et de connexion
+    - sinon, sera affiché le bouton de déconnexion et le lien vers les profils
 ### HomePage
 #### Composants
 HomePage.jsx
@@ -368,6 +382,11 @@ HomePage.jsx
     - ```npm install jwt-decode```
 #### Composants
 #### fonctions
+#### Navigation dynamique
+à la connexion, on veut tout de suite aller vers la page des profils.
+- On utilise la props "history" de react-router-dom qui permet de naviguer entre les pages :
+    - history.push : ajoute une nouvelle adresse à l'historique de navigation (on peut toujours revenir en arrière avec le navigateur)
+    - history.replace : remplace la page actuelle par une autre dans l'historique de navigation. On ne peut pas revenir en arrière à la page précédente puisqu'elle a été remplacée par la nouvelle
 
 ### Inscription
 #### Composants

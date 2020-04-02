@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import AuthAPI from "../services/authAPI";
+import AuthContext from "../contexts/AuthContext";
 
-const LoginPage = props => {
+const LoginPage = ({history}) => {
+
+  const { setIsAuthenticated} = useContext(AuthContext);
+
   // State pour gérer les identifiants : objet vide par défaut
   const [credentials, setCredentials] = useState({
     username: "",
@@ -22,8 +26,14 @@ const LoginPage = props => {
     // on évite le rechargement de la page :
     event.preventDefault();
     try {
+      // on se connecte (génération d'un token)
       await AuthAPI.authenticate(credentials);
+      // On ne met pas d'erreur
       setError("");
+      // on précise à la props qu'on est connecté
+      setIsAuthenticated(true);
+      // on se redirige vers la page des profils avec la props history de react-router-dom
+      history.replace("/profils");
     } catch (error) {
       console.log(error.response);
       //si erreur de connexion : on définit un message qui s'affichera sous le champs du formulaire

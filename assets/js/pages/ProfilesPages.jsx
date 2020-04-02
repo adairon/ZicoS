@@ -7,7 +7,7 @@ import StylesAPI from "../services/stylesAPI";
 
 import ProfilesCards from "../components/ProfilesCards";
 import { Helmet } from "react-helmet";
-import logoProfiles from "../images/logos/ZicoS.png";
+import logoProfiles from "../../images/logos/ZicoS.png";
 
 const ProfilesPage = props => {
   // states pour les données récupérées via requêtes axios :

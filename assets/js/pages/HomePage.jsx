@@ -1,6 +1,7 @@
 import React from "react";
-import bigLogo from "../images/logos/ZicoS-grey.png";
+import bigLogo from "../../images/logos/ZicoS-grey.png";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 
 
 const HomePage = props => {
@@ -45,7 +46,9 @@ const HomePage = props => {
               <button type="button" className="btn btn-dark mx-2">C'est parti !</button>
             </div>
             <div className="login_link d-flex justify-content-center my-4">
-              <button type="button" className="btn btn-secondary mx-2">j'ai déjà un compte</button>
+              <Link to="/login" type="button" className="btn btn-secondary mx-2">
+                j'ai déjà un compte
+              </Link>
             </div>
           </div>
         </div>
