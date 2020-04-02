@@ -88,10 +88,7 @@ function userId(){
       // si on a un token et qu'il est valide, alors on est connecté, on renvoie l'id
       return userId;
     }
-    //sinon, c'est qu'on est pas connecté, on renvoi ""
-    return "";
   }
-  return "";
 }
 
 export default {

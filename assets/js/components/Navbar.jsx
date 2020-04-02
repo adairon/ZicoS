@@ -9,7 +9,7 @@ const Navbar = ({ history }) => {
 
   //On utilise le hook useContext pour récupérer les infos de connexion passées via le contexte AuthContext
   const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
-  const {userId} = useContext(UserContext)
+  const {userId, setUserId} = useContext(UserContext)
 
 
   // fonction pour gérer la déconnexion
@@ -18,6 +18,7 @@ const Navbar = ({ history }) => {
     AuthAPI.logout();
     // on précise à l'application qu'on est déconnecté
     setIsAuthenticated(false);
+    setUserId("");
     // on se redirige vers la page d'accueil avec history
     history.push("/");
   };

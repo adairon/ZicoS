@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AuthAPI from "../services/authAPI";
 import AuthContext from "../contexts/AuthContext";
 import Field from "../components/forms/Field";
@@ -6,7 +6,8 @@ import UserContext from "../contexts/UserContext";
 
 const LoginPage = ({ history }) => {
   const { setIsAuthenticated } = useContext(AuthContext);
-  const {userId} = useContext(UserContext)
+  const {userId} = useContext(UserContext);
+  const [idOfUser, setIdOfUser] = useState("");
 
   // State pour gérer les identifiants : objet vide par défaut
   const [credentials, setCredentials] = useState({
@@ -23,6 +24,14 @@ const LoginPage = ({ history }) => {
     setCredentials({ ...credentials, [name]: value });
   };
 
+
+  //fonction pour récupérer le userId:
+  const fetchUserId = () => {
+    const data = AuthAPI.userId();
+    setIdOfUser(data);
+    console.log(data)
+  }
+
   // fonction pour gérer la soumission du formulaire de connexion avec requête axios
   const handleSubmit = async event => {
     // on évite le rechargement de la page :
@@ -32,12 +41,11 @@ const LoginPage = ({ history }) => {
       await AuthAPI.authenticate(credentials);
       // On ne met pas d'erreur
       setError("");
-      // on précise à la props qu'on est connecté
+      // on précise au contexte qu'on est connecté
       setIsAuthenticated(true);
       console.log(userId)
       // on se redirige vers la page des profils avec la props history de react-router-dom
       history.replace("/profils");
-      console.log(token)
     } catch (error) {
       console.log(error.response);
       //si erreur de connexion : on définit un message qui s'affichera sous le champs du formulaire
@@ -46,6 +54,10 @@ const LoginPage = ({ history }) => {
       );
     }
   };
+
+  useEffect(()=> {
+    fetchUserId();
+  },[])
 
   return (
     <>

@@ -40,8 +40,9 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(
     AuthAPI.isAuthenticated()
   );
-
+  // state pour gérer l'identifiant de l'utilisateur authentifié
   const [userId, setUserId] = useState(AuthAPI.userId());
+  console.log(userId)
 
   // on créé un nouveau composant depuis la Navbar pour pouvoir lui passer en props history avec withRouter
   const NavBarWithRouter = withRouter(Navbar);
