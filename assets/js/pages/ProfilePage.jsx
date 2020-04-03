@@ -9,7 +9,6 @@ const ProfilePage = props => {
 
   // STATES :
   const [loading, setLoading] = useState(false);
-  const [typeMusicien, setTypeMusicien] = useState(false);
   const [profile, setProfile] = useState({
     lastName: "",
     firstName: "",
@@ -78,6 +77,7 @@ const ProfilePage = props => {
      
         <Profile
           profile={profile}
+          email={profile.user.email}
         />
       
       </div>

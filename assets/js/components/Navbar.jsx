@@ -1,15 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "../../images/logos/Logo-ZicoS-1.png";
 import AuthAPI from "../services/authAPI";
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
+import userAPI from "../services/userAPI";
 
 const Navbar = ({ history }) => {
 
   //On utilise le hook useContext pour récupérer les infos de connexion passées via le contexte AuthContext
   const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
   const {userId, setUserId} = useContext(UserContext)
+
+  // STATE
+  const [userProfile, setUserProfile] = useState("")
+  
+
+  const fetchUser = async userId => {
+    try {
+      const data = await userAPI.findOne(userId);
+      // console.log(data.id);
+      setUserProfile(data.id);
+    }catch(error) {
+      console.log(error.response)
+    }
+  }
 
 
   // fonction pour gérer la déconnexion
@@ -23,7 +38,9 @@ const Navbar = ({ history }) => {
     history.push("/");
   };
 
-  const idOfUser = AuthAPI.userId()
+  useEffect(() => {
+    fetchUser(userId)
+  },[])
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -48,7 +65,7 @@ const Navbar = ({ history }) => {
       <div className="collapse navbar-collapse" id="navbarColor02">
         {isAuthenticated && 
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
+            <li className="nav-item ml-5">
               <NavLink
                 className="btn btn-outline-secondary btnProfiles my-1"
                 to="/profils"
@@ -59,7 +76,7 @@ const Navbar = ({ history }) => {
           </ul>
         
         }
-        <ul className="navbar-nav mal-auto">
+        <ul className="navbar-nav mal-auto navbarDrop">
           {(!isAuthenticated && (
             <>
               <li className="nav-item">
@@ -75,15 +92,22 @@ const Navbar = ({ history }) => {
             </>
           )) || (
             <>
-              <li className="nav-item">
-                <NavLink to={"/users/" + idOfUser} className="btn btn-outline-primary mx-1 my-1">
-                  Voir mon profil
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <button onClick={handleLogout} className="btn btn-outline-danger mx-1 my-1">
-                  Déconnexion
-                </button>
+              <li className="nav-item btn-group" role="group" aria-label="Button group with nested dropdown">
+                <button type="button" className="btn btn-primary">Mon Compte</button>
+                <div className="btn-group" role="group">
+                  <button id="btnGroupDrop1" type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
+                    <NavLink to={"/users/" + userId} className="dropdown-item" href="#">
+                      Mes infos
+                    </NavLink>
+                    <NavLink to={"/profils/" + userProfile} className="dropdown-item">
+                      Mon profil
+                    </NavLink>
+                    <button onClick={handleLogout} className="dropdown-item text-danger">
+                      Déconnexion
+                    </button>
+                  </div>
+                </div>
               </li>
             </>
           )}

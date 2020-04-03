@@ -25,7 +25,7 @@ import AuthAPI from "./services/authAPI";
 import AuthContext from "./contexts/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import UserContext from "./contexts/UserContext";
-import userProfilePage from "./pages/UserProfilePage";
+import UserPage from "./pages/UserPage";
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
@@ -59,7 +59,7 @@ const App = () => {
             <Route path="/login" component={LoginPage} />
             <PrivateRoute path="/profils/:id" component={ProfilePage} />
             <PrivateRoute path="/profils" component={ProfilesPage} />
-            <PrivateRoute path="/users/:id" component={userProfilePage}/>
+            <PrivateRoute path="/users/:id" component={UserPage}/>
             <Route path="/" component={HomePage} />
           </Switch>
           <Footer />

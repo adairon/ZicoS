@@ -341,7 +341,13 @@ __Dans le fichier app.js :__
     - sinon : il est redirigé vers la page de connexion
 
 ### contextes
-On créé un contexte react pour passer les informations de connexion à tous les composants
+On créé des contextes react pour passer des informations les composants de l'app:
+- AuthContext : contexte servant à déterminer si un utilisateur est authentifié ou pas
+- UserContext : contexte servant à passer à tous les composants l'id du user authentifié
+#### Récupérer l'id du user
+- On a enrichi le jwt Token pour lui passer l'id du user
+- dans le service authAPI, on créé une fonction qui renvoie l'id récupéré du token avec jwt decode
+- on utilise le résultat de cette fonction comme state de l'app à passer dans le contexte
 
 ### bootstrap :
 - Utilisation du thème Bootswatch : Lumen

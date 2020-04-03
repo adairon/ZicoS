@@ -3,12 +3,10 @@ import AuthAPI from "../services/authAPI";
 import AuthContext from "../contexts/AuthContext";
 import Field from "../components/forms/Field";
 import UserContext from "../contexts/UserContext";
-import userAPI from "../services/userAPI";
 
 const LoginPage = ({ history }) => {
   const { setIsAuthenticated } = useContext(AuthContext);
-  const {userId, setUserId} = useContext(UserContext);
-  const [idOfUser, setIdOfUser] = useState("");
+  const {setUserId} = useContext(UserContext);
 
   // State pour gérer les identifiants : objet vide par défaut
   const [credentials, setCredentials] = useState({
@@ -37,7 +35,6 @@ const LoginPage = ({ history }) => {
       // on précise au contexte qu'on est connecté
       setIsAuthenticated(true);
       const id = AuthAPI.userId();
-      console.log(id)
       setUserId(id)
       // on se redirige vers la page des profils avec la props history de react-router-dom
       history.replace("/profils");

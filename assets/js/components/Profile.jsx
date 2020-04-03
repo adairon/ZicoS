@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Profile = ({profile}) => {
+const Profile = ({profile,email}) => {
+
+
     return ( 
         <div className="container profile border rounded py-2 bg-light shadow">
           <div className="row justify-content-center">
@@ -52,13 +54,15 @@ const Profile = ({profile}) => {
               <a target="_blank" href={profile.linkUrl}> {profile.linkUrl} </a>{" "}
             </p>
           </div>
+          {email && 
           <div className="profil_contact d-flex my-3">
             <button className="btn btn-primary m-auto p-3" type="button">
-                <a className="text-white" href={"mailto:" + profile.user.email}> 
+                <a className="text-white" href={"mailto:" + profile.email}> 
                   Envoyer un mail
                 </a>
             </button>
           </div>
+          }
         </div>
      );
 }
