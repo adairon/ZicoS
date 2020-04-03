@@ -108,9 +108,9 @@ const ProfilesPage = props => {
       <Helmet>
         <title>Zicos : Profils</title>
       </Helmet>
-      <div className="bg-dark">
+      <div className="bg-secondary">
         <div className="container">
-          <div className="Profiles_title pt-3 text-white">
+          <div className="Profiles_title pt-3">
             <div className="logo_title d-flex justify-content-center align-items-center">
               <h1 className="mr-2">Profils de </h1>
               <figure className="ml-2 mb-0">

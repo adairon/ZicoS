@@ -74,7 +74,7 @@ const ProfilePage = props => {
       </Helmet>
 
 
-      <div className="bg-dark py-2">
+      <div className="bg-secondary py-4">
      
         <Profile
           profile={profile}

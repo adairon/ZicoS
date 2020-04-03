@@ -2,7 +2,7 @@ import React from 'react';
 
 const Profile = ({profile}) => {
     return ( 
-        <div className="container profile border rounded py-2 bg-light">
+        <div className="container profile border rounded py-2 bg-light shadow">
           <div className="row justify-content-center">
 
             <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex">

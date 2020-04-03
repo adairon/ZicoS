@@ -23,6 +23,8 @@ const Navbar = ({ history }) => {
     history.push("/");
   };
 
+  const idOfUser = AuthAPI.userId()
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
    
@@ -74,7 +76,7 @@ const Navbar = ({ history }) => {
           )) || (
             <>
               <li className="nav-item">
-                <NavLink to={"/users/" + userId} className="btn btn-outline-primary mx-1 my-1">
+                <NavLink to={"/users/" + idOfUser} className="btn btn-outline-primary mx-1 my-1">
                   Voir mon profil
                 </NavLink>
               </li>

@@ -3,6 +3,7 @@ import UserContext from '../contexts/UserContext';
 import userAPI from '../services/userAPI';
 
 const userProfilePage = (props) => {
+
     //On récupère l'id de l'utilisateur authentifié
     const {userId} = useContext(UserContext);
     const [userProfile, setUserProfile] = useState({})
