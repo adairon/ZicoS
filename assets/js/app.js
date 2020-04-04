@@ -62,9 +62,9 @@ const App = () => {
             <Route path="/login" component={LoginPage} />
             <PrivateRoute path="/profils/:id" component={ProfilePage} />
             <PrivateRoute path="/profils" component={ProfilesPage} />
-            <PrivateRoute path="/users/profile/:id" component={CreateProfilePage}/>
             <PrivateRoute path="/users/profile/musicien/:id" component={EditMusicienPage}/>
             <PrivateRoute path="/users/profile/band/:id" component={EditGroupPage}/>
+            <PrivateRoute path="/users/profile/:id" component={CreateProfilePage}/>
             <PrivateRoute path="/users/:id" component={UserPage}/>
             <Route path="/" component={HomePage} />
           </Switch>

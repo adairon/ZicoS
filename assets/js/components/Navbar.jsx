@@ -40,7 +40,7 @@ const Navbar = ({ history }) => {
   if (isAuthenticated){
     useEffect(() => {
       fetchUser(userId)
-    },[])
+    },[userProfile])
   }
 
   return (
