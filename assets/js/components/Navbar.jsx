@@ -15,18 +15,17 @@ const Navbar = ({ history }) => {
   // STATE
   const [userProfile, setUserProfile] = useState("")
   
-
   const fetchUser = async userId => {
     try {
       const data = await userAPI.findOne(userId);
-      // console.log(data.id);
-      setUserProfile(data.id);
+      // console.log(data.profile.id);
+      setUserProfile(data.profile.id);
     }catch(error) {
       console.log(error.response)
     }
   }
-
-
+  
+  
   // fonction pour gérer la déconnexion
   const handleLogout = () => {
     // au clic sur le bouton, on fait appel à AuthAPI pour se déconnecter avec la méthode logout
@@ -37,10 +36,12 @@ const Navbar = ({ history }) => {
     // on se redirige vers la page d'accueil avec history
     history.push("/");
   };
-
-  useEffect(() => {
-    fetchUser(userId)
-  },[])
+  
+  if (isAuthenticated){
+    useEffect(() => {
+      fetchUser(userId)
+    },[])
+  }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">

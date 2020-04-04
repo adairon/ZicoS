@@ -92,7 +92,7 @@ class Profile
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Localization", inversedBy="profiles")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "style_read", "user_read"})
      */
     private $localization;

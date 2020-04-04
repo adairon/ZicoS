@@ -3,6 +3,7 @@ import UserContext from '../contexts/UserContext';
 import userAPI from '../services/userAPI';
 import Helmet from 'react-helmet';
 import Profile from '../components/Profile';
+import { Link } from 'react-router-dom';
 
 const UserPage = (props) => {
 
@@ -47,16 +48,16 @@ const UserPage = (props) => {
                     <li>
                         mon email : {user.email}
                     </li>
-                    <li>
+                    {/* <li>
                         profile id : {user.profile.id}
-                    </li>
+                    </li> */}
                 </ul>
                 
                 {!user.profile && 
                     //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
-                    <button className="btn btn-primary">
+                    <Link to="/users/new" className="btn btn-primary">
                         Créer un profil ZicoS
-                    </button>
+                    </Link>
                 }
 
                 </div>
