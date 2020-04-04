@@ -101,9 +101,10 @@ const Navbar = ({ history }) => {
                     <NavLink to={"/users/" + userId} className="dropdown-item" href="#">
                       Mes infos
                     </NavLink>
+                    {userProfile && 
                     <NavLink to={"/profils/" + userProfile} className="dropdown-item">
                       Mon profil
-                    </NavLink>
+                    </NavLink>}
                     <button onClick={handleLogout} className="dropdown-item text-danger">
                       Déconnexion
                     </button>

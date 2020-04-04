@@ -39,7 +39,7 @@ class Profile
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
-     * @Assert\NotBlank(message="Votre nom ou celui de votre groupe est obligatoire")
+     * @Assert\NotBlank(message="Votre prénom ou le nom de votre groupe est obligatoire")
      */
     private $firstName;
 

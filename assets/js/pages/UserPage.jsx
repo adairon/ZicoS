@@ -12,12 +12,19 @@ const UserPage = (props) => {
     // STATES :
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState({});
+    const [groupType, setGroupType] = useState(false)
 
     //on récupère les données du profil
     const fetchUserProfile = async userId =>{
         try {
             const data = await userAPI.findOne(userId);
-            console.log(data);
+            console.log(data.profile.type.name);
+            if(data.profile.type.name === "groupe"){
+                console.log("groupe")
+                setGroupType(true)
+            }else{
+                console.log("musicien")
+            }
             setUser(data);
             setLoading(false);
         } catch (error) {
@@ -55,8 +62,15 @@ const UserPage = (props) => {
                 
                 {!user.profile && 
                     //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
-                    <Link to="/users/new" className="btn btn-primary">
+                    <Link to="/users/profile/new" className="btn btn-primary">
                         Créer un profil ZicoS
+                    </Link>
+                }
+                {/* TODO : AFFICHAGE CONDITIONNEL EN FCT DU TYPE DE PROFIL */}
+                {user.profile && 
+                    //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
+                    <Link to={"/users/profile/" + user.profile.id} className="btn btn-primary">
+                        Modifier mon profil
                     </Link>
                 }
 

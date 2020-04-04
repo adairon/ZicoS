@@ -27,6 +27,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import UserContext from "./contexts/UserContext";
 import UserPage from "./pages/UserPage";
 import CreateProfilePage from "./pages/CreateProfilePage";
+import EditMusicienPage from "./pages/EditMusicienPage";
+import EditGroupPage from "./pages/EditGroupPage";
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
@@ -60,7 +62,9 @@ const App = () => {
             <Route path="/login" component={LoginPage} />
             <PrivateRoute path="/profils/:id" component={ProfilePage} />
             <PrivateRoute path="/profils" component={ProfilesPage} />
-            <PrivateRoute path="/users/new" component={CreateProfilePage}/>
+            <PrivateRoute path="/users/profile/:id" component={CreateProfilePage}/>
+            <PrivateRoute path="/users/profile/musicien/:id" component={EditMusicienPage}/>
+            <PrivateRoute path="/users/profile/band/:id" component={EditGroupPage}/>
             <PrivateRoute path="/users/:id" component={UserPage}/>
             <Route path="/" component={HomePage} />
           </Switch>

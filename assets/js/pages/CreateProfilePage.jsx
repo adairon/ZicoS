@@ -1,3 +1,5 @@
+// TODO : conditions d'affichage des champs en ftc du type de profil : id écrit en dur : le rendre variable
+
 import React, { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
@@ -9,10 +11,12 @@ import instrumentsAPI from "../services/instrumentsAPI";
 import localizationAPI from "../services/localizationAPI";
 import stylesAPI from "../services/stylesAPI";
 import userAPI from "../services/userAPI";
+import profilesAPI from "../services/profilesAPI";
 
 const CreateProfilePage = props => {
+  const { id = "new" } = props.match.params;
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
-  const {userId} = useContext(UserContext);
+  const { userId } = useContext(UserContext);
 
   //STATES :
   const [profile, setProfile] = useState({
@@ -27,7 +31,7 @@ const CreateProfilePage = props => {
     departement: "",
     style: ""
   });
-  const[errors, setErrors] = useState({
+  const [errors, setErrors] = useState({
     type: "",
     firstName: "",
     lastName: "",
@@ -38,142 +42,221 @@ const CreateProfilePage = props => {
     region: "",
     departement: "",
     style: ""
-  })
-  const [types, setTypes]=useState([])
-  const [instruments, setIntruments]=useState([])
-  const [localizations, setLocalizations]=useState([])
-  const [styles, setStyles]=useState([])
-  const [user, setUser]=useState([])
+  });
+  const [types, setTypes] = useState([]);
+  const [instruments, setIntruments] = useState([]);
+  const [localizations, setLocalizations] = useState([]);
+  const [styles, setStyles] = useState([]);
+  const [user, setUser] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const [groupEdit, setGroupEdit] = useState(false)
 
   // FONCTIONS :
 
   //fct pour récupérer les types :
   const fetchTypes = async () => {
-      try{
-        const dataTypes = await typeAPI.findAll();
-        setTypes(dataTypes);
-        // console.log(dataTypes)
-      }catch(error){
-          console.log(error.response)
-      }
+    try {
+      const dataTypes = await typeAPI.findAll();
+      setTypes(dataTypes);
+      // console.log(dataTypes)
+    } catch (error) {
+      console.log(error.response);
+    }
   };
   //ftc pour récupérer les instruments :
   const fetchInstruments = async () => {
-      try{
-        const dataInstrus = await instrumentsAPI.findAll();
-        setIntruments(dataInstrus)
-        // console.log(dataInstrus)
-
-      }catch(error){
-          console.log(error.response)
-      }
+    try {
+      const dataInstrus = await instrumentsAPI.findAll();
+      setIntruments(dataInstrus);
+      // console.log(dataInstrus)
+    } catch (error) {
+      console.log(error.response);
+    }
   };
   //fct pour récupérer les localizations :
   const fetchLocalizations = async () => {
-    try{
+    try {
       const dataLocals = await localizationAPI.findAll();
       setLocalizations(dataLocals);
-    //   console.log(dataLocals);
-    }catch(error){
-        console.log(error.response)
+      //   console.log(dataLocals);
+    } catch (error) {
+      console.log(error.response);
     }
   };
   //fct pour récupérer les styles :
   const fetchStyles = async () => {
-    try{
+    try {
       const dataStyles = await stylesAPI.findAll();
       setStyles(dataStyles);
-    //   console.log(dataStyles);
-    }catch(error){
-        console.log(error.response)
+      //   console.log(dataStyles);
+    } catch (error) {
+      console.log(error.response);
     }
   };
   //fct pour récupérer le user :
-  const fetchUser = async (userId) => {
-      try{
-        const dataUser = await userAPI.findOne(userId);
-        setUser(dataUser);
-        // console.log(dataUser)
-      }catch(error){
-          console.log(error.response)
+  const fetchUser = async userId => {
+    try {
+      const dataUser = await userAPI.findOne(userId);
+      setUser(dataUser);
+      // console.log(dataUser)
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  //fct pour récupérer le profil du user selon le type :
+  const fetchProfile = async id => {
+    try {
+      const dataProfile = await profilesAPI.findOne(id);
+      console.log(dataProfile.type.name);
+      if(dataProfile.type.name !== "groupe"){
+          const {type,firstName,lastName,biography,pictureUrl,linkUrl,instrument,localization,style} = dataProfile;
+          setProfile({type:type.id,firstName,lastName,biography,pictureUrl,linkUrl,instrument: instrument.id,region:localization.id,style:style.id});
+      }else{
+        const {type,firstName,biography,pictureUrl,linkUrl,localization,style} = dataProfile;
+        setProfile({type:type.id,firstName,biography,pictureUrl,linkUrl,region:localization,style:style.id});
+        setGroupEdit(true);
       }
-  }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   //fct pour gérer les changements dans le formulaire :
-  const handleChange = ({currentTarget}) => {
-      // extrait le name et la value depuis le champs en cours (currentTarget)
-      const {name, value} = currentTarget
-      //modifie le profil dans l'état en prenant tout ce qu'il y a déjà dans le profil mais écrase la propriété qu'il y a dans name par la donnée "value"
-      setProfile({...profile, [name]: value})
-  }
+  const handleChange = ({ currentTarget }) => {
+    // extrait le name et la value depuis le champs en cours (currentTarget)
+    // console.log(currentTarget);
+    const { name, value } = currentTarget;
+    //modifie le profil dans l'état en prenant tout ce qu'il y a déjà dans le profil mais écrase la propriété qu'il y a dans name par la donnée "value"
+    setProfile({ ...profile, [name]: value });
+  };
+
   //fct pour gérer la soumission du formulaire :
   const handleSubmit = async event => {
-      event.preventDefault();
-      console.log(profile)
-      try{
-          //on envoie une requête en post via axios en passant le profile en objet
-       const response =  await axios.post("http://localhost:8000/api/profiles", {
-           ...profile,
+    event.preventDefault();
+    console.log(profile);
+    try {
+      //si on est en édition de profil, on envoie une requête en put
+      if (editing) {
+        if(!groupEdit){
+            // console.log(profile)
+            const response = await axios.put(
+              "http://localhost:8000/api/profiles/" + id,
+              {
+                ...profile,
+                type: `api/types/${profile.type}`,
+                instrument: `api/instruments/${profile.instrument}`,
+                style: `api/styles/${profile.style}`,
+                email: `${user.email}`,
+                localization: `/api/localizations/${profile.region}`
+              }
+            );
+        }else{
+            // console.log(profile)
+            const response = await axios.put(
+                "http://localhost:8000/api/profiles/" + id,
+                {
+                  ...profile,
+                  type: `api/types/${profile.type}`,
+                  style: `api/styles/${profile.style}`,
+                  email: `${user.email}`,
+                  localization: `/api/localizations/${profile.region}`
+                }
+              );
+        }
+        console.log(response.data);
+      } else {
+        //on envoie une requête en post via axios en passant le profile en objet
+        const response = await axios.post(
+          "http://localhost:8000/api/profiles",
+          {
+            ...profile,
             type: `api/types/${profile.type}`,
             instrument: `api/instruments/${profile.instrument}`,
             style: `api/styles/${profile.style}`,
             email: `${user.email}`,
-            localization: "/api/localizations/355"
-        })
-       console.log(response.data)
-      }catch(error){
-          console.log(error.response)
+            localization: `/api/localizations/${profile.region}`
+          }
+        );
       }
-  }
+      setErrors({});
+      console.log(response.data);
+    } catch (error) {
+      if (error.response) {
+        const apiErrors = {};
+        error.response.data.violations.forEach(violation => {
+          apiErrors[violation.propertyPath] = violation.message;
+        });
+        setErrors(apiErrors);
+      }
+    }
+  };
 
   //EFFETS
-  useEffect(()=>{
+  useEffect(() => {
     fetchTypes();
     fetchInstruments();
     fetchLocalizations();
     fetchStyles();
     fetchUser(userId);
-  },[])
+  }, []);
+  // effet pour vérifier si on est en édition ou création de profil en fct de l'id de la page :
+  useEffect(() => {
+    if (id !== "new") {
+      setEditing(true);
+      fetchProfile(id);
+      if(profile.type.name === "groupe"){
+          setGroupEdit(true)
+      }
+    }
+  }, [id]);
+  
 
   return (
     <>
       <Helmet>
-        <title>Zicos : créer mon profil </title>
+        <title>Zicos : mon profil </title>
       </Helmet>
       <div className="fondPage bg-secondary py-4">
         <div className="container bg-light shadow p-5">
-          <h1>Création du profil</h1>
+          {(!editing && <h1>Création du profil</h1>) || (
+            <h1>Modification du profil</h1>
+          )}
 
           <form onSubmit={handleSubmit}>
-
             <Select
-                name="type"
-                label="Type de Profil"
-                value={profile.type}
-                error={errors.type}
-                onChange={handleChange}
-            >   
-                {types.map(type=>(
-                    <option key={type.id} value={type.id} >
-                        {type.name}
-                    </option>
-                ))}
+              name="type"
+              label="Type de Profil"
+              value={profile.type}
+              error={errors.type}
+              onChange={handleChange}
+            >
+              {types.map(type => (
+                <option key={type.id} value={type.id}>
+                  {type.name}
+                </option>
+              ))}
             </Select>
+
             <Field
               name="firstName"
-              label="Prénom ou Nom du groupe"
-              placeholder="Votre prénom ou le nom de votre groupe"
+              label={(!groupEdit && "Votre Prénom ") || "Nom du Groupe"}
+              placeholder={(!groupEdit && "Votre Prénom ") || "Le nom du Groupe"}
               value={profile.firstName}
               onChange={handleChange}
               error={errors.firstName}
             />
-            <Field
-              name="lastName"
-              label="Nom de famille"
-              placeholder="votre nom de famille"
-              value={profile.lastName}
-              onChange={handleChange}
-            />
+
+            {!groupEdit && (
+              <Field
+                name="lastName"
+                label="Nom de famille"
+                placeholder="Votre nom de famille"
+                value={profile.lastName}
+                onChange={handleChange}
+              />
+            )}
+
             <Field
               name="biography"
               label="A propos de vous"
@@ -197,34 +280,36 @@ const CreateProfilePage = props => {
               onChange={handleChange}
             />
 
-            <Select
+            {!groupEdit && (
+              <Select
                 name="instrument"
                 label="Instrument"
                 value={profile.instrument}
                 error={errors.instrument}
                 onChange={handleChange}
-            >
-                {instruments.map(instrument=>(
-                    <option key={instrument.id} value={instrument.id} >
-                        {instrument.name}
-                    </option>
+              >
+                {instruments.map(instrument => (
+                  <option key={instrument.id} value={instrument.id}>
+                    {instrument.name}
+                  </option>
                 ))}
-            </Select>
+              </Select>
+            )}
 
-            {/* <Select
-                name="region"
-                label="Région"
-                value={profile.region}
-                error={errors.region}
-                onChange={handleChange}
-            >
-                { localizations.map(localization=>(
-                    <option key={localization.id} value={localization.id} >
-                        {localization.region}
-                    </option>
-                ))}
-            </Select>
             <Select
+              name="region"
+              label="Région"
+              value={profile.region}
+              error={errors.region}
+              onChange={handleChange}
+            >
+              {localizations.map(localization => (
+                <option key={localization.id} value={localization.id}>
+                  {localization.region}
+                </option>
+              ))}
+            </Select>
+            {/* <Select
                 name="departement"
                 label="Département"
                 value={profile.departement}
@@ -238,24 +323,24 @@ const CreateProfilePage = props => {
                 ))}
             </Select> */}
             <Select
-                name="style"
-                label="Style de musique"
-                value={profile.style}
-                error={errors.style}
-                onChange={handleChange}
+              name="style"
+              label="Style de musique"
+              value={profile.style}
+              error={errors.style}
+              onChange={handleChange}
             >
-                { styles.map(style=>(
-                    <option key={style.id} value={style.id} >
-                        {style.name}
-                    </option>
-                ))}
+              {styles.map(style => (
+                <option key={style.id} value={style.id}>
+                  {style.name}
+                </option>
+              ))}
             </Select>
             <div className="form-group">
-                <button type="submit" className="btn btn-success">Enregistrer</button>
+              <button type="submit" className="btn btn-success">
+                Enregistrer
+              </button>
             </div>
           </form>
-
-
         </div>
       </div>
     </>
