@@ -1,5 +1,7 @@
-
 import React, { useState, useContext } from "react";
+//import bootstrap react :
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
@@ -8,7 +10,7 @@ import AuthAPI from "../services/authAPI";
 
 const LoginModal = ({ history }) => {
   const { setIsAuthenticated } = useContext(AuthContext);
-  const {setUserId} = useContext(UserContext);
+  const { setUserId } = useContext(UserContext);
 
   //STATES :
   // State pour gérer les identifiants : objet vide par défaut
@@ -18,8 +20,17 @@ const LoginModal = ({ history }) => {
   });
   //State pour gérer les erreurs d'identifiants
   const [error, setError] = useState("");
-  // State pour gérer la fermeture de la modal
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => {
+    setShow(true)
+    setCredentials({
+      username:"",
+      password:""
+    })
+    setError("")
+  };
 
   //FONCTIONS :
   // fonction pour enregistrer la valeur saisie dans le champs du formulaire et la passer dans le state
@@ -33,19 +44,21 @@ const LoginModal = ({ history }) => {
   const handleSubmit = async event => {
     // on évite le rechargement de la page :
     event.preventDefault();
+    // console.log(credentials)
     try {
       // on se connecte (génération d'un token)
       await AuthAPI.authenticate(credentials);
-      console.log("ok")
-      // On ne met pas d'erreur
+      console.log("ok");
       // on précise au contexte qu'on est connecté
       setIsAuthenticated(true);
       const id = AuthAPI.userId();
-      setUserId(id)
-      setShow(false)
+      setUserId(id);
+      //on cache la modal
+      setShow(false);
+      // On ne met pas d'erreur
       setError("");
       // on se redirige vers la page des profils avec la props history de react-router-dom
-      // history.replace("/profils");
+      history.push("/profils");
     } catch (error) {
       console.log(error.response);
       //si erreur de connexion : on définit un message qui s'affichera sous le champs du formulaire
@@ -57,10 +70,50 @@ const LoginModal = ({ history }) => {
 
   return (
     <>
-      <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+      <Button variant="secondary" onClick={handleShow} className="d-flex justify-content-center">
+        J'ai déjà un compte
+      </Button>
+
+      <Modal
+        show={show}
+        onHide={handleClose}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>ZicoS : connexion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        <form>
+              <Field
+                label="Adresse email"
+                name="username"
+                value={credentials.username}
+                onChange={handleChange}
+                placeholder="Adresse email de connexion"
+                error={error}
+              />
+              <Field
+                label="Mot de passe"
+                name="password"
+                value={credentials.password}
+                onChange={handleChange}
+                type="password"
+              />
+        </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="success" onClick={handleSubmit}>
+            Se connecter
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#loginModal">
         Launch login modal
       </button>
-      <div show={show} className="modal fade" id="loginModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div className="modal fade" id="loginModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-header">
@@ -95,34 +148,6 @@ const LoginModal = ({ history }) => {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* <div className="fondPage bg-secondary py-4">
-        <div className="container bg-light shadow p-5">
-          <h1>Connexion à ZicoS</h1>
-            <form onSubmit={handleSubmit}>
-              <Field
-                label="Adresse email"
-                name="username"
-                value={credentials.username}
-                onChange={handleChange}
-                placeholder="Adresse email de connexion"
-                error={error}
-              />
-              <Field
-                label="Mot de passe"
-                name="password"
-                value={credentials.password}
-                onChange={handleChange}
-                type="password"
-              />
-              <div className="form-group">
-                <button type="submit" className="btn btn-success">
-                  Se connecter
-                </button>
-              </div>
-            </form>
-          </div>
       </div> */}
     </>
   );
