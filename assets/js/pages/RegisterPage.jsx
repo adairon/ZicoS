@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Field from "../components/forms/Field";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import userAPI from "../services/userAPI";
 
-const RegisterPage = props => {
+const RegisterPage = ({history}) => {
   //STATES:
   // on gère létat du user créé avec un objet
   const [user, setUser] = useState({
@@ -33,13 +33,36 @@ const RegisterPage = props => {
   //fct pour gérer la soumission du formulaire
   const handleSubmit = async event => {
     event.preventDefault();
+    const apiErrors = {};
+    //Erreur "personnalisée" pour la validation du mdp
+    if(user.password !== user.passwordConfirm){
+        apiErrors.passwordConfirm = "Votre confirmation ne correspond pas à votre premier mot de passe";
+        setErrors(apiErrors)
+        return;
+    }
+    //Erreur si la date de naissance est vide (car ce cas de figure est non gérer par l'api)
+    if(user.birthDate === ""){
+        apiErrors.birthDate = "Votre date de naissance est obligatoire"
+        setErrors(apiErrors)
+        return
+    }
     try{
-        const response = await axios.post("http://localhost:8000/api/users", user);
-        console.log(response);
+        await userAPI.register(user);
+        // console.log(response);
+        setErrors({})
+        history.replace('/login')
     }catch(error){
         console.log(error.response)
+        const {violations} = error.response.data;
+        if(violations){
+            violations.forEach(violation => {
+                apiErrors [violation.propertyPath] = violation.message
+            });
+            setErrors(apiErrors)
+        }
+
     }
-    console.log(user);
+    // console.log(user);
   };
 
   return (

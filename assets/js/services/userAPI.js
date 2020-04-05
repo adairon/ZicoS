@@ -6,6 +6,12 @@ function findOne(id) {
         .then(response => response.data);
 }
 
+function register(user){
+    return axios.post("http://localhost:8000/api/users", user);
+}
+
+
 export default {
+    register,
     findOne
 }

@@ -63,6 +63,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="date")
      * @Groups({"user_read","profiles_read"})
+     * @Assert\NotBlank(message="Merci de renseigner votre date de naissance")
      * @Assert\Date(message="La date doit être au format AAAA-MM-JJ (année-mois-jour ; on y travaille...)")
      */
     private $birthDate;
