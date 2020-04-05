@@ -29,6 +29,7 @@ import UserPage from "./pages/UserPage";
 import CreateProfilePage from "./pages/CreateProfilePage";
 import EditMusicienPage from "./pages/EditMusicienPage";
 import EditGroupPage from "./pages/EditGroupPage";
+import RegisterPage from "./pages/RegisterPage";
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
@@ -60,6 +61,7 @@ const App = () => {
           <NavBarWithRouter />
           <Switch>
             <Route path="/login" component={LoginPage} />
+            <Route path="/register" component={RegisterPage} />
             <PrivateRoute path="/profils/:id" component={ProfilePage} />
             <PrivateRoute path="/profils" component={ProfilesPage} />
             <PrivateRoute path="/users/profile/musicien/:id" component={EditMusicienPage}/>

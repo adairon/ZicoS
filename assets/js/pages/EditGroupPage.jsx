@@ -99,7 +99,7 @@ const EditGroupPage = props => {
   //fct pour gérer la soumission du formulaire :
   const handleSubmit = async event => {
     event.preventDefault();
-    console.log(profile);
+    // console.log(profile);
     try {
             const response = await axios.put(
                 "http://localhost:8000/api/profiles/" + id,
@@ -112,7 +112,7 @@ const EditGroupPage = props => {
                 }
               );
       setErrors({});
-      console.log(response.data);
+    //   console.log(response.data);
     } catch (error) {
       if (error.response) {
         const apiErrors = {};
@@ -123,6 +123,7 @@ const EditGroupPage = props => {
       }
     }
   };
+
 
   //EFFETS
   useEffect(() => {
@@ -214,8 +215,8 @@ const EditGroupPage = props => {
                 </option>
               ))}
             </Select>
-            <div className="form-group">
-              <button type="submit" className="btn btn-success">
+            <div className="form-group d-flex justify-content-center">
+              <button type="submit" className="btn btn-success mx-5">
                 Enregistrer
               </button>
             </div>
