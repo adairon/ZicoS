@@ -15,19 +15,24 @@ const UserPage = (props) => {
     const [ typeGroupe, setTypeGroupe] = useState(false)
     const [ typeMusicien, setTypeMusicien] = useState(false)
 
-    //on récupère les données du profil
+    //on récupère les données du profil et on définit le type pour laffichage du bouton de modification
     const fetchUserProfile = async userId =>{
         try {
             const data = await userAPI.findOne(userId);
-            // console.log(data.profile.type.name);
-            if(data.profile.type.name === "groupe"){
-                console.log("groupe")
-                setTypeGroupe(true)
-            }else{
-                console.log("musicien")
-                setTypeMusicien(true)
-            }
+            // console.log(data);
             setUser(data);
+            if(data.profile){
+                // console.log("il y a un profil")
+                if(data.profile.type.name === "groupe"){
+                    // console.log("groupe")
+                    setTypeGroupe(true)
+                }else if (data.profile.type.name === "musicien.ne"){
+                    // console.log("musicien")
+                    setTypeMusicien(true)
+                }
+            }
+            // else{console.log("pas de profil")}
+            
             setLoading(false);
         } catch (error) {
             console.log(error.message)

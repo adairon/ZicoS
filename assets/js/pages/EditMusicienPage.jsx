@@ -267,9 +267,12 @@ const EditMusicienPage = props => {
                 </option>
               ))}
             </Select>
-            <div className="form-group">
-              <button type="submit" className="btn btn-success">
+            <div className="form-group d-flex justify-content-center">
+              <button type="submit" className="btn btn-success mx-5">
                 Enregistrer
+              </button>
+              <button className="btn btn-danger mx-5">
+                Supprimer mon profil
               </button>
             </div>
           </form>
