@@ -8,7 +8,7 @@ import UserContext from "../contexts/UserContext";
 import Field from "./forms/Field";
 import AuthAPI from "../services/authAPI";
 
-const LoginModal = ({ history }) => {
+const LoginModal = ({ history, titreBtn }) => {
   const { setIsAuthenticated } = useContext(AuthContext);
   const { setUserId } = useContext(UserContext);
 
@@ -58,7 +58,7 @@ const LoginModal = ({ history }) => {
       // On ne met pas d'erreur
       setError("");
       // on se redirige vers la page des profils avec la props history de react-router-dom
-      history.push("/profils");
+      // history.push("/profils");
     } catch (error) {
       console.log(error.response);
       //si erreur de connexion : on définit un message qui s'affichera sous le champs du formulaire
@@ -71,7 +71,7 @@ const LoginModal = ({ history }) => {
   return (
     <>
       <Button variant="secondary" onClick={handleShow} className="d-flex justify-content-center">
-        J'ai déjà un compte
+        {titreBtn}
       </Button>
 
       <Modal

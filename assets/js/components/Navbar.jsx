@@ -5,6 +5,7 @@ import AuthAPI from "../services/authAPI";
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
 import userAPI from "../services/userAPI";
+import LoginModal from "./LoginModal";
 
 const Navbar = ({ history }) => {
 
@@ -86,9 +87,7 @@ const Navbar = ({ history }) => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/login" className="btn btn-outline-success mx-1 my-1">
-                  Connexion
-                </NavLink>
+                <LoginModal titreBtn="Connexion"/>
               </li>
             </>
           )) || (

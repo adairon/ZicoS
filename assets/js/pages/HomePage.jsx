@@ -54,7 +54,7 @@ const HomePage = props => {
               </Link>
             </div>
             <div className="login_link d-flex justify-content-center my-4">
-              <LoginModal />
+              <LoginModal titreBtn="J'ai déjà un compte" />
             </div>
 
 
