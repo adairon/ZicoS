@@ -25,7 +25,8 @@ const HomePage = props => {
                 Faites de la musique ! <br />
               </p>
             </div>
-            <div className="register_links d-flex flex-wrap justify-content-center my-4">
+
+            {/* <div className="register_links d-flex flex-wrap justify-content-center my-4">
               <div className="btn-group mx-2" role="group" aria-label="Button group with nested dropdown">
                 <button type="button" className="btn btn-dark">
                   Je suis ...
@@ -44,10 +45,15 @@ const HomePage = props => {
                 </div>
               </div>
               <button type="button" className="btn btn-dark mx-2">C'est parti !</button>
+            </div> */}
+            <div className="login_link d-flex justify-content-center my-4">
+              <Link to="/register" type="button" className="btn btn-primary mx-2">
+                Je veux m'inscrire !
+              </Link>
             </div>
             <div className="login_link d-flex justify-content-center my-4">
               <Link to="/login" type="button" className="btn btn-secondary mx-2">
-                j'ai déjà un compte
+                J'ai déjà un compte
               </Link>
             </div>
           </div>

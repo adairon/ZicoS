@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import Logo from "../../images/logos/Logo-ZicoS-1.png";
+import Logo from "../../images/logos/ZicoS.png";
 import AuthAPI from "../services/authAPI";
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
