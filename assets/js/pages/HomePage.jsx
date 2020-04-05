@@ -2,11 +2,13 @@ import React from "react";
 import bigLogo from "../../images/logos/ZicoS-grey.png";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import LoginModal from "../components/LoginModal";
 
 
 const HomePage = props => {
   return (
     <>
+  
       <Helmet>
         <title>Zicos : Jouez !</title>
       </Helmet>
@@ -51,11 +53,15 @@ const HomePage = props => {
                 Je veux m'inscrire !
               </Link>
             </div>
-            <div className="login_link d-flex justify-content-center my-4">
+            
+              <LoginModal />
+
+            {/* <div className="login_link d-flex justify-content-center my-4">
               <Link to="/login" type="button" className="btn btn-secondary mx-2">
                 J'ai déjà un compte
               </Link>
-            </div>
+            </div> */}
+            
           </div>
         </div>
         <div className="homeDiv home2">
