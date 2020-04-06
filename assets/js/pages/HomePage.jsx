@@ -70,7 +70,7 @@ const HomePage = ({history}) => {
               </Link>
             </div>
             <div className="login_link d-flex justify-content-center my-4">
-              <LoginModal titreBtn="J'ai déjà un compte" />
+              <LoginModal libBtn="J'ai déjà un compte" variant="secondary"/>
             </div>
 
 

@@ -11,7 +11,7 @@ import LogedInModalContext from "../contexts/LogedInModalContext";
 import Field from "./forms/Field";
 import AuthAPI from "../services/authAPI";
 
-const LoginModal = ({ history, titreBtn }) => {
+const LoginModal = ({ history, libBtn, variant }) => {
   const { setIsAuthenticated } = useContext(AuthContext);
   const { setUserId } = useContext(UserContext);
   const {setLogedInModal} = useContext(LogedInModalContext)
@@ -73,8 +73,8 @@ const LoginModal = ({ history, titreBtn }) => {
 
   return (
     <>
-      <Button variant="secondary" onClick={handleShow} className="d-flex justify-content-center">
-        {titreBtn}
+      <Button variant={variant} onClick={handleShow} className="d-flex justify-content-center">
+        {libBtn}
       </Button>
 
       <Modal

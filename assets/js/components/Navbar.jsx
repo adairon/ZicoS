@@ -80,7 +80,7 @@ const Navbar = ({ history }) => {
           </ul>
         
         }
-        <ul className="navbar-nav mal-auto navbarDrop">
+        <ul className="navbar-nav navbarDrop m-auto align-items-center">
           {(!isAuthenticated && (
             <>
               <li className="nav-item">
@@ -89,7 +89,7 @@ const Navbar = ({ history }) => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <LoginModal titreBtn="Connexion"/>
+                <LoginModal libBtn="Connexion" variant="outline-secondary"/>
               </li>
             </>
           )) || (
