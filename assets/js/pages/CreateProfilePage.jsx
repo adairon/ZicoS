@@ -1,11 +1,15 @@
-// TODO : conditions d'affichage des champs en ftc du type de profil : id écrit en dur : le rendre variable
-
 import React, { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import Helmet from "react-helmet";
+
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
+import Button from 'react-bootstrap/Button'
+
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
+
 import typeAPI from "../services/typeAPI";
 import instrumentsAPI from "../services/instrumentsAPI";
 import localizationAPI from "../services/localizationAPI";
@@ -108,29 +112,11 @@ const CreateProfilePage = props => {
     }
   };
 
-  //fct pour récupérer le profil du user selon le type :
-  // const fetchProfile = async id => {
-  //   try {
-  //     const dataProfile = await profilesAPI.findOne(id);
-  //     console.log(dataProfile.type.name);
-  //     if(dataProfile.type.name !== "groupe"){
-  //         const {type,firstName,lastName,biography,pictureUrl,linkUrl,instrument,localization,style} = dataProfile;
-  //         setProfile({type:type.id,firstName,lastName,biography,pictureUrl,linkUrl,instrument: instrument.id,region:localization.id,style:style.id});
-  //     }else{
-  //       const {type,firstName,biography,pictureUrl,linkUrl,localization,style} = dataProfile;
-  //       setProfile({type:type.id,firstName,biography,pictureUrl,linkUrl,region:localization,style:style.id});
-  //       setGroupEdit(true);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   //fct pour gérer les changements dans le formulaire :
   const handleChange = ({ currentTarget }) => {
 
     // extrait le name et la value depuis le champs en cours (currentTarget)
-    console.log(currentTarget.id);
+    // console.log(currentTarget.id);
     if(currentTarget.id === "type"){
       (currentTarget.value === typeGroupId.toString() ? setGroupEdit(true) : setGroupEdit(false))
     }
@@ -226,13 +212,175 @@ const CreateProfilePage = props => {
       <Helmet>
         <title>Zicos : mon profil </title>
       </Helmet>
-      <div className="fondPage bg-secondary py-4">
-        <div className="container bg-light shadow rounded p-5">
-          {(!editing && <h1>Création du profil</h1>) || (
-            <h1>Modification du profil</h1>
-          )}
+      <div className="fondPage bg-secondary py-4 d-flex align-items-center">
+        <div className="container bg-light shadow rounded p-5 profile_creation">
+          <h1>Création du profil</h1>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="m-5">
+          <Accordion>
+            
+            <Card>
+
+              <Card.Header>
+                <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                  Créer mon profilm Zicos !
+                </Accordion.Toggle>
+              </Card.Header>
+
+              <Accordion.Collapse eventKey="0">
+                <Card.Body>
+                <h3>Bon, commençons par quelques informations de base...</h3>
+                <Select
+                  name="type"
+                  label="Type de Profil"
+                  value={profile.type}
+                  error={errors.type}
+                  onChange={handleChange}
+                >
+                  {types.map(type => (
+                    <option key={type.id} value={type.id} id={type.name}>
+                      {type.name}
+                    </option>
+                  ))}
+                </Select>
+                <Field
+                  name="firstName"
+                  label={(!groupEdit && "Votre Prénom ") || "Nom du Groupe"}
+                  placeholder={(!groupEdit && "Votre Prénom ") || "Le nom du Groupe"}
+                  value={profile.firstName}
+                  onChange={handleChange}
+                  error={errors.firstName}
+                />
+
+                {!groupEdit && (
+                  <Field
+                    name="lastName"
+                    label="Nom de famille"
+                    placeholder="Votre nom de famille"
+                    value={profile.lastName}
+                    onChange={handleChange}
+                  />
+                )}
+
+                  <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                    Continuer
+                  </Accordion.Toggle>
+
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+           
+            <Card>
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>
+                  <h3>Super ! Maintenant quelques détails sur vous et votre musique...</h3>
+                    {!groupEdit && (
+                      <Select
+                        name="instrument"
+                        label="Instrument"
+                        value={profile.instrument}
+                        error={errors.instrument}
+                        onChange={handleChange}
+                      >
+                        {instruments.map(instrument => (
+                          <option key={instrument.id} value={instrument.id}>
+                            {instrument.name}
+                          </option>
+                        ))}
+                      </Select>
+                    )}
+                    <Select
+                      name="style"
+                      label="Style de musique"
+                      value={profile.style}
+                      error={errors.style}
+                      onChange={handleChange}
+                    >
+                      {styles.map(style => (
+                        <option key={style.id} value={style.id}>
+                          {style.name}
+                        </option>
+                      ))}
+                    </Select>
+                    <Select
+                      name="region"
+                      label="Région"
+                      value={profile.region}
+                      error={errors.region}
+                      onChange={handleChange}
+                    >
+                      {localizations.map(localization => (
+                        <option key={localization.id} value={localization.id}>
+                          {localization.region}
+                        </option>
+                      ))}
+                    </Select>
+                    
+
+                  <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                    Continuer
+                  </Accordion.Toggle>
+
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+
+            <Card>
+              <Accordion.Collapse eventKey="2">
+                <Card.Body>
+                  <h3>Parfait ! quelques mots pour vous décrire ?</h3>
+                  <Field
+                    id="bio_text"
+                    name="biography"
+                    label="A propos de vous"
+                    placeholder="Un petit texte de présentation ? Décrivez votre style, votre groupe, vos influences et inspirations..."
+                    type="textarea"
+                    value={profile.biography}
+                    onChange={handleChange}
+                  />
+
+                  <Accordion.Toggle as={Button} variant="link" eventKey="3">
+                    Continuer
+                  </Accordion.Toggle>
+
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+
+            <Card>
+              <Accordion.Collapse eventKey="3">
+                <Card.Body>
+                  <h3>Et pour finir ...</h3>
+                  <Field
+                    name="pictureUrl"
+                    label="photo de profil"
+                    placeholder="lien vers votre photo de profil"
+                    value={profile.pictureUrl}
+                    onChange={handleChange}
+                  />
+                  <Field
+                    name="linkUrl"
+                    label="votre site internet"
+                    placeholder="Lien vers votre site internet"
+                    value={profile.linkUrl}
+                    onChange={handleChange}
+                  />
+
+                  <div className="form-group">
+                    <button type="submit" className="btn btn-success">
+                      Enregistrer
+                    </button>
+                  </div>
+
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+
+          </Accordion>
+          </form>
+
+
+          {/* <form onSubmit={handleSubmit}>
             <Select
               name="type"
               label="Type de Profil"
@@ -317,7 +465,7 @@ const CreateProfilePage = props => {
                   {localization.region}
                 </option>
               ))}
-            </Select>
+            </Select> */}
             {/* <Select
                 name="departement"
                 label="Département"
@@ -331,7 +479,7 @@ const CreateProfilePage = props => {
                     </option>
                 ))}
             </Select> */}
-            <Select
+            {/* <Select
               name="style"
               label="Style de musique"
               value={profile.style}
@@ -349,7 +497,7 @@ const CreateProfilePage = props => {
                 Enregistrer
               </button>
             </div>
-          </form>
+          </form> */}
         </div>
       </div>
     </>

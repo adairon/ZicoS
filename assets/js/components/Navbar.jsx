@@ -39,7 +39,6 @@ const Navbar = ({ history }) => {
     // on se redirige vers la page d'accueil avec history
     history.push("/");
   };
-  
   if (isAuthenticated){
     useEffect(() => {
       fetchUser(userId)
