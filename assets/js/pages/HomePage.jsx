@@ -1,11 +1,24 @@
 import React from "react";
+import { useContext } from "react";
+import { useEffect } from "react";
 import bigLogo from "../../images/logos/ZicoS-grey.png";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
+import LogedInModalContext from "../contexts/LogedInModalContext";
 
 
-const HomePage = props => {
+const HomePage = ({history}) => {
+  //CONTEXTES :
+  const{logedInModal, setLogedInModal} = useContext(LogedInModalContext)
+  //EFFETS
+  useEffect(()=>{
+    if(logedInModal){
+      setLogedInModal(false)
+      history.push("/profils")
+    }
+  },[logedInModal])
+
   return (
     <>
   

@@ -15,16 +15,17 @@ import {
   withRouter,
 } from "react-router-dom";
 import "../css/app.css";
+import AuthContext from "./contexts/AuthContext";
+import UserContext from "./contexts/UserContext";
+import LogedInModalContext from "./contexts/LogedInModalContext"
+import AuthAPI from "./services/authAPI";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import PrivateRoute from "./components/PrivateRoute";
 import HomePage from "./pages/HomePage";
 import ProfilesPage from "./pages/ProfilesPages";
 import ProfilePage from "./pages/ProfilePage";
-import Footer from "./components/Footer";
 import LoginPage from "./pages/LoginPage";
-import AuthAPI from "./services/authAPI";
-import AuthContext from "./contexts/AuthContext";
-import PrivateRoute from "./components/PrivateRoute";
-import UserContext from "./contexts/UserContext";
 import UserPage from "./pages/UserPage";
 import CreateProfilePage from "./pages/CreateProfilePage";
 import EditMusicienPage from "./pages/EditMusicienPage";
@@ -44,6 +45,8 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(AuthAPI.isAuthenticated());
   // state pour gérer l'identifiant de l'utilisateur authentifié
   const [userId, setUserId] = useState(AuthAPI.userId());
+  // state pour le contexte loged in modal :
+  const [logedInModal, setLogedInModal] = useState(false);
 
   // on créé un nouveau composant depuis la Navbar pour pouvoir lui passer en props history avec withRouter
   const NavBarWithRouter = withRouter(Navbar);
@@ -60,7 +63,7 @@ const App = () => {
         <HashRouter>
           <NavBarWithRouter />
           <Switch>
-            <Route path="/login" component={LoginPage} />
+            {/* <Route path="/login" component={LoginPage} /> */}
             <Route path="/register" component={RegisterPage} />
             <PrivateRoute path="/profils/:id" component={ProfilePage} />
             <PrivateRoute path="/profils" component={ProfilesPage} />
@@ -68,7 +71,14 @@ const App = () => {
             <PrivateRoute path="/users/profile/band/:id" component={EditGroupPage}/>
             <PrivateRoute path="/users/profile/:id" component={CreateProfilePage}/>
             <PrivateRoute path="/users/:id" component={UserPage}/>
-            <Route path="/" component={HomePage} />
+            
+            <LogedInModalContext.Provider value={{
+              logedInModal,
+              setLogedInModal
+            }}>
+              <Route path="/" component={HomePage} />
+            </LogedInModalContext.Provider>
+
           </Switch>
           <Footer />
         </HashRouter>

@@ -5,12 +5,15 @@ import Button from "react-bootstrap/Button";
 
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
+import LogedInModalContext from "../contexts/LogedInModalContext";
+
 import Field from "./forms/Field";
 import AuthAPI from "../services/authAPI";
 
 const LoginModal = ({ history, titreBtn }) => {
   const { setIsAuthenticated } = useContext(AuthContext);
   const { setUserId } = useContext(UserContext);
+  const {setLogedInModal} = useContext(LogedInModalContext)
 
   //STATES :
   // State pour gérer les identifiants : objet vide par défaut
@@ -48,15 +51,16 @@ const LoginModal = ({ history, titreBtn }) => {
     try {
       // on se connecte (génération d'un token)
       await AuthAPI.authenticate(credentials);
-      console.log("ok");
       // on précise au contexte qu'on est connecté
       setIsAuthenticated(true);
       const id = AuthAPI.userId();
       setUserId(id);
-      //on cache la modal
-      setShow(false);
       // On ne met pas d'erreur
       setError("");
+      //on cache la modal
+      setShow(false);
+      //on passe le context loged In modal à true :
+      setLogedInModal(true)
       // on se redirige vers la page des profils avec la props history de react-router-dom
       // history.push("/profils");
     } catch (error) {
