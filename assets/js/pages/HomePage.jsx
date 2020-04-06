@@ -1,15 +1,17 @@
 import React, { useContext, useEffect } from "react";
-import bigLogo from "../../images/logos/ZicoS-grey.png";
-import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-import LoginModal from "../components/LoginModal";
-import LogedInModalContext from "../contexts/LogedInModalContext";
+import { Helmet } from "react-helmet";
 import {toast} from "react-toastify"
+import bigLogo from "../../images/logos/ZicoS-grey.png";
+import LogedInModalContext from "../contexts/LogedInModalContext";
+import AuthContext from "../contexts/AuthContext";
+import LoginModal from "../components/LoginModal";
 
 
 const HomePage = ({history}) => {
   //CONTEXTES :
   const{logedInModal, setLogedInModal} = useContext(LogedInModalContext)
+  const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
   //EFFETS
   useEffect(()=>{
     if(logedInModal){
@@ -41,42 +43,26 @@ const HomePage = ({history}) => {
                 Faites de la musique ! <br />
               </p>
             </div>
-
-            {/* <div className="register_links d-flex flex-wrap justify-content-center my-4">
-              <div className="btn-group mx-2" role="group" aria-label="Button group with nested dropdown">
-                <button type="button" className="btn btn-dark">
-                  Je suis ...
-                </button>
-                <div className="btn-group" role="group">
-                  <button id="btnGroupDrop1" type="button" className="btn btn-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  </button>
-                  <div className="dropdown-menu bg-dark" aria-labelledby="btnGroupDrop1">
-                    <a className="dropdown-item text-lightgrey dropdown_home1 text-white" href="#">
-                      Musicien.ne
-                    </a>
-                    <a className="dropdown-item text-lightgrey dropdown_home1 text-white" href="#">
-                      un Groupe
-                    </a>
-                  </div>
+            {(!isAuthenticated && 
+              (<>
+                <div className="login_link d-flex justify-content-center my-4">
+                  <Link to="/register" type="button" className="btn btn-primary mx-2">
+                    Je veux m'inscrire !
+                  </Link>
                 </div>
-              </div>
-              <button type="button" className="btn btn-dark mx-2">C'est parti !</button>
-            </div> */}
-            <div className="login_link d-flex justify-content-center my-4">
-              <Link to="/register" type="button" className="btn btn-primary mx-2">
-                Je veux m'inscrire !
-              </Link>
-            </div>
-            <div className="login_link d-flex justify-content-center my-4">
-              <LoginModal libBtn="J'ai déjà un compte" variant="secondary"/>
-            </div>
-
-
-            {/* <div className="login_link d-flex justify-content-center my-4">
-              <Link to="/login" type="button" className="btn btn-secondary mx-2">
-                J'ai déjà un compte
-              </Link>
-            </div> */}
+                <div className="login_link d-flex justify-content-center my-4">
+                  <LoginModal libBtn="J'ai déjà un compte" variant="secondary"/>
+                </div>
+              </>)) || (
+                <>
+                  <div className="login_link d-flex justify-content-center my-4" >
+                    <Link to="/profils" className="btn btn-dark mx-2" >
+                      Voir les Profils
+                    </Link>
+                  </div>
+                </>
+              )
+            }
             
           </div>
         </div>
