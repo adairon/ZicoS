@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import LoginModal from "../components/LoginModal";
 import LogedInModalContext from "../contexts/LogedInModalContext";
+import {toast} from "react-toastify"
 
 
 const HomePage = ({history}) => {
@@ -15,6 +16,8 @@ const HomePage = ({history}) => {
   useEffect(()=>{
     if(logedInModal){
       setLogedInModal(false)
+      // Notification Toast :
+      toast.success("Vous êtes connecté ! À vous de jouer 🎸 🎹")
       history.push("/profils")
     }
   },[logedInModal])
@@ -23,7 +26,7 @@ const HomePage = ({history}) => {
     <>
   
       <Helmet>
-        <title>Zicos : Jouez !</title>
+        <title>Zicos : accueil</title>
       </Helmet>
       <div className="homeContainer">
         <div className="homeDiv home1">

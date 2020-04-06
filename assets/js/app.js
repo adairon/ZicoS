@@ -15,6 +15,8 @@ import {
   withRouter,
 } from "react-router-dom";
 import "../css/app.css";
+import {ToastContainer, toast} from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 import AuthContext from "./contexts/AuthContext";
 import UserContext from "./contexts/UserContext";
 import LogedInModalContext from "./contexts/LogedInModalContext"
@@ -82,6 +84,7 @@ const App = () => {
           </Switch>
           <Footer />
         </HashRouter>
+        <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
       </UserContext.Provider>
     </AuthContext.Provider>
   );

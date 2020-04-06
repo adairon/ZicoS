@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
+
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
 import LogedInModalContext from "../contexts/LogedInModalContext";
@@ -61,8 +62,6 @@ const LoginModal = ({ history, titreBtn }) => {
       setShow(false);
       //on passe le context loged In modal à true :
       setLogedInModal(true)
-      // on se redirige vers la page des profils avec la props history de react-router-dom
-      // history.push("/profils");
     } catch (error) {
       console.log(error.response);
       //si erreur de connexion : on définit un message qui s'affichera sous le champs du formulaire

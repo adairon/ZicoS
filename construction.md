@@ -352,6 +352,7 @@ On créé des contextes react pour passer des informations les composants de l'a
 ### bootstrap :
 - Utilisation du thème Bootswatch : Lumen
 - Balises scripts depuis bootstrap et css depuis bootswatch
+- installation react bootstrap : ```npm install react-bootstrap bootstrap```
 
 ### Titres des pages
 Afin de changer les titres (title) des différentes pages dynamiquement avec React, on va utiliser le composant React "HELMET" :

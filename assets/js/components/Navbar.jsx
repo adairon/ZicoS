@@ -6,6 +6,7 @@ import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
 import userAPI from "../services/userAPI";
 import LoginModal from "./LoginModal";
+import {toast} from "react-toastify"
 
 const Navbar = ({ history }) => {
 
@@ -34,6 +35,7 @@ const Navbar = ({ history }) => {
     // on précise à l'application qu'on est déconnecté
     setIsAuthenticated(false);
     setUserId("");
+    toast.info(" Vous êtes déconnecté. À bientôt ! 😙");
     // on se redirige vers la page d'accueil avec history
     history.push("/");
   };
