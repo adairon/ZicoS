@@ -1,19 +1,33 @@
-import React, { useEffect, useState } from "react";
-import Pagination from "../components/Pagination";
+import React, { useEffect, useState, useContext } from "react";
+import { Helmet } from "react-helmet";
+
+import Modal from 'react-bootstrap/Modal'
+import Button from 'react-bootstrap/Button'
+
+import logoProfiles from "../../images/logos/ZicoS.png";
+
+import UserContext from "../contexts/UserContext";
 
 import ProfilesAPI from "../services/profilesAPI";
 import TypeAPI from "../services/typeAPI";
 import StylesAPI from "../services/stylesAPI";
+import userAPI from "../services/userAPI";
 
 import ProfilesCards from "../components/ProfilesCards";
-import { Helmet } from "react-helmet";
-import logoProfiles from "../../images/logos/ZicoS.png";
+import Pagination from "../components/Pagination";
+import { Link } from "react-router-dom";
 
 const ProfilesPage = props => {
+  // CONTEXTES : 
+  //On récupère l'id de l'utilisateur authentifié avec le contexte :
+  const { userId } = useContext(UserContext);
+  
+  //STATES :
   // states pour les données récupérées via requêtes axios :
   const [profiles, setProfiles] = useState([]);
   const [types, setTypes] = useState([]);
   const [styles, setStyles] = useState([]);
+  const [user, setUser] = useState({});
 
   //state pour gérer la page en cours (pagination)
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,7 +35,7 @@ const ProfilesPage = props => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState([]);
 
- /* =========================== FONCTIONS REQUETES AXIOS ========================== */
+ /* =========================== FONCTIONS REQUETES API ========================== */
 
   // fonction asynchrone à utiliser dans le useEffect pour récupérer les profils
   const fetchProfiles = async () => {
@@ -54,11 +68,28 @@ const ProfilesPage = props => {
     }
   };
 
+
+  //Pour savoir si le user authentifié à un profil :
+  const fetchUserProfile = async userId => {
+    try {
+      const data = await userAPI.findOne(userId);
+      // console.log(data)
+      if(!data.profile){
+        // console.log("pas de profil")
+        setShow(true)
+      }
+    }catch(error){
+      console.oog(error.response)
+    }
+  }
+
+  // EFFETS :
   //On lance un "effet" au chargement du composant pour récupérer les données
   useEffect(() => {
     fetchProfiles();
     fetchTypes();
     fetchStyles();
+    fetchUserProfile(userId)
   }, []);
 
   /* ==================================GESTION DES DISPLAYS==============================*/
@@ -102,6 +133,12 @@ const ProfilesPage = props => {
       ? Pagination.getData(filteredProfiles, currentPage, itemsPerPage)
       : filteredProfiles;
 
+  /*----------------------------- GESTION MODAL --------------------------------------- */
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   /*======================================= VIEW ========================================= */
   return (
     <>
@@ -120,14 +157,32 @@ const ProfilesPage = props => {
             <p className="text-center">Cherchez, trouvez, jouez !</p>
           </div>
 
+          <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Vous n'avez Pas encore de Profil !</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Un profil est nécessaire afin de pouvoir contacter les groupes et musiciens.nes déjà inscrits</p>
+              <p className="text-primary">Voulez-vous créer votre profil maintenant ?</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Link to="/users/profile/new" className="btn btn-primary">
+                Oui ! Allons-y !
+              </Link>
+              <Button variant="secondary" onClick={handleClose}>
+                Non, pas maintenant.
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
           {/* ----------------------- Menus dropdowns ------------------------ */}
-          <div className="form-group">
+          {/* <div className="form-group">
 
             <button type="button" className="btn btn-danger mx-1" onClick={cleanFilter}>
                   Effacer les filtres
-            </button>
+            </button> */}
             {/* ---- Filtre Par Type ------ */}
-            <div
+            {/* <div
               className="btn-group my-3 mx-1"
               role="group"
               aria-label="Button group with nested dropdown"
@@ -165,9 +220,9 @@ const ProfilesPage = props => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* ========================= RECHERCHE ================================ */}
-          <button
+          {/* <button
             className="btn btn-secondary mx-auto my-3"
             id="btnRecherche"
             type="button"
@@ -180,9 +235,9 @@ const ProfilesPage = props => {
             Recherche
       </button>
 
-          <div className="collapse" id="collapseExample">
+          <div className="collapse" id="collapseExample"> */}
             {/*  ---------------------- Champs de recherche ---------------------- */}
-            <div className="form-group">
+            {/* <div className="form-group">
               <input
                 type="text"
                 onChange={handleSearch}
@@ -191,7 +246,7 @@ const ProfilesPage = props => {
                 placeholder="Rechercher..."
               />
             </div>
-          </div>
+          </div> */}
 
           {/*  =============================== PROFILS ============================ */}
 

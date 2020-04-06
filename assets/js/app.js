@@ -69,13 +69,13 @@ const App = () => {
           <HashRouter>
             <NavBarWithRouter />
             <Switch>
-              {/* <Route path="/login" component={LoginPage} /> */}
+              <Route path="/login" component={LoginPage} />
               <Route path="/register" component={RegisterPage} />
               <PrivateRoute path="/profils/:id" component={ProfilePage} />
               <PrivateRoute path="/profils" component={ProfilesPage} />
               <PrivateRoute path="/users/profile/musicien/:id" component={EditMusicienPage}/>
               <PrivateRoute path="/users/profile/band/:id" component={EditGroupPage}/>
-              <PrivateRoute path="/users/profile/:id" component={CreateProfilePage}/>
+              <PrivateRoute path="/users/profile/new" component={CreateProfilePage}/>
               <PrivateRoute path="/users/:id" component={UserPage}/>
               
                 <Route path="/" component={HomePage} />

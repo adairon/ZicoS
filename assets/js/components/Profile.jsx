@@ -1,6 +1,35 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import UserContext from "../contexts/UserContext";
+import userAPI from "../services/userAPI";
+import { Link } from "react-router-dom";
 
 const Profile = ({profile,email}) => {
+  // CONTEXTES : 
+  //On récupère l'id de l'utilisateur authentifié avec le contexte :
+  const { userId } = useContext(UserContext);
+
+  //STATES : 
+  const [userProfile, setUserProfile] = useState(true);
+
+  //FONCTIONS : 
+  //Pour savoir si le user authentifié à un profil :
+  const fetchUserProfile = async userId => {
+    try {
+      const data = await userAPI.findOne(userId);
+      // console.log(data)
+      if(!data.profile){
+        // console.log("pas de profil")
+        setUserProfile(false)
+      }
+    }catch(error){
+      console.log(error.response)
+    }
+  }
+  
+  //EFFETS :
+  useEffect(()=>{
+    fetchUserProfile(userId)
+  },[])
 
 
     return ( 
@@ -54,15 +83,23 @@ const Profile = ({profile,email}) => {
               <a target="_blank" href={profile.linkUrl}> {profile.linkUrl} </a>{" "}
             </p>
           </div>
-          {email && 
-          <div className="profil_contact d-flex my-3">
-            <button className="btn btn-primary m-auto p-3" type="button">
-                <a className="text-white" href={"mailto:" + profile.email}> 
-                  Envoyer un mail
-                </a>
-            </button>
-          </div>
+          {!userProfile && 
+            <div className="d-flex my-3 justify-content-center">
+              <Link to="/users/profile/new" className="btn btn-warning">
+                Pour contacter {profile.firstName}, <br/> Créez votre profil
+              </Link>
+            </div>
           }
+          {userProfile && 
+            <div className="profil_contact d-flex my-3">
+              <button className="btn btn-primary m-auto p-3" type="button">
+                  <a className="text-white" href={"mailto:" + profile.email}> 
+                    Envoyer un mail
+                  </a>
+              </button>
+            </div>
+          }
+
         </div>
      );
 }

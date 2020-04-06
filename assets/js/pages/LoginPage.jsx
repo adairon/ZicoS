@@ -49,8 +49,8 @@ const LoginPage = ({ history }) => {
 
   return (
     <>
-      <div className="fondPage bg-secondary py-4">
-        <div className="container bg-light shadow p-5">
+      <div className="fondPage bg-secondary py-4 d-flex align-items-center">
+        <div className="container bg-light shadow rounded p-5">
           <h1>Connexion à ZicoS</h1>
             <form onSubmit={handleSubmit}>
               <Field

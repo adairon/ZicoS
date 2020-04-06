@@ -1,15 +1,17 @@
 import React, { useState,useContext,useEffect } from "react";
-import Field from "../components/forms/Field";
-import userAPI from "../services/userAPI";
-import LoginModal from "../components/LoginModal";
-import LogedInModalContext from "../contexts/LogedInModalContext";
 import {toast} from "react-toastify"
+import Collapse from 'react-bootstrap/Collapse'
+import Button from 'react-bootstrap/Button'
+import LogedInModalContext from "../contexts/LogedInModalContext";
+import userAPI from "../services/userAPI";
+import Field from "../components/forms/Field";
+import LoginModal from "../components/LoginModal";
 
 const RegisterPage = ({history}) => {
   //CONTEXTES :
   const{logedInModal, setLogedInModal} = useContext(LogedInModalContext)
   //STATES:
-  // on gère létat du user créé avec un objet
+  // on gère l'état du user créé avec un objet
   const [user, setUser] = useState({
     email: "",
     birthDate: "",
@@ -23,6 +25,8 @@ const RegisterPage = ({history}) => {
     password: "",
     passwordConfirm: ""
   });
+  // pour gérer le formulaire en collapse
+  const [open, setOpen] = useState(false);
   
   //FONCTIONS :
   
@@ -53,8 +57,13 @@ const RegisterPage = ({history}) => {
     try{
       await userAPI.register(user);
       // console.log(response);
+      //on "vide" les erreurs
       setErrors({})
-      history.replace('/login')
+      //notification toast:
+      toast.success("Votre compte est bien créé ! Connectez vous")
+      LoginModal.handleShow()
+      //redirection vers la création d'un profil :
+      history.replace('/')
     }catch(error){
       console.log(error.response)
       const {violations} = error.response.data;
@@ -80,53 +89,68 @@ const RegisterPage = ({history}) => {
   
   return (
     <>
-      <div className="fondPage bg-secondary p-4">
-        <div className="container bg-light shadow p-5">
-          <h1>Inscription</h1>
-          <form onSubmit={handleSubmit}>
-            <Field
-              name="email"
-              label="email"
-              placeholder="Votre adresse email"
-              type="email"
-              error={errors.email}
-              value={user.email}
-              onChange={handleChange}
-            />
-            <Field
-              name="birthDate"
-              label="Date de Naissance"
-              placeholder="Votre date de naissance"
-              type="date"
-              error={errors.birthDate}
-              value={user.birthDate}
-              onChange={handleChange}
-            />
-            <Field
-              name="password"
-              label="Mot de passe"
-              placeholder="Votre mot de passe"
-              type="password"
-              error={errors.password}
-              value={user.password}
-              onChange={handleChange}
-            />
-            <Field
-              name="passwordConfirm"
-              label="Confirmez votre mot de passe"
-              placeholder="Confirmez votre mot de passe"
-              type="password"
-              error={errors.passwordConfirm}
-              value={user.passwordConfirm}
-              onChange={handleChange}
-            />
-            <div className="form-group d-flex">
+      <div className="fondPage bg-secondary p-4 d-flex align-items-center">
+        <div className="container bg-light shadow rounded p-5">
+          <h1>Inscription sur ZicoS</h1>
+          <p className="text-center">Pour créer votre profil et découvrir des groupes ou musiciens.nes, vous dévez d'abord créer un compte si vous n'en avez pas.</p>
+          <div className="d-flex justify-content-center">
+            <Button
+              onClick={() => setOpen(!open)}
+              aria-controls="example-collapse-text"
+              aria-expanded={open}
+              className="mx-2"
+            >
+              Créez votre compte
+            </Button>
+            <LoginModal libBtn="J'ai déjà un compte" variant="link"/>
+          </div>         
+          <Collapse in={open}>
+            <div id="example-collapse-text">
+              <form onSubmit={handleSubmit}>
+                <Field
+                  name="email"
+                  label="email"
+                  placeholder="Votre adresse email"
+                  type="email"
+                  error={errors.email}
+                  value={user.email}
+                  onChange={handleChange}
+                />
+                <Field
+                  name="birthDate"
+                  label="Date de Naissance"
+                  placeholder="Votre date de naissance"
+                  type="date"
+                  error={errors.birthDate}
+                  value={user.birthDate}
+                  onChange={handleChange}
+                />
+                <Field
+                  name="password"
+                  label="Mot de passe"
+                  placeholder="Entrez un mot de passe sécurisé d'au moins 8 caractères"
+                  type="password"
+                  error={errors.password}
+                  value={user.password}
+                  onChange={handleChange}
+                />
+                <Field
+                  name="passwordConfirm"
+                  label="Confirmez votre mot de passe"
+                  placeholder="Confirmez votre mot de passe"
+                  type="password"
+                  error={errors.passwordConfirm}
+                  value={user.passwordConfirm}
+                  onChange={handleChange}
+                />
                 <button type="submit" className="btn btn-success">
                     Confirmation
                 </button>
-                <LoginModal libBtn="J'ai déjà un compte" variant="link"/>
+              </form>
             </div>
-          </form>
+          </Collapse>
+          
+          
         </div>
       </div>
     </>

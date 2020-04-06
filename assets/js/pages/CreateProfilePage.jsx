@@ -218,7 +218,7 @@ const CreateProfilePage = props => {
         <title>Zicos : mon profil </title>
       </Helmet>
       <div className="fondPage bg-secondary py-4">
-        <div className="container bg-light shadow p-5">
+        <div className="container bg-light shadow rounded p-5">
           {(!editing && <h1>Création du profil</h1>) || (
             <h1>Modification du profil</h1>
           )}
