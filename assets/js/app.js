@@ -77,9 +77,7 @@ const App = () => {
               <PrivateRoute path="/users/profile/band/:id" component={EditGroupPage}/>
               <PrivateRoute path="/users/profile/new" component={CreateProfilePage}/>
               <PrivateRoute path="/users/:id" component={UserPage}/>
-              
-                <Route path="/" component={HomePage} />
-
+              <Route path="/" component={HomePage} />
             </Switch>
             <Footer />
           </HashRouter>

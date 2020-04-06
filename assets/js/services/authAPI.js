@@ -69,9 +69,11 @@ function isAuthenticated() {
     if (expiration * 1000 > new Date().getTime()) {
       // si on a un token et qu'il est valide, alors on est connecté, on renvoie "vrai"
       return true;
+    }else{
+      //sinon, c'est qu'on est pas connecté, on renvoi "faux" et on surrpime le token du local storage
+      window.localStorage.removeItem("authToken");
+      return false;
     }
-    //sinon, c'est qu'on est pas connecté, on renvoi "faux"
-    return false;
   }
   return false;
 }

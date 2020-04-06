@@ -50,6 +50,7 @@ const CreateProfilePage = props => {
   const [user, setUser] = useState([]);
   const [editing, setEditing] = useState(false);
   const [groupEdit, setGroupEdit] = useState(false)
+  const [typeGroupId, setTypeGroupId] = useState("")
 
   // FONCTIONS :
 
@@ -59,6 +60,9 @@ const CreateProfilePage = props => {
       const dataTypes = await typeAPI.findAll();
       setTypes(dataTypes);
       // console.log(dataTypes)
+      dataTypes.map(type => (
+        (type.name === "groupe" && setTypeGroupId(type.id))
+      ))
     } catch (error) {
       console.log(error.response);
     }
@@ -105,27 +109,32 @@ const CreateProfilePage = props => {
   };
 
   //fct pour récupérer le profil du user selon le type :
-  const fetchProfile = async id => {
-    try {
-      const dataProfile = await profilesAPI.findOne(id);
-      console.log(dataProfile.type.name);
-      if(dataProfile.type.name !== "groupe"){
-          const {type,firstName,lastName,biography,pictureUrl,linkUrl,instrument,localization,style} = dataProfile;
-          setProfile({type:type.id,firstName,lastName,biography,pictureUrl,linkUrl,instrument: instrument.id,region:localization.id,style:style.id});
-      }else{
-        const {type,firstName,biography,pictureUrl,linkUrl,localization,style} = dataProfile;
-        setProfile({type:type.id,firstName,biography,pictureUrl,linkUrl,region:localization,style:style.id});
-        setGroupEdit(true);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchProfile = async id => {
+  //   try {
+  //     const dataProfile = await profilesAPI.findOne(id);
+  //     console.log(dataProfile.type.name);
+  //     if(dataProfile.type.name !== "groupe"){
+  //         const {type,firstName,lastName,biography,pictureUrl,linkUrl,instrument,localization,style} = dataProfile;
+  //         setProfile({type:type.id,firstName,lastName,biography,pictureUrl,linkUrl,instrument: instrument.id,region:localization.id,style:style.id});
+  //     }else{
+  //       const {type,firstName,biography,pictureUrl,linkUrl,localization,style} = dataProfile;
+  //       setProfile({type:type.id,firstName,biography,pictureUrl,linkUrl,region:localization,style:style.id});
+  //       setGroupEdit(true);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   //fct pour gérer les changements dans le formulaire :
   const handleChange = ({ currentTarget }) => {
+
     // extrait le name et la value depuis le champs en cours (currentTarget)
-    // console.log(currentTarget);
+    console.log(currentTarget.id);
+    if(currentTarget.id === "type"){
+      (currentTarget.value === typeGroupId.toString() ? setGroupEdit(true) : setGroupEdit(false))
+    }
+  
     const { name, value } = currentTarget;
     //modifie le profil dans l'état en prenant tout ce qu'il y a déjà dans le profil mais écrase la propriété qu'il y a dans name par la donnée "value"
     setProfile({ ...profile, [name]: value });
@@ -232,7 +241,7 @@ const CreateProfilePage = props => {
               onChange={handleChange}
             >
               {types.map(type => (
-                <option key={type.id} value={type.id}>
+                <option key={type.id} value={type.id} id={type.name}>
                   {type.name}
                 </option>
               ))}
