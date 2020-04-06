@@ -62,29 +62,29 @@ const App = () => {
         userId,
         setUserId
       }}>
-        <HashRouter>
-          <NavBarWithRouter />
-          <Switch>
-            {/* <Route path="/login" component={LoginPage} /> */}
-            <Route path="/register" component={RegisterPage} />
-            <PrivateRoute path="/profils/:id" component={ProfilePage} />
-            <PrivateRoute path="/profils" component={ProfilesPage} />
-            <PrivateRoute path="/users/profile/musicien/:id" component={EditMusicienPage}/>
-            <PrivateRoute path="/users/profile/band/:id" component={EditGroupPage}/>
-            <PrivateRoute path="/users/profile/:id" component={CreateProfilePage}/>
-            <PrivateRoute path="/users/:id" component={UserPage}/>
-            
-            <LogedInModalContext.Provider value={{
-              logedInModal,
-              setLogedInModal
-            }}>
-              <Route path="/" component={HomePage} />
-            </LogedInModalContext.Provider>
+        <LogedInModalContext.Provider value={{
+          logedInModal,
+          setLogedInModal
+        }}>
+          <HashRouter>
+            <NavBarWithRouter />
+            <Switch>
+              {/* <Route path="/login" component={LoginPage} /> */}
+              <Route path="/register" component={RegisterPage} />
+              <PrivateRoute path="/profils/:id" component={ProfilePage} />
+              <PrivateRoute path="/profils" component={ProfilesPage} />
+              <PrivateRoute path="/users/profile/musicien/:id" component={EditMusicienPage}/>
+              <PrivateRoute path="/users/profile/band/:id" component={EditGroupPage}/>
+              <PrivateRoute path="/users/profile/:id" component={CreateProfilePage}/>
+              <PrivateRoute path="/users/:id" component={UserPage}/>
+              
+                <Route path="/" component={HomePage} />
 
-          </Switch>
-          <Footer />
-        </HashRouter>
+            </Switch>
+            <Footer />
+          </HashRouter>
         <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
+        </LogedInModalContext.Provider>
       </UserContext.Provider>
     </AuthContext.Provider>
   );

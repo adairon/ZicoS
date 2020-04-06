@@ -80,7 +80,7 @@ const Navbar = ({ history }) => {
           </ul>
         
         }
-        <ul className="navbar-nav navbarDrop m-auto align-items-center">
+        <ul className="navbar-nav navbarDrop ml-auto align-items-center">
           {(!isAuthenticated && (
             <>
               <li className="nav-item">

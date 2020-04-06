@@ -1,6 +1,4 @@
-import React from "react";
-import { useContext } from "react";
-import { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import bigLogo from "../../images/logos/ZicoS-grey.png";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
