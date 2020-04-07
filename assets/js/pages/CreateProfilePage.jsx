@@ -122,18 +122,11 @@ const CreateProfilePage = ({history}) => {
     if(currentTarget.id === "type"){
       if(currentTarget.value === typeGroupId.toString()){
         setGroupEdit(true)
-        setProfile({
-          type: "",
-          lastName: "",
-          biography: "",
-          pictureUrl: "",
-          linkUrl: "",
-          region: "",
-          departement: "",
-          style: ""
-        })
+        console.log("groupe")
+        delete profile.instrument
       }else{
         setGroupEdit(false)
+        console.log("musicien")
       }
     }
   
@@ -165,7 +158,9 @@ const CreateProfilePage = ({history}) => {
         toast.success("Votre Profil à bien été créé !")
         history.push(`/profils`)
       } else {
-        //Sinon, c'est un profil groupe et on envoie une requête en post via axios en passant ce profile en objet
+        //on commence par supprimer la propriété instrument de l'objet profile car elle est vide et fera planter la requête
+        delete profile.instrument
+        //Sinon, c'est un profil groupe et on envoie une requête en post via axios en passant ce profil en objet
         const response = await axios.post(
           "http://localhost:8000/api/profiles",
           {
@@ -396,126 +391,6 @@ const CreateProfilePage = ({history}) => {
 
           </Accordion>
           </form>
-
-
-          {/* <form onSubmit={handleSubmit}>
-            <Select
-              name="type"
-              label="Type de Profil"
-              value={profile.type}
-              error={errors.type}
-              onChange={handleChange}
-            >
-              {types.map(type => (
-                <option key={type.id} value={type.id} id={type.name}>
-                  {type.name}
-                </option>
-              ))}
-            </Select>
-
-            <Field
-              name="firstName"
-              label={(!groupEdit && "Votre Prénom ") || "Nom du Groupe"}
-              placeholder={(!groupEdit && "Votre Prénom ") || "Le nom du Groupe"}
-              value={profile.firstName}
-              onChange={handleChange}
-              error={errors.firstName}
-            />
-
-            {!groupEdit && (
-              <Field
-                name="lastName"
-                label="Nom de famille"
-                placeholder="Votre nom de famille"
-                value={profile.lastName}
-                onChange={handleChange}
-              />
-            )}
-
-            <Field
-              name="biography"
-              label="A propos de vous"
-              placeholder="Un petit texte de présentation ?"
-              type="textarea"
-              value={profile.biography}
-              onChange={handleChange}
-            />
-            <Field
-              name="pictureUrl"
-              label="photo de profil"
-              placeholder="lien vers votre photo de profil"
-              value={profile.pictureUrl}
-              onChange={handleChange}
-            />
-            <Field
-              name="linkUrl"
-              label="votre site internet"
-              placeholder="Lien vers votre site internet"
-              value={profile.linkUrl}
-              onChange={handleChange}
-            />
-
-            {!groupEdit && (
-              <Select
-                name="instrument"
-                label="Instrument"
-                value={profile.instrument}
-                error={errors.instrument}
-                onChange={handleChange}
-              >
-                {instruments.map(instrument => (
-                  <option key={instrument.id} value={instrument.id}>
-                    {instrument.name}
-                  </option>
-                ))}
-              </Select>
-            )}
-
-            <Select
-              name="region"
-              label="Région"
-              value={profile.region}
-              error={errors.region}
-              onChange={handleChange}
-            >
-              {localizations.map(localization => (
-                <option key={localization.id} value={localization.id}>
-                  {localization.region}
-                </option>
-              ))}
-            </Select> */}
-            {/* <Select
-                name="departement"
-                label="Département"
-                value={profile.departement}
-                error={errors.departement}
-                onChange={handleChange}
-            >
-                { localizations.map(localization=>(
-                    <option key={localization.id} value={localization.id} >
-                        {localization.departement}
-                    </option>
-                ))}
-            </Select> */}
-            {/* <Select
-              name="style"
-              label="Style de musique"
-              value={profile.style}
-              error={errors.style}
-              onChange={handleChange}
-            >
-              {styles.map(style => (
-                <option key={style.id} value={style.id}>
-                  {style.name}
-                </option>
-              ))}
-            </Select>
-            <div className="form-group">
-              <button type="submit" className="btn btn-success">
-                Enregistrer
-              </button>
-            </div>
-          </form> */}
         </div>
       </div>
     </>

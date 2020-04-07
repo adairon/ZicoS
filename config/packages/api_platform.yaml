@@ -10,3 +10,4 @@ api_platform:
             enabled: false
             items_per_page: 12
             client_enabled: true
+    
