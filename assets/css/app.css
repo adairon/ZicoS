@@ -153,9 +153,13 @@ a{
 .profile_creation{
     min-height: 650px;
 }
-#bio_text{
-    height: 200px;
+.create_profil_card{
+    height: 400px;
 }
+
+/* .bio_card>.form-group>input{
+    height: 200px;
+} */
 /*  ============================== PAGE DES PROFILS ============================== */
 .bigLogo_Profiles{
     height: 3rem;

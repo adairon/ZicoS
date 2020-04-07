@@ -77,12 +77,14 @@ const Profile = ({profile,email}) => {
             <h3 className="profile_subtitle" >Présentation : </h3>
             <p> {profile.biography} </p>
           </div>
-          <div className="profile_link p-1 my-2 border border-light rounded">
-            <h3 className="profile_subtitle" >Liens :</h3>
-            <p className="profile_link_url">
-              <a target="_blank" href={profile.linkUrl}> {profile.linkUrl} </a>{" "}
-            </p>
-          </div>
+          {profile.linkUrl && 
+            <div className="profile_link p-1 my-2 border border-light rounded">
+              <h3 className="profile_subtitle" >Liens :</h3>
+              <p className="profile_link_url">
+                <a target="_blank" href={profile.linkUrl}> {profile.linkUrl} </a>{" "}
+              </p>
+            </div>
+          }
           {!userProfile && 
             <div className="d-flex my-3 justify-content-center">
               <Link to="/users/profile/new" className="btn btn-warning">

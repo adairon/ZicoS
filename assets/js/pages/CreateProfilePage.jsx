@@ -2,10 +2,13 @@ import React, { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import Helmet from "react-helmet";
+import {toast} from "react-toastify"
 
 import Accordion from 'react-bootstrap/Accordion'
 import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
@@ -17,8 +20,8 @@ import stylesAPI from "../services/stylesAPI";
 import userAPI from "../services/userAPI";
 import profilesAPI from "../services/profilesAPI";
 
-const CreateProfilePage = props => {
-  const { id = "new" } = props.match.params;
+const CreateProfilePage = ({history}) => {
+
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
@@ -52,7 +55,6 @@ const CreateProfilePage = props => {
   const [localizations, setLocalizations] = useState([]);
   const [styles, setStyles] = useState([]);
   const [user, setUser] = useState([]);
-  const [editing, setEditing] = useState(false);
   const [groupEdit, setGroupEdit] = useState(false)
   const [typeGroupId, setTypeGroupId] = useState("")
 
@@ -118,7 +120,21 @@ const CreateProfilePage = props => {
     // extrait le name et la value depuis le champs en cours (currentTarget)
     // console.log(currentTarget.id);
     if(currentTarget.id === "type"){
-      (currentTarget.value === typeGroupId.toString() ? setGroupEdit(true) : setGroupEdit(false))
+      if(currentTarget.value === typeGroupId.toString()){
+        setGroupEdit(true)
+        setProfile({
+          type: "",
+          lastName: "",
+          biography: "",
+          pictureUrl: "",
+          linkUrl: "",
+          region: "",
+          departement: "",
+          style: ""
+        })
+      }else{
+        setGroupEdit(false)
+      }
     }
   
     const { name, value } = currentTarget;
@@ -131,37 +147,8 @@ const CreateProfilePage = props => {
     event.preventDefault();
     console.log(profile);
     try {
-      //si on est en édition de profil, on envoie une requête en put
-      if (editing) {
-        if(!groupEdit){
-            // console.log(profile)
-            const response = await axios.put(
-              "http://localhost:8000/api/profiles/" + id,
-              {
-                ...profile,
-                type: `api/types/${profile.type}`,
-                instrument: `api/instruments/${profile.instrument}`,
-                style: `api/styles/${profile.style}`,
-                email: `${user.email}`,
-                localization: `/api/localizations/${profile.region}`
-              }
-            );
-        }else{
-            // console.log(profile)
-            const response = await axios.put(
-                "http://localhost:8000/api/profiles/" + id,
-                {
-                  ...profile,
-                  type: `api/types/${profile.type}`,
-                  style: `api/styles/${profile.style}`,
-                  email: `${user.email}`,
-                  localization: `/api/localizations/${profile.region}`
-                }
-              );
-        }
-        console.log(response.data);
-      } else {
-        //on envoie une requête en post via axios en passant le profile en objet
+      if (!groupEdit){
+        //Si c'est un profil musicien.ne; on envoie une requête en post via axios en passant ce profile en objet
         const response = await axios.post(
           "http://localhost:8000/api/profiles",
           {
@@ -173,9 +160,27 @@ const CreateProfilePage = props => {
             localization: `/api/localizations/${profile.region}`
           }
         );
+        setErrors({});
+        console.log(response.data);
+        toast.success("Votre Profil à bien été créé !")
+        history.push(`/profils`)
+      } else {
+        //Sinon, c'est un profil groupe et on envoie une requête en post via axios en passant ce profile en objet
+        const response = await axios.post(
+          "http://localhost:8000/api/profiles",
+          {
+            ...profile,
+            type: `api/types/${profile.type}`,
+            style: `api/styles/${profile.style}`,
+            email: `${user.email}`,
+            localization: `/api/localizations/${profile.region}`
+          }
+        );
+        setErrors({});
+        console.log(response.data);
+        toast.success("Votre Profil à bien été créé !")
+        history.push(`/profils`)
       }
-      setErrors({});
-      console.log(response.data);
     } catch (error) {
       if (error.response) {
         const apiErrors = {};
@@ -195,17 +200,6 @@ const CreateProfilePage = props => {
     fetchStyles();
     fetchUser(userId);
   }, []);
-  // effet pour vérifier si on est en édition ou création de profil en fct de l'id de la page :
-  useEffect(() => {
-    if (id !== "new") {
-      setEditing(true);
-      fetchProfile(id);
-      if(profile.type.name === "groupe"){
-          setGroupEdit(true)
-      }
-    }
-  }, [id]);
-  
 
   return (
     <>
@@ -221,18 +215,19 @@ const CreateProfilePage = props => {
             
             <Card>
 
-              <Card.Header>
-                <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                  Créer mon profilm Zicos !
+              <Card.Header className="d-flex justify-content-center">
+                <Accordion.Toggle as={Button} variant="primary" eventKey="0">
+                  Créer mon profil Zicos !
                 </Accordion.Toggle>
               </Card.Header>
 
               <Accordion.Collapse eventKey="0">
-                <Card.Body>
+                <Card.Body className="create_profil_card">
+                  <ProgressBar animated now={10} label="C'est parti !" className="mb-3"/>
                 <h3>Bon, commençons par quelques informations de base...</h3>
                 <Select
                   name="type"
-                  label="Type de Profil"
+                  label="Êtes-vous un.e musicien.ne ou un groupe ?"
                   value={profile.type}
                   error={errors.type}
                   onChange={handleChange}
@@ -262,7 +257,7 @@ const CreateProfilePage = props => {
                   />
                 )}
 
-                  <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                  <Accordion.Toggle as={Button} variant="primary" eventKey="1">
                     Continuer
                   </Accordion.Toggle>
 
@@ -272,7 +267,8 @@ const CreateProfilePage = props => {
            
             <Card>
               <Accordion.Collapse eventKey="1">
-                <Card.Body>
+                <Card.Body className="create_profil_card">
+                <ProgressBar animated now={40} label="Bon début, on continue !" className="mb-3" />
                   <h3>Super ! Maintenant quelques détails sur vous et votre musique...</h3>
                     {!groupEdit && (
                       <Select
@@ -317,7 +313,10 @@ const CreateProfilePage = props => {
                     </Select>
                     
 
-                  <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                  <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                    Retour
+                  </Accordion.Toggle>
+                  <Accordion.Toggle as={Button} variant="primary" eventKey="2">
                     Continuer
                   </Accordion.Toggle>
 
@@ -327,19 +326,33 @@ const CreateProfilePage = props => {
 
             <Card>
               <Accordion.Collapse eventKey="2">
-                <Card.Body>
+                <Card.Body className="create_profil_card" >
+                  <ProgressBar animated now={65} label="Allez ! On lâche rien ! " className="mb-3" />
                   <h3>Parfait ! quelques mots pour vous décrire ?</h3>
-                  <Field
-                    id="bio_text"
+                  {/* <Field
                     name="biography"
                     label="A propos de vous"
                     placeholder="Un petit texte de présentation ? Décrivez votre style, votre groupe, vos influences et inspirations..."
                     type="textarea"
                     value={profile.biography}
                     onChange={handleChange}
-                  />
-
-                  <Accordion.Toggle as={Button} variant="link" eventKey="3">
+                    rows="3"
+                  /> */}
+                  <Form.Group controlId="biography" name="biography">
+                    <Form.Label>A propos de vous</Form.Label>
+                    <Form.Control 
+                      name="biography"
+                      as="textarea" 
+                      rows="3" 
+                      placeholder="Un petit texte de présentation ? Décrivez votre style, votre groupe, vos influences et inspirations..."
+                      value={profile.biography}
+                      onChange={handleChange}
+                      />
+                  </Form.Group>
+                  <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                    Retour
+                  </Accordion.Toggle>
+                  <Accordion.Toggle as={Button} variant="primary" eventKey="3">
                     Continuer
                   </Accordion.Toggle>
 
@@ -349,24 +362,29 @@ const CreateProfilePage = props => {
 
             <Card>
               <Accordion.Collapse eventKey="3">
-                <Card.Body>
+                <Card.Body className="create_profil_card">
+                  <ProgressBar animated now={90} label="C'est bientôt fini !"  className="mb-3"/>
                   <h3>Et pour finir ...</h3>
                   <Field
                     name="pictureUrl"
-                    label="photo de profil"
+                    label="Votre photo de profil"
                     placeholder="lien vers votre photo de profil"
                     value={profile.pictureUrl}
                     onChange={handleChange}
                   />
                   <Field
                     name="linkUrl"
-                    label="votre site internet"
+                    label="Vous avez un site internet ou un profil facebook à partager ?"
                     placeholder="Lien vers votre site internet"
                     value={profile.linkUrl}
                     onChange={handleChange}
                   />
 
+
                   <div className="form-group">
+                    <Accordion.Toggle as={Button} variant="link" eventKey="2">
+                      Retour
+                    </Accordion.Toggle>
                     <button type="submit" className="btn btn-success">
                       Enregistrer
                     </button>
