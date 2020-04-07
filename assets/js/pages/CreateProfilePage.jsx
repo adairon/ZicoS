@@ -210,7 +210,8 @@ const CreateProfilePage = ({history}) => {
             
             <Card>
 
-              <Card.Header className="d-flex justify-content-center">
+              <Card.Header className="text-center">
+                <Card.Title className="mb-4">Il vous faut un profil pour pouvoir entrer en contact avec les autres musiciens.nes et groupes déjà présents sur ZicoS</Card.Title>
                 <Accordion.Toggle as={Button} variant="primary" eventKey="0">
                   Créer mon profil Zicos !
                 </Accordion.Toggle>

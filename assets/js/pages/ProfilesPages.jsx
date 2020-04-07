@@ -158,8 +158,10 @@ const ProfilesPage = props => {
           </div>
 
           <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>Vous n'avez Pas encore de Profil !</Modal.Title>
+            <Modal.Header closeButton className="bg-dark">
+              <Modal.Title>
+                <h2 className="badge badge-light">Vous n'avez Pas encore de Profil !</h2>
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <p>Un profil est nécessaire afin de pouvoir contacter les groupes et musiciens.nes déjà inscrits</p>
