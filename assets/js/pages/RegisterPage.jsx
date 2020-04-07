@@ -107,27 +107,33 @@ const RegisterPage = ({history}) => {
           <Collapse in={open}>
             <div id="example-collapse-text">
               <form onSubmit={handleSubmit}>
-                <Field
-                  name="email"
-                  label="email"
-                  placeholder="Votre adresse email"
-                  type="email"
-                  error={errors.email}
-                  value={user.email}
-                  onChange={handleChange}
-                />
-                <Field
-                  name="birthDate"
-                  label="Date de Naissance"
-                  placeholder="Votre date de naissance"
-                  type="date"
-                  error={errors.birthDate}
-                  value={user.birthDate}
-                  onChange={handleChange}
-                />
+                <div className="row mt-4">
+                  <div className="col">
+                    <Field
+                      name="email"
+                      label="Votre adresse email"
+                      placeholder="Entrez votre adresse email"
+                      type="email"
+                      error={errors.email}
+                      value={user.email}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="col">
+                    <Field
+                      name="birthDate"
+                      label="Votre date de naissance"
+                      type="date"
+                      error={errors.birthDate}
+                      value={user.birthDate}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+
                 <Field
                   name="password"
-                  label="Mot de passe"
+                  label="Votre mot de passe"
                   placeholder="Entrez un mot de passe sécurisé d'au moins 8 caractères"
                   type="password"
                   error={errors.password}

@@ -81,13 +81,17 @@ const LoginModal = ({ history, libBtn, variant }) => {
       <Modal
         show={show}
         onHide={handleClose}
-        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton>
-          <Modal.Title>ZicoS : connexion</Modal.Title>
+        <Modal.Header closeButton className="bg-dark">
+          <Modal.Title className="text-light">
+            <h2 className="badge badge-light">
+              ZicoS : connexion
+            </h2>
+          </Modal.Title>
         </Modal.Header>
+
         <Modal.Body>
         <form>
               <Field
