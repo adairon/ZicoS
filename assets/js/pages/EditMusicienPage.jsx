@@ -2,19 +2,24 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
-import axios from "axios";
+
 import Helmet from "react-helmet";
-import Field from "../components/forms/Field";
-import Select from "../components/forms/Select";
+import {toast} from "react-toastify"
+import axios from "axios";
+
 import typeAPI from "../services/typeAPI";
 import instrumentsAPI from "../services/instrumentsAPI";
 import localizationAPI from "../services/localizationAPI";
 import stylesAPI from "../services/stylesAPI";
-import userAPI from "../services/userAPI";
 import profilesAPI from "../services/profilesAPI";
+import userAPI from "../services/userAPI";
 
-const EditMusicienPage = props => {
+import Field from "../components/forms/Field";
+import Select from "../components/forms/Select";
+
+const EditMusicienPage = (props) => {
   const { id } = props.match.params;
+  // console.log(props.match)
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
@@ -106,8 +111,8 @@ const EditMusicienPage = props => {
   const fetchProfile = async id => {
     try {
       const dataProfile = await profilesAPI.findOne(id);
-      const {type,firstName,lastName,biography,pictureUrl,linkUrl,instrument,localization,style} = dataProfile;
-      setProfile({type:type.id,firstName,lastName,biography,pictureUrl,linkUrl,instrument: instrument.id,region:localization.id,style:style.id});
+      const { type, firstName, lastName, biography, pictureUrl, linkUrl, instrument, localization, style } = dataProfile;
+      setProfile({ type: type.id, firstName, lastName, biography, pictureUrl, linkUrl, instrument: instrument.id, region: localization.id, style: style.id });
     } catch (error) {
       console.log(error);
     }
@@ -127,19 +132,21 @@ const EditMusicienPage = props => {
     event.preventDefault();
     // console.log(profile);
     try {
-            const response = await axios.put(
-              "http://localhost:8000/api/profiles/" + id,
-              {
-                ...profile,
-                type: `api/types/${profile.type}`,
-                instrument: `api/instruments/${profile.instrument}`,
-                style: `api/styles/${profile.style}`,
-                email: `${user.email}`,
-                localization: `/api/localizations/${profile.region}`
-              }
-            );
+      const response = await axios.put(
+        "http://localhost:8000/api/profiles/" + id,
+        {
+          ...profile,
+          type: `api/types/${profile.type}`,
+          instrument: `api/instruments/${profile.instrument}`,
+          style: `api/styles/${profile.style}`,
+          email: `${user.email}`,
+          localization: `/api/localizations/${profile.region}`
+        }
+      );
       setErrors({});
-    //   console.log(response.data);
+      toast.success("Votre Profil à bien été modifié !")
+      props.history.push(`/profils`)
+      //   console.log(response.data);
     } catch (error) {
       if (error.response) {
         const apiErrors = {};
@@ -160,7 +167,7 @@ const EditMusicienPage = props => {
     fetchUser(userId);
     fetchProfile(id);
   }, []);
-  
+
 
   return (
     <>
@@ -168,6 +175,134 @@ const EditMusicienPage = props => {
         <title>Zicos : mon profil </title>
       </Helmet>
       <div className="fondPage bg-secondary py-4">
+        <div className="container profile border rounded py-2 bg-light shadow">
+          <form onSubmit={handleSubmit}>
+            <div className="row justify-content-center">
+
+              <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex flex-column">
+                <img className="img-thumbnail profile_picture" src={profile.pictureUrl} alt="" />
+                <Field
+                  name="pictureUrl"
+                  label="photo de profil"
+                  placeholder="lien vers votre photo de profil"
+                  value={profile.pictureUrl}
+                  onChange={handleChange}
+                />
+              </figure>
+
+              <div className="col-lg-6 col-md-12 col-sm-12 profile_info p-1 my-2">
+                <div className="alert alert alert-dark mx-2">
+                  <Field
+                    name="firstName"
+                    label="Votre Prénom "
+                    placeholder="Votre Prénom "
+                    value={profile.firstName}
+                    onChange={handleChange}
+                    error={errors.firstName}
+                  />
+                  <Field
+                    name="lastName"
+                    label="Nom de famille"
+                    placeholder="Votre nom de famille"
+                    value={profile.lastName}
+                    onChange={handleChange}
+                  />
+
+                  <p className="profile_type text-center"> {profile.type.name} </p>
+
+                </div>
+
+                <div className="instrus p-1 m-2 alert alert-secondary">
+                  <Select
+                    name="instrument"
+                    label="Instrument"
+                    value={profile.instrument}
+                    error={errors.instrument}
+                    onChange={handleChange}
+                  >
+                    {instruments.map(instrument => (
+                      <option key={instrument.id} value={instrument.id}>
+                        {instrument.name}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="localization p-1 m-2 alert alert-secondary">
+                  <Select
+                    name="region"
+                    label="Région"
+                    value={profile.region}
+                    error={errors.region}
+                    onChange={handleChange}
+                  >
+                    {localizations.map(localization => (
+                      <option key={localization.id} value={localization.id}>
+                        {localization.region}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="style p-1 m-2 alert alert-secondary">
+                  <Select
+                    name="style"
+                    label="Style de musique"
+                    value={profile.style}
+                    error={errors.style}
+                    onChange={handleChange}
+                  >
+                    {styles.map(style => (
+                      <option key={style.id} value={style.id}>
+                        {style.name}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+            </div>
+
+            <div className="profile_bio p-1 my-2 border border-light rounded">
+              <Field
+                name="biography"
+                label="A propos de vous"
+                placeholder="Un petit texte de présentation ?"
+                type="textarea"
+                value={profile.biography}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="profile_link p-1 my-2 border border-light rounded">
+              <Field
+                name="linkUrl"
+                label="votre site internet"
+                placeholder="Lien vers votre site internet"
+                value={profile.linkUrl}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group d-flex justify-content-center">
+              <button type="submit" className="btn btn-success mx-5">
+                Enregistrer
+              </button>
+            </div>
+
+          </form>
+
+
+
+
+
+
+
+
+
+
+
+
+          {/* 
         <div className="container bg-light shadow p-5">
 
             <h1>Modification du profil</h1>
@@ -240,8 +375,8 @@ const EditMusicienPage = props => {
                   {localization.region}
                 </option>
               ))}
-            </Select>
-            {/* <Select
+            </Select> */}
+          {/* <Select
                 name="departement"
                 label="Département"
                 value={profile.departement}
@@ -254,7 +389,7 @@ const EditMusicienPage = props => {
                     </option>
                 ))}
             </Select> */}
-            <Select
+          {/* <Select
               name="style"
               label="Style de musique"
               value={profile.style}
@@ -267,7 +402,7 @@ const EditMusicienPage = props => {
                 </option>
               ))}
             </Select>
-          </form>
+          </form> */}
         </div>
       </div>
     </>

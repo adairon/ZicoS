@@ -103,7 +103,7 @@ const Navbar = ({ history }) => {
                     </NavLink>
                     {userProfile && 
                     <NavLink to={"/profils/" + userProfile} className="dropdown-item">
-                      Mon profil
+                      Voir mon profil
                     </NavLink>}
                     <button onClick={handleLogout} className="dropdown-item text-danger">
                       Déconnexion

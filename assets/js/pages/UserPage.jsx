@@ -137,7 +137,7 @@ const UserPage = ({history}) => {
                     <Modal.Title >Attention !</Modal.Title>
                   </Modal.Header>
                   <Modal.Body >
-                    Cette action ne supprime pas seulement votre profil mais aussi votre compte  ZicoS.
+                    Cette action ne supprime pas seulement votre profil mais aussi votre compte  ZicoS. <br/>
                     Êtes-vous certain.e de vouloir supprimer votre compte ?
                   </Modal.Body>
                   <Modal.Footer>
