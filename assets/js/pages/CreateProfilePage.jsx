@@ -218,7 +218,7 @@ const CreateProfilePage = ({history}) => {
 
               <Accordion.Collapse eventKey="0">
                 <Card.Body className="create_profil_card">
-                  <ProgressBar animated now={10} label="C'est parti !" className="mb-3"/>
+                  <ProgressBar animated now={10} className="mb-3"/>
                 <h3>Bon, commençons par quelques informations de base...</h3>
                 <Select
                   name="type"
@@ -263,7 +263,7 @@ const CreateProfilePage = ({history}) => {
             <Card>
               <Accordion.Collapse eventKey="1">
                 <Card.Body className="create_profil_card">
-                <ProgressBar animated now={40} label="Bon début, on continue !" className="mb-3" />
+                <ProgressBar animated now={40} className="mb-3" />
                   <h3>Super ! Maintenant quelques détails sur vous et votre musique...</h3>
                     {!groupEdit && (
                       <Select
@@ -322,7 +322,7 @@ const CreateProfilePage = ({history}) => {
             <Card>
               <Accordion.Collapse eventKey="2">
                 <Card.Body className="create_profil_card" >
-                  <ProgressBar animated now={65} label="Allez ! On lâche rien ! " className="mb-3" />
+                  <ProgressBar animated now={65} className="mb-3" />
                   <h3>Parfait ! quelques mots pour vous décrire ?</h3>
                   {/* <Field
                     name="biography"
@@ -358,7 +358,7 @@ const CreateProfilePage = ({history}) => {
             <Card>
               <Accordion.Collapse eventKey="3">
                 <Card.Body className="create_profil_card">
-                  <ProgressBar animated now={90} label="C'est bientôt fini !"  className="mb-3"/>
+                  <ProgressBar animated now={90} className="mb-3"/>
                   <h3>Et pour finir ...</h3>
                   <Field
                     name="pictureUrl"

@@ -157,9 +157,11 @@ a{
     height: 400px;
 }
 
-/* .bio_card>.form-group>input{
-    height: 200px;
-} */
+/* =============================== USER PAGE ===================================== */
+.user_email{
+    font-size: 1rem;
+}
+
 /*  ============================== PAGE DES PROFILS ============================== */
 .bigLogo_Profiles{
     height: 3rem;
