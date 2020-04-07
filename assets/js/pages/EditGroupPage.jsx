@@ -10,6 +10,7 @@ import localizationAPI from "../services/localizationAPI";
 import stylesAPI from "../services/stylesAPI";
 import userAPI from "../services/userAPI";
 import profilesAPI from "../services/profilesAPI";
+import {toast} from "react-toastify"
 
 const EditGroupPage = props => {
   const { id } = props.match.params;
@@ -78,10 +79,10 @@ const EditGroupPage = props => {
   //fct pour récupérer le profil du user :
   const fetchProfile = async id => {
     try {
-        const dataProfile = await profilesAPI.findOne(id);
-        console.log(dataProfile)
-        const {type,firstName,biography,pictureUrl,linkUrl,localization,style} = dataProfile;
-        setProfile({type:type.id,firstName,biography,pictureUrl,linkUrl,region:localization.id,style:style.id});
+      const dataProfile = await profilesAPI.findOne(id);
+      // console.log(dataProfile)
+      const { type, firstName, biography, pictureUrl, linkUrl, localization, style } = dataProfile;
+      setProfile({ type: type.id, firstName, biography, pictureUrl, linkUrl, region: localization.id, style: style.id });
     } catch (error) {
       console.log(error);
     }
@@ -101,18 +102,20 @@ const EditGroupPage = props => {
     event.preventDefault();
     // console.log(profile);
     try {
-            const response = await axios.put(
-                "http://localhost:8000/api/profiles/" + id,
-                {
-                  ...profile,
-                  type: `api/types/${profile.type}`,
-                  style: `api/styles/${profile.style}`,
-                  email: `${user.email}`,
-                  localization: `/api/localizations/${profile.region}`
-                }
-              );
+      const response = await axios.put(
+        "http://localhost:8000/api/profiles/" + id,
+        {
+          ...profile,
+          type: `api/types/${profile.type}`,
+          style: `api/styles/${profile.style}`,
+          email: `${user.email}`,
+          localization: `/api/localizations/${profile.region}`
+        }
+      );
       setErrors({});
-    //   console.log(response.data);
+      toast.success("Votre Profil à bien été modifié !")
+      props.history.push(`/profils`)
+      // console.log(response.data);
     } catch (error) {
       if (error.response) {
         const apiErrors = {};
@@ -139,57 +142,157 @@ const EditGroupPage = props => {
         <title>Zicos : mon profil </title>
       </Helmet>
       <div className="fondPage bg-secondary py-4">
-        <div className="container bg-light shadow p-5">
+        <div className="container profile border rounded py-2 bg-light shadow">
+          <form onSubmit={handleSubmit}>
+            <div className="row justify-content-center">
+
+              <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex flex-column">
+                <img className="img-thumbnail profile_picture" src={profile.pictureUrl} alt="" />
+                <Field
+                  name="pictureUrl"
+                  label="photo de profil"
+                  placeholder="lien vers votre photo de profil"
+                  value={profile.pictureUrl}
+                  onChange={handleChange}
+                />
+              </figure>
+
+              <div className="col-lg-6 col-md-12 col-sm-12 profile_info p-1 my-2">
+                <div className="alert alert alert-dark mx-2">
+                  <Field
+                    name="firstName"
+                    label="Nom du Groupe"
+                    placeholder="Le nom de votre groupe"
+                    value={profile.firstName}
+                    onChange={handleChange}
+                    error={errors.firstName}
+                  />
+
+                  <p className="profile_type text-center"> {profile.type.name} </p>
+
+                </div>
+
+
+                <div className="localization p-1 m-2 alert alert-secondary">
+                  <Select
+                    name="region"
+                    label="Région"
+                    value={profile.region}
+                    error={errors.region}
+                    onChange={handleChange}
+                  >
+                    {localizations.map(localization => (
+                      <option key={localization.id} value={localization.id}>
+                        {localization.region}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="style p-1 m-2 alert alert-secondary">
+                  <Select
+                    name="style"
+                    label="Style de musique"
+                    value={profile.style}
+                    error={errors.style}
+                    onChange={handleChange}
+                  >
+                    {styles.map(style => (
+                      <option key={style.id} value={style.id}>
+                        {style.name}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+            </div>
+
+            <div className="profile_bio p-1 my-2 border border-light rounded">
+              <Field
+                name="biography"
+                label="A propos de vous"
+                placeholder="Un petit texte de présentation ?"
+                type="textarea"
+                value={profile.biography}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="profile_link p-1 my-2 border border-light rounded">
+              <Field
+                name="linkUrl"
+                label="Votre site internet"
+                placeholder="Lien vers votre site internet"
+                value={profile.linkUrl}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="form-group d-flex justify-content-center">
+              <button type="submit" className="btn btn-success mx-5">
+                Enregistrer
+              </button>
+            </div>
+
+          </form>
+
+
+
+
+
+
+
+          {/* <div className="container bg-light shadow p-5">
             <h1>Modification du groupe</h1>
 
-          <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
 
-            <Field
-              name="firstName"
-              label="Nom du Groupe"
-              placeholder="Le nom du Groupe"
-              value={profile.firstName}
-              onChange={handleChange}
-              error={errors.firstName}
-            />
+              <Field
+                name="firstName"
+                label="Nom du Groupe"
+                placeholder="Le nom du Groupe"
+                value={profile.firstName}
+                onChange={handleChange}
+                error={errors.firstName}
+              />
 
-            <Field
-              name="biography"
-              label="A propos de vous"
-              placeholder="Un petit texte de présentation ?"
-              type="textarea"
-              value={profile.biography}
-              onChange={handleChange}
-            />
-            <Field
-              name="pictureUrl"
-              label="photo de profil"
-              placeholder="lien vers votre photo de profil"
-              value={profile.pictureUrl}
-              onChange={handleChange}
-            />
-            <Field
-              name="linkUrl"
-              label="votre site internet"
-              placeholder="Lien vers votre site internet"
-              value={profile.linkUrl}
-              onChange={handleChange}
-            />
+              <Field
+                name="biography"
+                label="A propos de vous"
+                placeholder="Un petit texte de présentation ?"
+                type="textarea"
+                value={profile.biography}
+                onChange={handleChange}
+              />
+              <Field
+                name="pictureUrl"
+                label="photo de profil"
+                placeholder="lien vers votre photo de profil"
+                value={profile.pictureUrl}
+                onChange={handleChange}
+              />
+              <Field
+                name="linkUrl"
+                label="votre site internet"
+                placeholder="Lien vers votre site internet"
+                value={profile.linkUrl}
+                onChange={handleChange}
+              />
 
-            <Select
-              name="region"
-              label="Région"
-              value={profile.region}
-              error={errors.region}
-              onChange={handleChange}
-            >
-              {localizations.map(localization => (
-                <option key={localization.id} value={localization.id}>
-                  {localization.region}
-                </option>
-              ))}
-            </Select>
-            {/* <Select
+              <Select
+                name="region"
+                label="Région"
+                value={profile.region}
+                error={errors.region}
+                onChange={handleChange}
+              >
+                {localizations.map(localization => (
+                  <option key={localization.id} value={localization.id}>
+                    {localization.region}
+                  </option>
+                ))}
+              </Select> */}
+              {/* <Select
                 name="departement"
                 label="Département"
                 value={profile.departement}
@@ -202,27 +305,28 @@ const EditGroupPage = props => {
                     </option>
                 ))}
             </Select> */}
-            <Select
-              name="style"
-              label="Style de musique"
-              value={profile.style}
-              error={errors.style}
-              onChange={handleChange}
-            >
-              {styles.map(style => (
-                <option key={style.id} value={style.id}>
-                  {style.name}
-                </option>
-              ))}
-            </Select>
-            <div className="form-group d-flex justify-content-center">
-              <button type="submit" className="btn btn-success mx-5">
-                Enregistrer
+              {/* <Select
+                name="style"
+                label="Style de musique"
+                value={profile.style}
+                error={errors.style}
+                onChange={handleChange}
+              >
+                {styles.map(style => (
+                  <option key={style.id} value={style.id}>
+                    {style.name}
+                  </option>
+                ))}
+              </Select>
+              <div className="form-group d-flex justify-content-center">
+                <button type="submit" className="btn btn-success mx-5">
+                  Enregistrer
               </button>
-            </div>
-          </form>
+              </div>
+            </form>*/}
+
+          </div> 
         </div>
-      </div>
     </>
   );
 };

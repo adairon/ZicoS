@@ -86,7 +86,7 @@ const LoginModal = ({ history, libBtn, variant }) => {
       >
         <Modal.Header closeButton className="bg-dark">
           <Modal.Title className="text-light">
-            <h2 className="badge badge-light">
+            <h2>
               ZicoS : connexion
             </h2>
           </Modal.Title>
