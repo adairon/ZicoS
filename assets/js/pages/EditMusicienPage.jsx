@@ -290,18 +290,6 @@ const EditMusicienPage = (props) => {
             </div>
 
           </form>
-
-
-
-
-
-
-
-
-
-
-
-
           {/* 
         <div className="container bg-light shadow p-5">
 
