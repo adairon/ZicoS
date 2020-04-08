@@ -1,5 +1,4 @@
-// TODO : conditions d'affichage des champs en ftc du type de profil : id écrit en dur : le rendre variable
-
+//----------------------------------------------IMPORTS :
 import React, { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 
@@ -17,13 +16,16 @@ import userAPI from "../services/userAPI";
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
 
+//----------------------------------------------FUNCTIONNAL COMPONENT :
 const EditMusicienPage = (props) => {
   const { id } = props.match.params;
   // console.log(props.match)
+
+  //----------------------------------------------CONTEXTS :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
-  //STATES :
+  //----------------------------------------------STATES :
   const [profile, setProfile] = useState({
     type: "",
     firstName: "",
@@ -54,18 +56,22 @@ const EditMusicienPage = (props) => {
   const [styles, setStyles] = useState([]);
   const [user, setUser] = useState([]);
 
-  // FONCTIONS :
+  //----------------------------------------------FUNCTIONS :
+
+  let source = axios.CancelToken.source()
+
 
   //fct pour récupérer les types :
-  const fetchTypes = async () => {
-    try {
-      const dataTypes = await typeAPI.findAll();
-      setTypes(dataTypes);
-      // console.log(dataTypes)
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
+  // const fetchTypes = async () => {
+  //   try {
+  //     const dataTypes = await typeAPI.findAll();
+  //     setTypes(dataTypes);
+  //     // console.log(dataTypes)
+  //   } catch (error) {
+  //     console.log(error.response);
+  //   }
+  // };
+
   //ftc pour récupérer les instruments :
   const fetchInstruments = async () => {
     try {
@@ -76,6 +82,7 @@ const EditMusicienPage = (props) => {
       console.log(error.response);
     }
   };
+
   //fct pour récupérer les localizations :
   const fetchLocalizations = async () => {
     try {
@@ -86,14 +93,19 @@ const EditMusicienPage = (props) => {
       console.log(error.response);
     }
   };
+
   //fct pour récupérer les styles :
   const fetchStyles = async () => {
     try {
-      const dataStyles = await stylesAPI.findAll();
+      const dataStyles = await stylesAPI.findAll({cancelToken: source.token});
       setStyles(dataStyles);
       //   console.log(dataStyles);
     } catch (error) {
-      console.log(error.response);
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      };
     }
   };
   //fct pour récupérer le user :
@@ -158,17 +170,20 @@ const EditMusicienPage = (props) => {
     }
   };
 
-  //EFFETS
+  //----------------------------------------------EFFETCS
   useEffect(() => {
-    fetchTypes();
+    // fetchTypes();
     fetchInstruments();
     fetchLocalizations();
     fetchStyles();
     fetchUser(userId);
     fetchProfile(id);
+    return ()=>{
+      source.cancel()
+    }
   }, []);
 
-
+//----------------------------------------------RETURN :
   return (
     <>
       <Helmet>
