@@ -71,7 +71,7 @@ const ProfilePage = props => {
   useEffect(() => {
     setLoading(true);
     fetchProfile(id);
-  }, []);
+  }, [id]);
 
   //----------------------------------------------RETURN :
   return (
