@@ -79,7 +79,7 @@ const UserPage = ({history}) => {
   useEffect(() => {
     setLoading(true);
     fetchUserProfile(userId);
-  }, []);
+  },[]);
 
   return (
     <>

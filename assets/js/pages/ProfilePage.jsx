@@ -1,13 +1,18 @@
+//----------------------------------------------IMPORTS :
 import React, { useState, useEffect } from "react";
-import ProfilesAPI from "../services/profilesAPI";
+
 import { Helmet } from "react-helmet";
+
+import ProfilesAPI from "../services/profilesAPI";
+
 import Profile from "../components/Profile";
 
+//----------------------------------------------FUNCTIONNAL COMPONENT :
 const ProfilePage = props => {
   // on récupère l'identifiant du profil concerné :
   const id = props.match.params.id;
 
-  // STATES :
+  //----------------------------------------------STATES :
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState({
     lastName: "",
@@ -23,6 +28,7 @@ const ProfilePage = props => {
     user: ""
   });
 
+  //----------------------------------------------FUNCTIONS : 
   //On récupère les données du profil
   const fetchProfile = async id => {
     try {
@@ -60,12 +66,14 @@ const ProfilePage = props => {
     }
   };
 
+  //----------------------------------------------EFFECTS : 
   //On récupère le profil au chargement de la page
   useEffect(() => {
     setLoading(true);
     fetchProfile(id);
   }, []);
 
+  //----------------------------------------------RETURN :
   return (
     <>
       <Helmet>

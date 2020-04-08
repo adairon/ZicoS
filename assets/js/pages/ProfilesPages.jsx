@@ -1,3 +1,4 @@
+//----------------------------------------------IMPORT :
 import React, { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet";
 
@@ -7,6 +8,7 @@ import Button from 'react-bootstrap/Button'
 import logoProfiles from "../../images/logos/ZicoS.png";
 
 import UserContext from "../contexts/UserContext";
+import UserProfileContext from "../contexts/UserProfileContext";
 
 import ProfilesAPI from "../services/profilesAPI";
 import TypeAPI from "../services/typeAPI";
@@ -19,11 +21,13 @@ import { Link } from "react-router-dom";
 import Axios from "axios";
 
 const ProfilesPage = props => {
-  // CONTEXTES : 
+  //----------------------------------------------CONTEXTES : 
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
+
+  const {userProfileId, setUserProfileId} = useContext(UserProfileContext)
   
-  //STATES :
+  //----------------------------------------------STATES :
   // states pour les données récupérées via requêtes axios :
   const [profiles, setProfiles] = useState([]);
   const [types, setTypes] = useState([]);
@@ -83,26 +87,22 @@ const ProfilesPage = props => {
     }
   };
 
-
   //Pour savoir si le user authentifié à un profil :
   const fetchUserProfile = async userId => {
     try {
       const data = await userAPI.findOne(userId);
       // console.log(data)
-      if(!data.profile){
-        // console.log("pas de profil")
+      if(data.profile){
+        setUserProfileId(data.profile.id)
+      }else{
         setShow(true)
       }
     }catch(error){
-      if (Axios.isCancel(error)){
-        console.log("request cancelled")
-      } else {
-        console.log(error.response);
-      }
+      console.log(error.response);
     }
   }
 
-  // EFFETS :
+  //----------------------------------------------EFFETS :
   //On lance un "effet" au chargement du composant pour récupérer les données
   useEffect(() => {
     fetchProfiles();

@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
+import UserProfileContext from "../contexts/UserProfileContext"
 
 import AuthAPI from "../services/authAPI";
 import userAPI from "../services/userAPI";
@@ -24,6 +25,7 @@ const Navbar = ({ history }) => {
   //On utilise le hook useContext pour récupérer les infos de connexion passées via le contexte AuthContext
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const { userId, setUserId } = useContext(UserContext);
+  const {userProfileId, setUserProfileId} = useContext(UserProfileContext)
 
   //----------------------------------------------STATE :
 
@@ -34,17 +36,17 @@ const Navbar = ({ history }) => {
 
   //----------------------------------------------FUNCTIONS :
 
-  const fetchUser = async userId => {
-    try {
-      const data = await userAPI.findOne(userId);
-      // console.log(data.profile.id);
-      if(mounted){
-        setUserProfile(data.profile.id);
-      }
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
+  // const fetchUserProfile = async userId => {
+  //   try {
+  //     const data = await userAPI.findOne(userId);
+  //     console.log(data.profile.id);
+  //     // if(mounted){
+  //       setUserProfile(data.profile.id);
+  //     // }
+  //   } catch (error) {
+  //     console.log(error.response);
+  //   }
+  // };
 
   // fonction pour gérer la déconnexion
   const handleLogout = () => {
@@ -53,6 +55,7 @@ const Navbar = ({ history }) => {
     // on précise à l'application qu'on est déconnecté
       setIsAuthenticated(false);
       setUserId("");
+      setUserProfileId("")
     toast.info(" Vous êtes déconnecté. À bientôt sur ZicoS !");
     // on se redirige vers la page d'accueil avec history
     history.push("/");
@@ -60,15 +63,15 @@ const Navbar = ({ history }) => {
 
   //----------------------------------------------EFFECTS :
   // effet qui se déclenche si l'utilisateur est authentifié et qui se nettoie au démontage
-  if (isAuthenticated) {
-    useEffect(() => {
-      setMounted(true)
-      fetchUser(userId);
-      return () => {
-        setMounted(false)
-      }
-    }, [userProfile]);
-  }
+  // if (isAuthenticated) {
+  //   useEffect(() => {
+  //     fetchUserProfile(userId);
+  //     // setMounted(true)
+  //     return () => {
+  //       // setMounted(false)
+  //     }
+  //   }, []);
+  // }
 
   //----------------------------------------------RETURN :
 
@@ -151,9 +154,9 @@ const Navbar = ({ history }) => {
                     >
                       Mes infos
                     </NavLink>
-                    {userProfile && (
+                    {userProfileId && (
                       <NavLink
-                        to={"/profils/" + userProfile}
+                        to={"/profils/" + userProfileId}
                         className="dropdown-item"
                       >
                         Voir mon profil
