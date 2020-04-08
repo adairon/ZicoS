@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-function findAll() {
+function findAll({cancelToken}) {
     return axios
-        .get("http://localhost:8000/api/types")
+        .get("http://localhost:8000/api/types",{cancelToken})
         .then(response => response.data["hydra:member"]);
 }
 

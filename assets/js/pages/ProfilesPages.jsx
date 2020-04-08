@@ -16,6 +16,7 @@ import userAPI from "../services/userAPI";
 import ProfilesCards from "../components/ProfilesCards";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
+import Axios from "axios";
 
 const ProfilesPage = props => {
   // CONTEXTES : 
@@ -37,34 +38,48 @@ const ProfilesPage = props => {
 
  /* =========================== FONCTIONS REQUETES API ========================== */
 
+ let source = Axios.CancelToken.source()
+ 
   // fonction asynchrone à utiliser dans le useEffect pour récupérer les profils
   const fetchProfiles = async () => {
     try {
-      const data = await ProfilesAPI.findAll();
+      const data = await ProfilesAPI.findAll({cancelToken: source.token});
       setProfiles(data);
       // console.log(data);
     } catch (error) {
-      console.log(error.response);
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      }
     }
   };
   // Pour récupérer les types de profil
   const fetchTypes = async () => {
     try {
-      const dataType = await TypeAPI.findAll();
+      const dataType = await TypeAPI.findAll({cancelToken: source.token});
       setTypes(dataType);
       // console.log(dataType)
     } catch (error) {
-      console.log(error.response);
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      }
     }
   };
   // Pour récupérer les styles de musique :
   const fetchStyles = async () => {
     try {
-      const dataStyle = await StylesAPI.findAll();
+      const dataStyle = await StylesAPI.findAll({cancelToken: source.token});
       setStyles(dataStyle);
       //   console.log(dataStyle);
     } catch (error) {
-      console.log(error.response);
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      }
     }
   };
 
@@ -79,7 +94,11 @@ const ProfilesPage = props => {
         setShow(true)
       }
     }catch(error){
-      console.oog(error.response)
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      }
     }
   }
 
@@ -90,6 +109,9 @@ const ProfilesPage = props => {
     fetchTypes();
     fetchStyles();
     fetchUserProfile(userId)
+    return ()=>{
+      source.cancel()
+    }
   }, []);
 
   /* ==================================GESTION DES DISPLAYS==============================*/
@@ -160,7 +182,7 @@ const ProfilesPage = props => {
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton className="bg-dark">
               <Modal.Title>
-                <h2 className="badge badge-light">Vous n'avez Pas encore de Profil !</h2>
+                <h2 className="text-light">Vous n'avez Pas encore de Profil !</h2>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
