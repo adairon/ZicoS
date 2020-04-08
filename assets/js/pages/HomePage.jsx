@@ -1,30 +1,38 @@
+//IMPORTS :
 import React, { useContext, useEffect } from "react";
+
 import { Link } from "react-router-dom";
+
 import { Helmet } from "react-helmet";
-import {toast} from "react-toastify"
+
+import { toast } from "react-toastify";
+
 import bigLogo from "../../images/logos/ZicoS-grey.png";
+
 import LogedInModalContext from "../contexts/LogedInModalContext";
+
 import AuthContext from "../contexts/AuthContext";
 import LoginModal from "../components/LoginModal";
 
+// FUNCTIONNAL COMPONENT :
+const HomePage = ({ history }) => {
+  //CONTEXTS :
+  const { logedInModal, setLogedInModal } = useContext(LogedInModalContext);
+  const { isAuthenticated } = useContext(AuthContext);
 
-const HomePage = ({history}) => {
-  //CONTEXTES :
-  const{logedInModal, setLogedInModal} = useContext(LogedInModalContext)
-  const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
-  //EFFETS
-  useEffect(()=>{
-    if(logedInModal){
-      setLogedInModal(false)
+  //EFFECTS
+  useEffect(() => {
+    if (logedInModal) {
+      setLogedInModal(false);
       // Notification Toast :
-      toast.success("Vous êtes connecté ! À vous de jouer 🎸 🎹")
-      history.push("/profils")
+      toast.success("Vous êtes connecté ! À vous de jouer 🎸 🎹");
+      history.push("/profils");
     }
-  },[logedInModal])
+  }, [logedInModal]);
 
+  //RETURN :
   return (
     <>
-  
       <Helmet>
         <title>Zicos : accueil</title>
       </Helmet>
@@ -43,27 +51,33 @@ const HomePage = ({history}) => {
                 Faites de la musique ! <br />
               </p>
             </div>
-            {(!isAuthenticated && 
-              (<>
+            {(!isAuthenticated && (
+              <>
                 <div className="login_link d-flex justify-content-center my-4">
-                  <Link to="/register" type="button" className="btn btn-primary mx-2">
+                  <Link
+                    to="/register"
+                    type="button"
+                    className="btn btn-primary mx-2"
+                  >
                     Je veux m'inscrire !
                   </Link>
                 </div>
                 <div className="login_link d-flex justify-content-center my-4">
-                  <LoginModal libBtn="J'ai déjà un compte" variant="secondary"/>
+                  <LoginModal
+                    libBtn="J'ai déjà un compte"
+                    variant="secondary"
+                  />
                 </div>
-              </>)) || (
-                <>
-                  <div className="login_link d-flex justify-content-center my-4" >
-                    <Link to="/profils" className="btn btn-dark mx-2" >
-                      Voir les Profils
-                    </Link>
-                  </div>
-                </>
-              )
-            }
-            
+              </>
+            )) || (
+              <>
+                <div className="login_link d-flex justify-content-center my-4">
+                  <Link to="/profils" className="btn btn-dark mx-2">
+                    Voir les Profils
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
         </div>
         <div className="homeDiv home2">
@@ -75,9 +89,8 @@ const HomePage = ({history}) => {
             </div>
             <div className="home_text row justify-content-start">
               <p className="text-center col-lg-6 col-md-12 col-sm-12">
-                Grace à ZicoS, trouvez un
-                groupe près de chez vous
-                qui vous ressemble.
+                Grace à ZicoS, trouvez un groupe près de chez vous qui vous
+                ressemble.
               </p>
             </div>
           </div>
@@ -91,9 +104,8 @@ const HomePage = ({history}) => {
             </div>
             <div className="home_text row justify-content-end">
               <p className="text-center col-lg-6 col-md-12 col-sm-12">
-                Avec ZicoS, trouvez les musiciens.nes
-                dont vous avez besoin
-                et intégrez un nouveau membre à votre groupe.
+                Avec ZicoS, trouvez les musiciens.nes dont vous avez besoin et
+                intégrez un nouveau membre à votre groupe.
               </p>
             </div>
           </div>
