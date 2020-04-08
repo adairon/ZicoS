@@ -1,23 +1,31 @@
-// TODO : conditions d'affichage des champs en ftc du type de profil : id écrit en dur : le rendre variable
-
+//----------------------------------------------IMPORTS :
 import React, { useState, useEffect, useContext } from "react";
-import UserContext from "../contexts/UserContext";
-import axios from "axios";
+
 import Helmet from "react-helmet";
-import Field from "../components/forms/Field";
-import Select from "../components/forms/Select";
-import localizationAPI from "../services/localizationAPI";
-import stylesAPI from "../services/stylesAPI";
-import userAPI from "../services/userAPI";
-import profilesAPI from "../services/profilesAPI";
+
 import {toast} from "react-toastify"
 
+import axios from "axios";
+
+import UserContext from "../contexts/UserContext";
+
+import localizationAPI from "../services/localizationAPI";
+import profilesAPI from "../services/profilesAPI";
+import userAPI from "../services/userAPI";
+import stylesAPI from "../services/stylesAPI";
+
+import Field from "../components/forms/Field";
+import Select from "../components/forms/Select";
+
+//----------------------------------------------FUNCTIONNAL COMPONENT :
 const EditGroupPage = props => {
   const { id } = props.match.params;
+
+  //----------------------------------------------CONTEXTS :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
-  //STATES :
+  //----------------------------------------------STATES :
   const [profile, setProfile] = useState({
     type: "",
     firstName: "",
@@ -43,7 +51,9 @@ const EditGroupPage = props => {
   const [user, setUser] = useState([]);
 
 
-  // FONCTIONS :
+  //----------------------------------------------FUNCTIONS :
+
+  let source = axios.CancelToken.source()
 
   //fct pour récupérer les localizations :
   const fetchLocalizations = async () => {
@@ -58,13 +68,18 @@ const EditGroupPage = props => {
   //fct pour récupérer les styles :
   const fetchStyles = async () => {
     try {
-      const dataStyles = await stylesAPI.findAll();
+      const dataStyles = await stylesAPI.findAll({cancelToken: source.token});
       setStyles(dataStyles);
       //   console.log(dataStyles);
     } catch (error) {
-      console.log(error.response);
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      };
     }
   };
+  
   //fct pour récupérer le user :
   const fetchUser = async userId => {
     try {
@@ -128,14 +143,18 @@ const EditGroupPage = props => {
   };
 
 
-  //EFFETS
+  //----------------------------------------------EFFECTS :
   useEffect(() => {
     fetchLocalizations();
     fetchStyles();
     fetchUser(userId);
     fetchProfile(id);
+    return ()=>{
+      source.cancel()
+    }
   }, []);
 
+//----------------------------------------------RETURN :
   return (
     <>
       <Helmet>
