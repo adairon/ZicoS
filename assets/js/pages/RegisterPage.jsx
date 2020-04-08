@@ -1,16 +1,24 @@
+//----------------------------------------------IMPORTS :
 import React, { useState,useContext,useEffect } from "react";
+
 import {toast} from "react-toastify"
+
 import Collapse from 'react-bootstrap/Collapse'
 import Button from 'react-bootstrap/Button'
+
 import LogedInModalContext from "../contexts/LogedInModalContext";
+
 import userAPI from "../services/userAPI";
+
 import Field from "../components/forms/Field";
 import LoginModal from "../components/LoginModal";
 
+//----------------------------------------------FUNCTIONNAL COMPONENT : 
 const RegisterPage = ({history}) => {
-  //CONTEXTES :
+  //----------------------------------------------CONTEXTS :
   const{logedInModal, setLogedInModal} = useContext(LogedInModalContext)
-  //STATES:
+  
+  //----------------------------------------------STATES:
   // on gère l'état du user créé avec un objet
   const [user, setUser] = useState({
     email: "",
@@ -28,7 +36,7 @@ const RegisterPage = ({history}) => {
   // pour gérer le formulaire en collapse
   const [open, setOpen] = useState(false);
   
-  //FONCTIONS :
+  //----------------------------------------------FUNCTIONS :
   
   //fct pour gérer les changements dans le formulaire :
   const handleChange = ({ currentTarget }) => {
@@ -38,6 +46,7 @@ const RegisterPage = ({history}) => {
     //modifie le profil dans l'état en prenant tout ce qu'il y a déjà dans le profil mais écrase la propriété qu'il y a dans name par la donnée "value"
     setUser({ ...user, [name]: value });
   };
+  
   //fct pour gérer la soumission du formulaire
   const handleSubmit = async event => {
     event.preventDefault();
@@ -56,14 +65,12 @@ const RegisterPage = ({history}) => {
     }
     try{
       await userAPI.register(user);
-      // console.log(response);
-      //on "vide" les erreurs
+      // //on "vide" les erreurs
       setErrors({})
-      //notification toast:
+      // //notification toast:
       toast.success("Votre compte est bien créé ! Connectez vous")
-      LoginModal.handleShow()
-      //redirection vers la création d'un profil :
-      history.replace('/')
+      // //redirection vers la page de login :
+      history.replace('/login')
     }catch(error){
       console.log(error.response)
       const {violations} = error.response.data;
@@ -73,11 +80,11 @@ const RegisterPage = ({history}) => {
         });
         setErrors(apiErrors)
       }
-      
     }
     // console.log(user);
   };
-  //EFFETS :
+
+  //----------------------------------------------EFFECTS :
   useEffect(()=>{
     if(logedInModal){
       setLogedInModal(false)
@@ -87,6 +94,7 @@ const RegisterPage = ({history}) => {
     }
   },[logedInModal])
   
+  //----------------------------------------------RETURN :
   return (
     <>
       <div className="fondPage bg-secondary p-4 d-flex align-items-center">
