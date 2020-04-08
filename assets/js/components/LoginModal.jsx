@@ -1,4 +1,4 @@
-//IMPORTS :
+//----------------------------------------------IMPORTS :
 import React, { useState, useContext } from "react";
 //import bootstrap react :
 import Modal from "react-bootstrap/Modal";
@@ -12,14 +12,17 @@ import Field from "./forms/Field";
 import AuthAPI from "../services/authAPI";
 import { useEffect } from "react";
 
-// FUNCTIONNAL COMPONENT :
+//----------------------------------------------FUNCTIONNAL COMPONENT :
 const LoginModal = ({ libBtn, variant }) => {
-  //CONTEXTS :
+  
+  //----------------------------------------------CONTEXTS :
+
   const { setIsAuthenticated } = useContext(AuthContext);
   const { setUserId } = useContext(UserContext);
   const { logedInModal ,setLogedInModal } = useContext(LogedInModalContext);
 
-  //STATES :
+  //----------------------------------------------STATES :
+
   // State pour gérer les identifiants : objet vide par défaut
   const [credentials, setCredentials] = useState({
     username: "",
@@ -30,7 +33,8 @@ const LoginModal = ({ libBtn, variant }) => {
   //State pour l'affichage de la modal
   const [show, setShow] = useState(false);
 
-  //FUNCTIONS : :
+  //----------------------------------------------FUNCTIONS :
+
   // fonction pour enregistrer la valeur saisie dans le champs du formulaire et la passer dans le state
   const handleChange = ({ currentTarget }) => {
     const { value, name } = currentTarget;
@@ -75,7 +79,8 @@ const LoginModal = ({ libBtn, variant }) => {
     setShow(true);
   };
 
-  //EFFECTS :
+  //----------------------------------------------EFFECTS :
+
   useEffect(()=>{
     setShow(false)
     return () => {
@@ -83,7 +88,8 @@ const LoginModal = ({ libBtn, variant }) => {
     }
   },[logedInModal])
 
-  //RETURN :
+  //----------------------------------------------RETURN :
+  
   return (
     <>
       <Button

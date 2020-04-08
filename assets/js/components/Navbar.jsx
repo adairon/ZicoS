@@ -1,58 +1,86 @@
+//----------------------------------------------IMPORTS :
+
 import React, { useContext, useState, useEffect } from "react";
+
 import { NavLink } from "react-router-dom";
-import Logo from "../../images/logos/ZicoS.png";
-import AuthAPI from "../services/authAPI";
+
+import { toast } from "react-toastify";
+
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
+
+import AuthAPI from "../services/authAPI";
 import userAPI from "../services/userAPI";
+
 import LoginModal from "./LoginModal";
-import {toast} from "react-toastify"
+
+import Logo from "../../images/logos/ZicoS.png";
+
+//----------------------------------------------FUNCTIONNAL COMPONENT :
 
 const Navbar = ({ history }) => {
+  //----------------------------------------------CONTEXTS :
 
   //On utilise le hook useContext pour récupérer les infos de connexion passées via le contexte AuthContext
-  const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
-  const {userId, setUserId} = useContext(UserContext)
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const { userId, setUserId } = useContext(UserContext);
 
-  // STATE
-  const [userProfile, setUserProfile] = useState("")
-  
+  //----------------------------------------------STATE :
+
+  //state pour gérer les states en prenant en compte un nettoyage de l'effet
+  const [mounted, setMounted] = useState();
+  // state pour le profil du user authentifié
+  const [userProfile, setUserProfile] = useState("");
+
+  //----------------------------------------------FUNCTIONS :
+
   const fetchUser = async userId => {
     try {
       const data = await userAPI.findOne(userId);
       // console.log(data.profile.id);
-      setUserProfile(data.profile.id);
-    }catch(error) {
-      console.log(error.response)
+      if(mounted){
+        setUserProfile(data.profile.id);
+      }
+    } catch (error) {
+      console.log(error.response);
     }
-  }
-  
-  
+  };
+
   // fonction pour gérer la déconnexion
   const handleLogout = () => {
     // au clic sur le bouton, on fait appel à AuthAPI pour se déconnecter avec la méthode logout
     AuthAPI.logout();
     // on précise à l'application qu'on est déconnecté
-    setIsAuthenticated(false);
-    setUserId("");
-    toast.info(" Vous êtes déconnecté. À bientôt ! 😙");
+      setIsAuthenticated(false);
+      setUserId("");
+    toast.info(" Vous êtes déconnecté. À bientôt sur ZicoS !");
     // on se redirige vers la page d'accueil avec history
     history.push("/");
   };
-  if (isAuthenticated){
+
+  //----------------------------------------------EFFECTS :
+  // effet qui se déclenche si l'utilisateur est authentifié et qui se nettoie au démontage
+  if (isAuthenticated) {
     useEffect(() => {
-      fetchUser(userId)
-    },[userProfile])
+      setMounted(true)
+      fetchUser(userId);
+      return () => {
+        setMounted(false)
+      }
+    }, [userProfile]);
   }
+
+  //----------------------------------------------RETURN :
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-   
+      
       <NavLink to="/" className="navbar-brand">
         <figure className="">
           <img className="logo" src={Logo} alt="" />
         </figure>
       </NavLink>
+
       <button
         className="navbar-toggler"
         type="button"
@@ -66,7 +94,8 @@ const Navbar = ({ history }) => {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarColor02">
-        {isAuthenticated && 
+        
+        {isAuthenticated && (
           <ul className="navbar-nav mr-auto">
             <li className="nav-item ml-5">
               <NavLink
@@ -77,9 +106,10 @@ const Navbar = ({ history }) => {
               </NavLink>
             </li>
           </ul>
-        
-        }
+        )}
+
         <ul className="navbar-nav navbarDrop ml-auto align-items-center">
+          
           {(!isAuthenticated && (
             <>
               <li className="nav-item">
@@ -88,24 +118,51 @@ const Navbar = ({ history }) => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <LoginModal libBtn="Connexion" variant="outline-secondary"/>
+                <LoginModal libBtn="Connexion" variant="outline-secondary" />
               </li>
             </>
           )) || (
             <>
-              <li className="nav-item btn-group" role="group" aria-label="Button group with nested dropdown">
-                <button type="button" className="btn btn-primary">Mon Compte</button>
+              <li
+                className="nav-item btn-group"
+                role="group"
+                aria-label="Button group with nested dropdown"
+              >
+                <button type="button" className="btn btn-primary">
+                  Mon Compte
+                </button>
                 <div className="btn-group" role="group">
-                  <button id="btnGroupDrop1" type="button" className="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
-                    <NavLink to={"/users/" + userId} className="dropdown-item" href="#">
+                  <button
+                    id="btnGroupDrop1"
+                    type="button"
+                    className="btn btn-primary dropdown-toggle"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  ></button>
+                  <div
+                    className="dropdown-menu dropdown-menu-right"
+                    aria-labelledby="btnGroupDrop1"
+                  >
+                    <NavLink
+                      to={"/users/" + userId}
+                      className="dropdown-item"
+                      href="#"
+                    >
                       Mes infos
                     </NavLink>
-                    {userProfile && 
-                    <NavLink to={"/profils/" + userProfile} className="dropdown-item">
-                      Voir mon profil
-                    </NavLink>}
-                    <button onClick={handleLogout} className="dropdown-item text-danger">
+                    {userProfile && (
+                      <NavLink
+                        to={"/profils/" + userProfile}
+                        className="dropdown-item"
+                      >
+                        Voir mon profil
+                      </NavLink>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="dropdown-item text-danger"
+                    >
                       Déconnexion
                     </button>
                   </div>
@@ -113,6 +170,7 @@ const Navbar = ({ history }) => {
               </li>
             </>
           )}
+          
         </ul>
       </div>
     </nav>

@@ -1,4 +1,5 @@
-//IMPORTS :
+//----------------------------------------------IMPORTS :
+
 import React, { useContext, useEffect } from "react";
 
 import { Link } from "react-router-dom";
@@ -14,13 +15,15 @@ import LogedInModalContext from "../contexts/LogedInModalContext";
 import AuthContext from "../contexts/AuthContext";
 import LoginModal from "../components/LoginModal";
 
-// FUNCTIONNAL COMPONENT :
+//----------------------------------------------FUNCTIONNAL COMPONENT :
+
 const HomePage = ({ history }) => {
   //CONTEXTS :
   const { logedInModal, setLogedInModal } = useContext(LogedInModalContext);
   const { isAuthenticated } = useContext(AuthContext);
 
-  //EFFECTS
+  //----------------------------------------------EFFECTS :
+
   useEffect(() => {
     if (logedInModal) {
       setLogedInModal(false);
@@ -30,7 +33,8 @@ const HomePage = ({ history }) => {
     }
   }, [logedInModal]);
 
-  //RETURN :
+  //----------------------------------------------RETURN :
+  
   return (
     <>
       <Helmet>
