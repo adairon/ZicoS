@@ -88,8 +88,6 @@ class Profile
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Instrument", inversedBy="profiles")
      * @Groups({"profiles_read", "type_read", "level_read", "localization_read", "style_read", "user_read"})
-     * @Assert\NotBlank(message="Merci de préciser quel type de quel instrument vous jouez")
-     * @Assert\NotNull(message="Merci de préciser quel type de quel instrument vous jouez")
      */
     private $instrument;
 

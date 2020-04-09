@@ -63,7 +63,9 @@ const CreateProfilePage = ({history}) => {
   const [clicCount, setClicCount]=useState(1)
   const [step1Class, setStep1Class]= useState("")
   const [step2Class, setStep2Class]= useState("")
-  const [btnClass, setBtnClass] = useState("")
+  const [step3Class, setStep3Class]= useState("")
+  const [collapse, setCollapse] = useState("")
+  const [showBtn, setShowBtn] = useState("collapse")
 
   // ---------------------------------------------- FUNCTIONS :
 
@@ -182,25 +184,33 @@ const CreateProfilePage = ({history}) => {
     // }
   // }
 
+  //fct pour vérif avant envoi :
+  // const handleCheck = ()=>{
+  //   setStep1Class("show")
+  //   setStep2Class("show")
+  //   setStep3Class("show")
+  //   setCollapse("collapse")
+  //   setShowBtn("")
+  // }
+
   //fct pour gérer la soumission du formulaire et les erreurs:
   const handleSubmit = async event => {
     event.preventDefault();
-    console.log(profile);
     //Gestion des erreurs pour les champs en relation avec d'autres entités avant de faire partir la requête :
     const apiErrors = {};
     if(profile.type === ""){
       console.log("type null")
       apiErrors.type = "Merci de préciser quel type de profil vous vouler créer"
       setStep1Class("show")
-      setBtnClass("collapse")
+      setCollapse("collapse")
       setErrors(apiErrors)
       return;
     }
-    if(profile.instrument === ""){
+    if(!groupEdit & profile.instrument === ""){
       console.log("instrument null")
       apiErrors.instrument = "Merci de préciser de quel instrument vous jouez"
       setStep2Class("show")
-      setBtnClass("collapse")
+      setCollapse("collapse")
       setErrors(apiErrors)
       return;
     }
@@ -208,7 +218,7 @@ const CreateProfilePage = ({history}) => {
       console.log("style null")
       apiErrors.style = "Merci de préciser quel style de musique vous jouez principalement"
       setStep2Class("show")
-      setBtnClass("collapse")
+      setCollapse("collapse")
       setErrors(apiErrors)
       return;
     }
@@ -216,11 +226,11 @@ const CreateProfilePage = ({history}) => {
       console.log("region null")
       apiErrors.region = "Merci de préciser votre région"
       setStep2Class("show")
-      setBtnClass("collapse")
+      setCollapse("collapse")
       setErrors(apiErrors)
       return;
     }
-
+    console.log(profile)
     try {
       if (!groupEdit){
         //Si c'est un profil musicien.ne; on envoie une requête en post via axios en passant ce profile en objet
@@ -242,7 +252,8 @@ const CreateProfilePage = ({history}) => {
       } else {
         //sinon, on commence par supprimer la propriété instrument de l'objet profile car elle est vide et fera planter la requête
         delete profile.instrument
-        //Sinon, c'est un profil groupe et on envoie une requête en post via axios en passant ce profil en objet
+        delete errors.instrument
+        //et, c'est un profil groupe et on envoie une requête en post via axios en passant ce profil en objet
         const response = await axios.post(
           "http://localhost:8000/api/profiles",
           {
@@ -291,7 +302,7 @@ const CreateProfilePage = ({history}) => {
         <div className="container bg-light shadow rounded p-5 profile_creation">
           <h1>Création du profil</h1>
 
-          <form onSubmit={handleSubmit} className="m-5">
+          <form className="m-5">
           <Accordion>
             
             <ProgressBar animated now={progress} className="mb-3"/>
@@ -304,7 +315,7 @@ const CreateProfilePage = ({history}) => {
                 {/* <button className="btn btn-primary" onClick={toStep1}>
                   Créer mon profil ZicoS !
                 </button> */}
-                <Accordion.Toggle as={Button} variant="primary" eventKey="0" onClick={begin} >
+                <Accordion.Toggle as={Button} variant="primary" eventKey="0" onClick={begin} className={collapse} >
                   Créer mon profil Zicos !
                 </Accordion.Toggle>
 
@@ -312,7 +323,7 @@ const CreateProfilePage = ({history}) => {
 
               <Accordion.Collapse eventKey="0" className={step1Class}>
                 <Card.Body className="create_profil_card">
-                <h3>Bon, commençons par quelques informations de base...</h3>
+                <h3 className={collapse}>Bon, commençons par quelques informations de base...</h3>
                 <Select
                   name="type"
                   label="Êtes-vous un.e musicien.ne ou un groupe ?"
@@ -347,7 +358,7 @@ const CreateProfilePage = ({history}) => {
                   {/* <button className="btn btn-primary" onClick={toStep2}>
                     continuer
                   </button> */}
-                  <Accordion.Toggle as={Button} variant="primary" eventKey="1" onClick={()=>{setProgress("40")}} className={btnClass}>
+                  <Accordion.Toggle as={Button} variant="primary" eventKey="1" onClick={()=>{setProgress("40")}} className={collapse}>
                     Continuer
                   </Accordion.Toggle>
 
@@ -358,7 +369,7 @@ const CreateProfilePage = ({history}) => {
             <Card>
               <Accordion.Collapse eventKey="1" className={step2Class}>
                 <Card.Body className="create_profil_card">
-                  <h3>Super ! Maintenant quelques détails sur vous et votre musique...</h3>
+                  <h3 className={collapse}>Super ! Maintenant quelques détails sur vous et votre musique...</h3>
                     {!groupEdit && (
                       <Select
                         name="instrument"
@@ -402,10 +413,10 @@ const CreateProfilePage = ({history}) => {
                     </Select>
                     
 
-                  <Accordion.Toggle as={Button} variant="link" eventKey="0" onClick={()=>{setProgress("15")}} className={btnClass}>
+                  <Accordion.Toggle as={Button} variant="link" eventKey="0" onClick={()=>{setProgress("15")}} className={collapse}>
                     Retour
                   </Accordion.Toggle>
-                  <Accordion.Toggle as={Button} variant="primary" eventKey="2" onClick={()=>{setProgress("65")}} className={btnClass}>
+                  <Accordion.Toggle as={Button} variant="primary" eventKey="2" onClick={()=>{setProgress("65")}} className={collapse}>
                     Continuer
                   </Accordion.Toggle>
 
@@ -414,9 +425,9 @@ const CreateProfilePage = ({history}) => {
             </Card>
 
             <Card>
-              <Accordion.Collapse eventKey="2">
+              <Accordion.Collapse eventKey="2" className={step3Class}>
                 <Card.Body className="create_profil_card" >
-                  <h3>Parfait ! quelques mots pour vous décrire ?</h3>
+                  <h3 className={collapse}>Parfait ! quelques mots pour vous décrire ?</h3>
                   {/* <Field
                     name="biography"
                     label="A propos de vous"
@@ -437,10 +448,10 @@ const CreateProfilePage = ({history}) => {
                       onChange={handleChange}
                       />
                   </Form.Group>
-                  <Accordion.Toggle as={Button} variant="link" eventKey="1" onClick={()=>{setProgress("40")}}>
+                  <Accordion.Toggle as={Button} variant="link" eventKey="1" onClick={()=>{setProgress("40")}} className={collapse}>
                     Retour
                   </Accordion.Toggle>
-                  <Accordion.Toggle as={Button} variant="primary" eventKey="3" onClick={()=>{setProgress("90")}}>
+                  <Accordion.Toggle as={Button} variant="primary" eventKey="3" onClick={()=>{setProgress("90")}} className={collapse}>
                     Continuer
                   </Accordion.Toggle>
 
@@ -451,7 +462,7 @@ const CreateProfilePage = ({history}) => {
             <Card>
               <Accordion.Collapse eventKey="3">
                 <Card.Body className="create_profil_card">
-                  <h3>Et pour finir ...</h3>
+                  <h3 className={collapse}>Et pour finir ...</h3>
                   <Field
                     name="pictureUrl"
                     label="Votre photo de profil"
@@ -469,10 +480,13 @@ const CreateProfilePage = ({history}) => {
 
 
                   <div className="form-group">
-                    <Accordion.Toggle as={Button} variant="link" eventKey="2" onClick={()=>{setProgress("65")}}>
+                    <Accordion.Toggle as={Button} variant="link" eventKey="2" onClick={()=>{setProgress("65")}} className={collapse}>
                       Retour
                     </Accordion.Toggle>
-                    <button type="submit" className="btn btn-success">
+                    {/* <button className="btn btn-warning" onClick={handleCheck}>
+                      Vérifier
+                    </button> */}
+                    <button onClick={handleSubmit} className="btn btn-success">
                       Enregistrer
                     </button>
                   </div>
