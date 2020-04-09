@@ -182,7 +182,7 @@ const ProfilesPage = props => {
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton className="bg-dark">
               <Modal.Title>
-                <h2 className="text-light">Vous n'avez Pas encore de Profil !</h2>
+                <h2 className="text-light">Vous n'avez pas encore de Profil !</h2>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>

@@ -163,8 +163,6 @@ const RegisterPage = ({history}) => {
               </form>
             </div>
           </Collapse>
-          
-          
         </div>
       </div>
     </>

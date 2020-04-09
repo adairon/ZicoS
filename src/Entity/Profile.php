@@ -81,12 +81,15 @@ class Profile
      * @ORM\ManyToOne(targetEntity="App\Entity\Type", inversedBy="profiles")
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"profiles_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
+     * @Assert\NotNull(message="Merci de préciser quel type de profil vous vouler créer")
      */
     private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Instrument", inversedBy="profiles")
      * @Groups({"profiles_read", "type_read", "level_read", "localization_read", "style_read", "user_read"})
+     * @Assert\NotBlank(message="Merci de préciser quel type de quel instrument vous jouez")
+     * @Assert\NotNull(message="Merci de préciser quel type de quel instrument vous jouez")
      */
     private $instrument;
 
@@ -200,7 +203,7 @@ class Profile
         return $this->type;
     }
 
-    public function setType(?Type $type): self
+    public function setType($type): self
     {
         $this->type = $type;
 

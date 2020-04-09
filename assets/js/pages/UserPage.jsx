@@ -124,7 +124,7 @@ const UserPage = ({history}) => {
                     to={"/users/profile/band/" + user.profile.id}
                     className="btn btn-primary m-4"
                   >
-                    Modifier mon groupe
+                    Modifier le profil de mon groupe
                   </Link>
                 )}
 
