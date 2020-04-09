@@ -22,6 +22,7 @@ import userAPI from "../services/userAPI";
 import profilesAPI from "../services/profilesAPI";
 
 import robotPicture from "../../images/placeholders/profile_picture/raphael_dairon-robot-vinyl.png";
+// import test from "../../../public/media/"
 
 //---------------------------------------------- FUNCTIONNAL COMPONENT :
 const CreateProfilePage = ({history}) => {
@@ -41,7 +42,6 @@ const CreateProfilePage = ({history}) => {
     region: "",
     departement: "",
     style: "",
-    imageFile: ""
   });
   const [errors, setErrors] = useState({
     type: "",
@@ -55,6 +55,8 @@ const CreateProfilePage = ({history}) => {
     departement: "",
     style: ""
   });
+  const [file, setFile] = useState("")
+  const [image, setImage]= useState("")
   const [types, setTypes] = useState([]);
   const [instruments, setIntruments] = useState([]);
   const [localizations, setLocalizations] = useState([]);
@@ -196,6 +198,20 @@ const CreateProfilePage = ({history}) => {
   //   setShowBtn("")
   // }
 
+  const handleFile = event => {
+    console.log(event.target.files[0])
+    setFile(event.target.files[0])
+  }
+  //fct pour gérer l'upload
+  const handleUpload = (event)=>{
+    event.preventDefault();
+    const data = new FormData()
+    data.append('file', file)
+    axios.post("http://localhost:8000/api/media_objects", data,{})
+         .then(response => {setImage(response.data.contentUrl)})
+         .then(console.log("file uploaded"))
+  }
+
   //fct pour gérer la soumission du formulaire et les erreurs:
   const handleSubmit = async event => {
     event.preventDefault();
@@ -233,7 +249,7 @@ const CreateProfilePage = ({history}) => {
       setErrors(apiErrors)
       return;
     }
-    // console.log(profile)
+    console.log(profile)
     try {
       if (!groupEdit){
         //Si c'est un profil musicien.ne; on envoie une requête en post via axios en passant ce profile en objet
@@ -241,6 +257,7 @@ const CreateProfilePage = ({history}) => {
           "http://localhost:8000/api/profiles",
           {
             ...profile,
+            pictureUrl: `/media/${image}`,
             type: `api/types/${profile.type}`,
             instrument: `api/instruments/${profile.instrument}`,
             style: `api/styles/${profile.style}`,
@@ -261,6 +278,7 @@ const CreateProfilePage = ({history}) => {
           "http://localhost:8000/api/profiles",
           {
             ...profile,
+            pictureUrl: `/media/${image}`,
             type: `api/types/${profile.type}`,
             style: `api/styles/${profile.style}`,
             email: `${user.email}`,
@@ -463,22 +481,26 @@ const CreateProfilePage = ({history}) => {
             </Card>
 
             <Card>
-              <Accordion.Collapse eventKey="3">
+              <Accordion.Collapse eventKey="3" className="">
                 <Card.Body className="create_profil_card">
                   <h3 className={collapse}>Et pour finir ...</h3>
                   <Form.File
-                    name="imageFile"
+                    name="image"
                     label="Votre photo de profil"
-                    value={profile.imageFile}
-                    onChange={handleChange}
+                    // value={profile.image}
+                    onChange={handleFile}
+                    formEncType="multipart/form-data"
                   />
-                  <Field
+                  <button className="btn btn-secondary my-3" onClick={handleUpload}>
+                    Charger l'image
+                  </button>
+                  {/* <Field
                     name="pictureUrl"
                     label="Votre photo de profil"
                     placeholder="lien vers votre photo de profil"
                     value={profile.pictureUrl}
                     onChange={handleChange}
-                  />
+                  /> */}
                   <Field
                     name="linkUrl"
                     label="Vous avez un site internet ou un profil facebook à partager ?"
