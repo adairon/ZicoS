@@ -21,6 +21,8 @@ import stylesAPI from "../services/stylesAPI";
 import userAPI from "../services/userAPI";
 import profilesAPI from "../services/profilesAPI";
 
+import robotPicture from "../../images/placeholders/profile_picture/raphael_dairon-robot-vinyl.png";
+
 //---------------------------------------------- FUNCTIONNAL COMPONENT :
 const CreateProfilePage = ({history}) => {
 
@@ -33,7 +35,7 @@ const CreateProfilePage = ({history}) => {
     firstName: "",
     lastName: "",
     biography: "",
-    pictureUrl: "",
+    pictureUrl: robotPicture,
     linkUrl: "",
     instrument: "",
     region: "",
@@ -230,7 +232,7 @@ const CreateProfilePage = ({history}) => {
       setErrors(apiErrors)
       return;
     }
-    console.log(profile)
+    // console.log(profile)
     try {
       if (!groupEdit){
         //Si c'est un profil musicien.ne; on envoie une requête en post via axios en passant ce profile en objet
@@ -265,7 +267,7 @@ const CreateProfilePage = ({history}) => {
           }
         );
         setErrors({});
-        console.log(response.data);
+        // console.log(response.data);
         toast.success("Votre Profil à bien été créé !")
         history.push(`/profils`)
       }
