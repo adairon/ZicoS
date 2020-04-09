@@ -40,7 +40,8 @@ const CreateProfilePage = ({history}) => {
     instrument: "",
     region: "",
     departement: "",
-    style: ""
+    style: "",
+    imageFile: ""
   });
   const [errors, setErrors] = useState({
     type: "",
@@ -465,6 +466,12 @@ const CreateProfilePage = ({history}) => {
               <Accordion.Collapse eventKey="3">
                 <Card.Body className="create_profil_card">
                   <h3 className={collapse}>Et pour finir ...</h3>
+                  <Form.File
+                    name="imageFile"
+                    label="Votre photo de profil"
+                    value={profile.imageFile}
+                    onChange={handleChange}
+                  />
                   <Field
                     name="pictureUrl"
                     label="Votre photo de profil"
