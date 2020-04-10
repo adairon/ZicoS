@@ -7,6 +7,8 @@ import {toast} from "react-toastify"
 
 import axios from "axios";
 
+import Modal from 'react-bootstrap/Modal'
+
 import UserContext from "../contexts/UserContext";
 
 import localizationAPI from "../services/localizationAPI";
@@ -49,9 +51,13 @@ const EditGroupPage = props => {
   const [localizations, setLocalizations] = useState([]);
   const [styles, setStyles] = useState([]);
   const [user, setUser] = useState([]);
-
+  const [show, setShow] = useState(false);
 
   //----------------------------------------------FUNCTIONS :
+
+  //fct pour gérer l'affichage de la photo en modal
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   let source = axios.CancelToken.source()
 
@@ -165,7 +171,7 @@ const EditGroupPage = props => {
           <form onSubmit={handleSubmit}>
             <div className="row justify-content-center">
 
-              <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex flex-column">
+              <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex flex-column profile_figure" onClick={handleShow}>
                 <img className="img-thumbnail profile_picture" src={profile.pictureUrl} alt="" />
                 <Field
                   name="pictureUrl"
@@ -175,6 +181,14 @@ const EditGroupPage = props => {
                   onChange={handleChange}
                 />
               </figure>
+              <Modal show={show} onHide={handleClose}>
+        
+                <Modal.Body closeButton>
+                  <img src={profile.pictureUrl} class="img-fluid"/>
+                </Modal.Body>
+                
+              </Modal>
+
 
               <div className="col-lg-6 col-md-12 col-sm-12 profile_info p-1 my-2">
                 <div className="alert alert alert-dark mx-2">
