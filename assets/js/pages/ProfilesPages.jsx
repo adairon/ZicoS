@@ -19,6 +19,7 @@ import ProfilesCards from "../components/ProfilesCards";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
 import Axios from "axios";
+import ProfilesCardsLoader from "../components/loaders/ProfilesCardsLoader";
 
 const ProfilesPage = props => {
   //----------------------------------------------CONTEXTES : 
@@ -33,6 +34,7 @@ const ProfilesPage = props => {
   const [types, setTypes] = useState([]);
   const [styles, setStyles] = useState([]);
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   //state pour gérer la page en cours (pagination)
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,6 +52,7 @@ const ProfilesPage = props => {
       const data = await ProfilesAPI.findAll({cancelToken: source.token});
       setProfiles(data);
       // console.log(data);
+      setLoading(false);
     } catch (error) {
       if (Axios.isCancel(error)){
         console.log("request cancelled")
@@ -274,7 +277,9 @@ const ProfilesPage = props => {
 
           {/*  =============================== PROFILS ============================ */}
 
-          <ProfilesCards paginatedProfiles={paginatedProfiles} />
+          {!loading && <ProfilesCards paginatedProfiles={paginatedProfiles} />}
+
+          {loading && <ProfilesCardsLoader/>}
 
 
           {/* ================== PAGINATION ============================== */}
