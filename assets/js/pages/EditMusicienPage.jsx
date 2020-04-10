@@ -21,6 +21,7 @@ import userAPI from "../services/userAPI";
 
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
+import EditProfileLoader from "../components/loaders/EditProfileLoader";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 const EditMusicienPage = (props) => {
@@ -66,6 +67,7 @@ const EditMusicienPage = (props) => {
   const [image, setImage]= useState("")
   const [btnColor, setBtnColor] = useState("secondary")
   const [btnLabel, setBtnLabel] = useState("Charger l'image")
+  const [loading, setLoading] = useState(true)
 
   //----------------------------------------------FUNCTIONS :
 
@@ -144,6 +146,7 @@ const EditMusicienPage = (props) => {
       const dataProfile = await profilesAPI.findOne(id);
       const { type, firstName, lastName, biography, pictureUrl, linkUrl, instrument, localization, style } = dataProfile;
       setProfile({ type: type.id, firstName, lastName, biography, pictureUrl, linkUrl, instrument: instrument.id, region: localization.id, style: style.id });
+      setLoading(false)
     } catch (error) {
       console.log(error);
     }
@@ -210,6 +213,13 @@ const EditMusicienPage = (props) => {
         <title>Zicos : mon profil </title>
       </Helmet>
       <div className="fondPage bg-secondary py-4">
+
+      {loading && 
+        <div className="container py-2">
+          <EditProfileLoader/>
+        </div>
+      }
+        {!loading &&
         <div className="container profile border rounded py-2 bg-light shadow">
           <form onSubmit={handleSubmit}>
             <div className="row justify-content-center">
@@ -451,7 +461,7 @@ const EditMusicienPage = (props) => {
               ))}
             </Select>
           </form> */}
-        </div>
+        </div>}
       </div>
     </>
   );

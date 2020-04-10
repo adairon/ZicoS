@@ -7,8 +7,8 @@ const ProfileLoader = () => (
     width={1138}
     height={835}
     viewBox="0 0 1138 835"
-    backgroundColor="#cfcfcf"
-    foregroundColor="#ecebeb"
+    backgroundColor="#f0f0f0"
+    foregroundColor="#555555"
   >
     <rect x="15" y="16" rx="2" ry="2" width="500" height="561" /> 
     <rect x="527" y="16" rx="2" ry="2" width="545" height="157" /> 
