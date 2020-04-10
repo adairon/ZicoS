@@ -1,7 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import Modal from 'react-bootstrap/Modal'
 import UserContext from "../contexts/UserContext";
 import userAPI from "../services/userAPI";
-import { Link } from "react-router-dom";
 
 const Profile = ({profile,email}) => {
   // CONTEXTES : 
@@ -10,6 +11,7 @@ const Profile = ({profile,email}) => {
 
   //STATES : 
   const [userProfile, setUserProfile] = useState(true);
+  const [show, setShow] = useState(false);
 
   //FONCTIONS : 
   //Pour savoir si le user authentifié à un profil :
@@ -25,6 +27,9 @@ const Profile = ({profile,email}) => {
       console.log(error.response)
     }
   }
+  //fct pour gérer l'affichage de la photo en modal
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   
   //EFFETS :
   useEffect(()=>{
@@ -36,9 +41,17 @@ const Profile = ({profile,email}) => {
         <div className="container profile border rounded py-2 bg-light shadow">
           <div className="row justify-content-center">
 
-            <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex">
+            <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex profile_figure" onClick={handleShow}>
               <img className="img-thumbnail profile_picture" src={profile.pictureUrl} alt="" />
             </figure>
+
+            <Modal show={show} onHide={handleClose}>
+        
+              <Modal.Body closeButton>
+                <img src={profile.pictureUrl} class="img-fluid"/>
+              </Modal.Body>
+              
+            </Modal>
 
             <div className="col-lg-6 col-md-12 col-sm-12 profile_info p-1 my-2">
             <div className="alert alert alert-dark mx-2">
