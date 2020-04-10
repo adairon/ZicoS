@@ -240,6 +240,14 @@ a{
     color: black !important;
 }
 
+/* =========================== EDITION DE PROFIL ======================================== */
+.editUploadForm{
+    font-size: 1rem;
+}
+.uploadBtn{
+    font-size: 0.6rem;
+}
+
 
 /* =========================== FOOTER ================================================ */
 footer{

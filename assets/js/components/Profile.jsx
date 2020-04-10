@@ -47,8 +47,8 @@ const Profile = ({profile,email}) => {
 
             <Modal show={show} onHide={handleClose}>
         
-              <Modal.Body closeButton>
-                <img src={profile.pictureUrl} class="img-fluid"/>
+              <Modal.Body>
+                <img src={profile.pictureUrl} className="img-fluid"/>
               </Modal.Body>
               
             </Modal>

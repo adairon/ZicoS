@@ -22,7 +22,6 @@ import userAPI from "../services/userAPI";
 import profilesAPI from "../services/profilesAPI";
 
 import robotPicture from "../../images/placeholders/profile_picture/raphael_dairon-robot-vinyl.jpg";
-// import test from "../../../public/media/"
 
 //---------------------------------------------- FUNCTIONNAL COMPONENT :
 const CreateProfilePage = ({history}) => {

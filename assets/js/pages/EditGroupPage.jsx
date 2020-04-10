@@ -1,5 +1,6 @@
 //----------------------------------------------IMPORTS :
 import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import Helmet from "react-helmet";
 
@@ -8,6 +9,7 @@ import {toast} from "react-toastify"
 import axios from "axios";
 
 import Modal from 'react-bootstrap/Modal'
+import Form from 'react-bootstrap/Form'
 
 import UserContext from "../contexts/UserContext";
 
@@ -52,12 +54,32 @@ const EditGroupPage = props => {
   const [styles, setStyles] = useState([]);
   const [user, setUser] = useState([]);
   const [show, setShow] = useState(false);
+  const [file, setFile] = useState("")
+  const [image, setImage]= useState("")
+  const [btnColor, setBtnColor] = useState("secondary")
+  const [btnLabel, setBtnLabel] = useState("Charger l'image")
 
   //----------------------------------------------FUNCTIONS :
 
   //fct pour gérer l'affichage de la photo en modal
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleFile = event => {
+    // console.log(event.target.files[0])
+    setFile(event.target.files[0])
+  }
+  //fct pour gérer l'upload
+  const handleUpload = (event)=>{
+    event.preventDefault();
+    const data = new FormData()
+    data.append('file', file)
+    axios.post("http://localhost:8000/api/media_objects", data,{})
+         .then(response => {setImage(response.data.contentUrl)})
+        //  .then(console.log("file uploaded"))
+    setBtnColor("info")
+    setBtnLabel("Image chargée")
+  }
 
   let source = axios.CancelToken.source()
 
@@ -127,6 +149,7 @@ const EditGroupPage = props => {
         "http://localhost:8000/api/profiles/" + id,
         {
           ...profile,
+          pictureUrl: `/media/${image}`,
           type: `api/types/${profile.type}`,
           style: `api/styles/${profile.style}`,
           email: `${user.email}`,
@@ -171,20 +194,34 @@ const EditGroupPage = props => {
           <form onSubmit={handleSubmit}>
             <div className="row justify-content-center">
 
-              <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex flex-column profile_figure" onClick={handleShow}>
-                <img className="img-thumbnail profile_picture" src={profile.pictureUrl} alt="" />
-                <Field
+              <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex flex-column profile_figure">
+                <img className="img-thumbnail profile_picture" src={profile.pictureUrl} alt="" onClick={handleShow}/>
+                
+                <div className="editUploadForm border border-dark rounded pl-2">
+                      <Form.File
+                        name="image"
+                        label="Changer votre photo de profil"
+                        // value={profile.image}
+                        onChange={handleFile}
+                        formEncType="multipart/form-data"
+                      />
+                      <button className={"uploadBtn btn my-3 btn-" + btnColor} onClick={handleUpload}>
+                        {btnLabel}
+                      </button>
+                  </div>
+
+                {/* <Field
                   name="pictureUrl"
                   label="photo de profil"
                   placeholder="lien vers votre photo de profil"
                   value={profile.pictureUrl}
                   onChange={handleChange}
-                />
+                /> */}
               </figure>
               <Modal show={show} onHide={handleClose}>
         
-                <Modal.Body closeButton>
-                  <img src={profile.pictureUrl} class="img-fluid"/>
+                <Modal.Body>
+                  <img src={profile.pictureUrl} className="img-fluid"/>
                 </Modal.Body>
                 
               </Modal>
@@ -262,6 +299,9 @@ const EditGroupPage = props => {
             </div>
 
             <div className="form-group d-flex justify-content-center">
+              <Link to={"/users/" + userId} className="btn btn-danger">
+                Annuler
+              </Link>
               <button type="submit" className="btn btn-success mx-5">
                 Enregistrer
               </button>
