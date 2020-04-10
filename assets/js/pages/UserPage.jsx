@@ -5,29 +5,29 @@ import axios from "axios";
 
 import Helmet from "react-helmet";
 
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
 
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 
-import AuthContext from '../contexts/AuthContext';
+import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
 
 import userAPI from "../services/userAPI";
-import AuthAPI from "../services/authAPI"
+import AuthAPI from "../services/authAPI";
+import UserPageLoader from "../components/loaders/UserPageLoader";
 
-
-const UserPage = ({history}) => {
+const UserPage = ({ history }) => {
   //CONTEXTES :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId, setUserId } = useContext(UserContext);
-  const {isAuthenticated, setIsAuthenticated} = useContext(AuthContext);
+  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   // STATES :
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [typeGroupe, setTypeGroupe] = useState(false);
   const [typeMusicien, setTypeMusicien] = useState(false);
-  
+
   // Gestion de la modal
   const [show, setShow] = useState(false);
 
@@ -62,14 +62,13 @@ const UserPage = ({history}) => {
   const handleDelete = id => {
     // console.log(id);
     //On supprime le compte
-    axios
-      .delete("http://localhost:8000/api/users/" + id)
-      // .then(response => console.log(response));
+    axios.delete("http://localhost:8000/api/users/" + id);
+    // .then(response => console.log(response));
     AuthAPI.logout();
     // on précise à l'application qu'on est déconnecté
     setIsAuthenticated(false);
     setUserId("");
-    toast.error("Votre compte a bien été supprimé")
+    toast.error("Votre compte a bien été supprimé");
     // on se redirige vers la page d'accueil avec history
     history.push("/");
     // //TODO : NOTIF TOAST
@@ -79,27 +78,25 @@ const UserPage = ({history}) => {
   useEffect(() => {
     setLoading(true);
     fetchUserProfile(userId);
-  },[]);
+  }, []);
 
   return (
     <>
-      {!loading && (
-        <>
-          <Helmet>
-            <title>Zicos : mon compte </title>
-          </Helmet>
-          <div className="fondPage bg-secondary py-4 d-flex align-items-center">
-            <div className="container bg-light shadow rounded p-5">
-              <h1>MON COMPTE</h1>
-
-              <h2>Mes infos</h2>
+      <Helmet>
+        <title>Zicos : mon compte </title>
+      </Helmet>
+      <div className="fondPage bg-secondary py-4 d-flex align-items-center">
+        <div className="container bg-light shadow rounded p-5">
+          <h1>MON COMPTE</h1>
+          <h2>Mes infos</h2>
+          {!loading && (
+            <>
               <div className="alert alert-secondary">
                 <h3>Mon adresse email :</h3>
-                  <span className="badge badge-dark user_email">
-                    {user.email}
-                  </span>
+                <span className="badge badge-dark user_email">
+                  {user.email}
+                </span>
               </div>
-              
 
               {!user.profile && (
                 //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
@@ -134,17 +131,21 @@ const UserPage = ({history}) => {
 
                 <Modal show={show} onHide={handleClose} animation={false}>
                   <Modal.Header closeButton className="bg-danger text-light">
-                    <Modal.Title >Attention !</Modal.Title>
+                    <Modal.Title>Attention !</Modal.Title>
                   </Modal.Header>
-                  <Modal.Body >
-                    Cette action ne supprime pas seulement votre profil mais aussi votre compte  ZicoS. <br/>
+                  <Modal.Body>
+                    Cette action ne supprime pas seulement votre profil mais
+                    aussi votre compte ZicoS. <br />
                     Êtes-vous certain.e de vouloir supprimer votre compte ?
                   </Modal.Body>
                   <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                       Finalement non
                     </Button>
-                    <Button variant="danger" onClick={()=>handleDelete(user.id)}>
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDelete(user.id)}
+                    >
                       Supprimer mon compte
                     </Button>
                   </Modal.Footer>
@@ -156,12 +157,12 @@ const UserPage = ({history}) => {
                 >
                   Supprimer mon compte
                 </button> */}
-
               </div>
-            </div>
-          </div>
-        </>
-      )}
+            </>
+          )}
+          {loading && <UserPageLoader/>}
+        </div>
+      </div>
     </>
   );
 };
