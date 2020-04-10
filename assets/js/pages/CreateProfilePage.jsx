@@ -21,7 +21,7 @@ import stylesAPI from "../services/stylesAPI";
 import userAPI from "../services/userAPI";
 import profilesAPI from "../services/profilesAPI";
 
-import robotPicture from "../../images/placeholders/profile_picture/raphael_dairon-robot-vinyl.png";
+import robotPicture from "../../images/placeholders/profile_picture/raphael_dairon-robot-vinyl.jpg";
 // import test from "../../../public/media/"
 
 //---------------------------------------------- FUNCTIONNAL COMPONENT :
@@ -70,7 +70,8 @@ const CreateProfilePage = ({history}) => {
   const [step2Class, setStep2Class]= useState("")
   const [step3Class, setStep3Class]= useState("")
   const [collapse, setCollapse] = useState("")
-  const [showBtn, setShowBtn] = useState("collapse")
+  const [btnColor, setBtnColor] = useState("secondary")
+  const [btnLabel, setBtnLabel] = useState("Charger l'image")
 
   // ---------------------------------------------- FUNCTIONS :
 
@@ -199,7 +200,7 @@ const CreateProfilePage = ({history}) => {
   // }
 
   const handleFile = event => {
-    console.log(event.target.files[0])
+    // console.log(event.target.files[0])
     setFile(event.target.files[0])
   }
   //fct pour gérer l'upload
@@ -209,7 +210,9 @@ const CreateProfilePage = ({history}) => {
     data.append('file', file)
     axios.post("http://localhost:8000/api/media_objects", data,{})
          .then(response => {setImage(response.data.contentUrl)})
-         .then(console.log("file uploaded"))
+        //  .then(console.log("file uploaded"))
+    setBtnColor("info")
+    setBtnLabel("Image chargée")
   }
 
   //fct pour gérer la soumission du formulaire et les erreurs:
@@ -249,7 +252,7 @@ const CreateProfilePage = ({history}) => {
       setErrors(apiErrors)
       return;
     }
-    console.log(profile)
+    // console.log(profile)
     try {
       if (!groupEdit){
         //Si c'est un profil musicien.ne; on envoie une requête en post via axios en passant ce profile en objet
@@ -484,16 +487,23 @@ const CreateProfilePage = ({history}) => {
               <Accordion.Collapse eventKey="3" className="">
                 <Card.Body className="create_profil_card">
                   <h3 className={collapse}>Et pour finir ...</h3>
-                  <Form.File
-                    name="image"
-                    label="Votre photo de profil"
-                    // value={profile.image}
-                    onChange={handleFile}
-                    formEncType="multipart/form-data"
-                  />
-                  <button className="btn btn-secondary my-3" onClick={handleUpload}>
-                    Charger l'image
-                  </button>
+                  <div className="row">
+                    <div className="col-8">
+                      <Form.File
+                        name="image"
+                        label="Votre photo de profil"
+                        // value={profile.image}
+                        onChange={handleFile}
+                        formEncType="multipart/form-data"
+                      />
+                    </div>
+                    <div className="col">
+                      <button className={"btn my-3 btn-" + btnColor} onClick={handleUpload}>
+                        {btnLabel}
+                      </button>
+                    </div>
+
+                  </div>
                   {/* <Field
                     name="pictureUrl"
                     label="Votre photo de profil"
