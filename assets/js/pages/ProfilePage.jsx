@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import ProfilesAPI from "../services/profilesAPI";
 
 import Profile from "../components/Profile";
+import ProfileLoader from "../components/loaders/ProfileLoader";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 const ProfilePage = props => {
@@ -13,7 +14,7 @@ const ProfilePage = props => {
   const id = props.match.params.id;
 
   //----------------------------------------------STATES :
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState({
     lastName: "",
     firstName: "",
@@ -69,7 +70,7 @@ const ProfilePage = props => {
   //----------------------------------------------EFFECTS : 
   //On récupère le profil au chargement de la page
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     fetchProfile(id);
   }, [id]);
 
@@ -82,11 +83,17 @@ const ProfilePage = props => {
 
 
       <div className="bg-secondary py-4">
-     
+      
+        {loading && 
+        <div className="container py-2">
+          <ProfileLoader/>
+        </div>}
+
+        {!loading && 
         <Profile
           profile={profile}
           email={profile.user.email}
-        />
+        />}
       
       </div>
     </>
