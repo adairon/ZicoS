@@ -2,8 +2,10 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet";
 
-import Modal from 'react-bootstrap/Modal'
-import Button from 'react-bootstrap/Button'
+import Modal from "react-bootstrap/Modal";
+import Button from "react-bootstrap/Button";
+import DropdownButton from 'react-bootstrap/DropdownButton'
+import Dropdown from 'react-bootstrap/Dropdown'
 
 import logoProfiles from "../../images/logos/ZicoS.png";
 
@@ -20,41 +22,46 @@ import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import ProfilesCardsLoader from "../components/loaders/ProfilesCardsLoader";
+import instrumentsAPI from "../services/instrumentsAPI";
+import localizationAPI from "../services/localizationAPI";
 
-const ProfilesPage = props => {
-  //----------------------------------------------CONTEXTES : 
+const ProfilesPage = (props) => {
+  //----------------------------------------------CONTEXTES :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
-  const {userProfileId, setUserProfileId} = useContext(UserProfileContext)
-  
+  const { userProfileId, setUserProfileId } = useContext(UserProfileContext);
+
   //----------------------------------------------STATES :
   // states pour les données récupérées via requêtes axios :
   const [profiles, setProfiles] = useState([]);
   const [types, setTypes] = useState([]);
   const [styles, setStyles] = useState([]);
+  const [instruments, setInstruments] = useState([])
+  const [localizations, setLocalizations] = useState([])
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
   //state pour gérer la page en cours (pagination)
   const [currentPage, setCurrentPage] = useState(1);
   // state pour gérer la recherche
-  
+  const [search, setSearch] = useState("")
+  const [filterType, setFilterType] = useState("")
 
- /* =========================== FONCTIONS REQUETES API ========================== */
+  /* =========================== FONCTIONS REQUETES API ========================== */
 
- let source = Axios.CancelToken.source()
- 
+  let source = Axios.CancelToken.source();
+
   // fonction asynchrone à utiliser dans le useEffect pour récupérer les profils
   const fetchProfiles = async () => {
     try {
-      const data = await ProfilesAPI.findAll({cancelToken: source.token});
+      const data = await ProfilesAPI.findAll({ cancelToken: source.token });
       setProfiles(data);
       console.log(data);
       setLoading(false);
     } catch (error) {
-      if (Axios.isCancel(error)){
-        console.log("request cancelled")
+      if (Axios.isCancel(error)) {
+        console.log("request cancelled");
       } else {
         console.log(error.response);
       }
@@ -63,12 +70,12 @@ const ProfilesPage = props => {
   // Pour récupérer les types de profil
   const fetchTypes = async () => {
     try {
-      const dataType = await TypeAPI.findAll({cancelToken: source.token});
+      const dataType = await TypeAPI.findAll({ cancelToken: source.token });
       setTypes(dataType);
       // console.log(dataType)
     } catch (error) {
-      if (Axios.isCancel(error)){
-        console.log("request cancelled")
+      if (Axios.isCancel(error)) {
+        console.log("request cancelled");
       } else {
         console.log(error.response);
       }
@@ -77,32 +84,56 @@ const ProfilesPage = props => {
   // Pour récupérer les styles de musique :
   const fetchStyles = async () => {
     try {
-      const dataStyle = await StylesAPI.findAll({cancelToken: source.token});
+      const dataStyle = await StylesAPI.findAll({ cancelToken: source.token });
       setStyles(dataStyle);
       //   console.log(dataStyle);
     } catch (error) {
-      if (Axios.isCancel(error)){
-        console.log("request cancelled")
+      if (Axios.isCancel(error)) {
+        console.log("request cancelled");
       } else {
         console.log(error.response);
       }
     }
   };
+  // Pour récupérer les instruments de musique :
+  const fetchInstruments = async () => {
+    try {
+      const dataInstrus = await instrumentsAPI.findAll({cancelToken: source.token});
+      setInstruments(dataInstrus)
+    }catch(error) {
+      if (Axios.isCancel(error)) {
+        console.log("request cancelled");
+      } else {
+        console.log(error.response);
+      }
+    }
+  }
+  // Pour récupérer les localizations :
+  const fecthLocalizations = async () => {
+    try {
+      const dataLocals = await localizationAPI.findAll({cancelToken: source.token});
+      // console.log(dataLocals)
+      setLocalizations(dataLocals)
+    }catch(error){
+      console.log(error.response)
+    }
+  }
+
 
   //Pour savoir si le user authentifié à un profil :
-  const fetchUserProfile = async userId => {
+  const fetchUserProfile = async (userId) => {
     try {
       const data = await userAPI.findOne(userId);
       // console.log(data)
-      if(data.profile){
-        setUserProfileId(data.profile.id)
-      }else{
-        setShow(true)
+      if (data.profile) {
+        setUserProfileId(data.profile.id);
+      } else {
+        setShow(true);
       }
-    }catch(error){
+    } catch (error) {
       console.log(error.response);
     }
-  }
+  };
 
   //----------------------------------------------EFFETS :
   //On lance un "effet" au chargement du composant pour récupérer les données
@@ -110,26 +141,50 @@ const ProfilesPage = props => {
     fetchProfiles();
     fetchTypes();
     fetchStyles();
-    fetchUserProfile(userId)
-    return ()=>{
-      source.cancel()
-    }
+    fetchInstruments();
+    fecthLocalizations();
+    fetchUserProfile(userId);
+    return () => {
+      source.cancel();
+    };
   }, []);
-
   
-  /*------------------------------GESTION PAGINATION-------------------------------- */
- 
-   // Gestion du changement de page
-   const handlePageChange = page => setCurrentPage(page);
+  /*------------------------------GESTION FILTRES-------------------------------- */
+  
+  // const filteredProfiles = profiles.filter(
+  //   p => 
+  //     p.type.name.toLowerCase().includes(filterType.toLowerCase())
+  //   );
+  
+  const handleFilterType = ({currentTarget}) => {
+    console.log(currentTarget.id)
+    setSearch(currentTarget.id)
+    }
+  /*------------------------------GESTION RECHERCHE-------------------------------- */
+  const handleSearch = ({currentTarget}) => {
+    setSearch(currentTarget.value)
+    setCurrentPage(1)
+  }
 
-   // Nb de profils par page :
-   const itemsPerPage = 12;
-   
+  const searchedProfiles = profiles.filter(
+    p => 
+      p.type.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.style.name.toLowerCase().includes(search.toLowerCase()) ||
+      p.localization.region.toLowerCase().includes(search.toLowerCase()) ||
+      (p.instrument && p.instrument.name.toLowerCase().includes(search.toLowerCase()))
+      
+  );
+
+  /*------------------------------GESTION PAGINATION-------------------------------- */
+
+  // Gestion du changement de page
+  const handlePageChange = (page) => setCurrentPage(page);
+
+  // Nb de profils par page :
+  const itemsPerPage = 12;
+
   //Pagination des données
-  const paginatedProfiles =
-    profiles.length > itemsPerPage
-      ? Pagination.getData(profiles, currentPage, itemsPerPage)
-      : profiles;
+  const paginatedProfiles = Pagination.getData(searchedProfiles, currentPage, itemsPerPage)
 
   /*----------------------------- GESTION MODAL --------------------------------------- */
   const [show, setShow] = useState(false);
@@ -137,7 +192,7 @@ const ProfilesPage = props => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  /*======================================= VIEW ========================================= */
+  /*======================================= RETURN ========================================= */
   return (
     <>
       <Helmet>
@@ -149,21 +204,34 @@ const ProfilesPage = props => {
             <div className="logo_title d-flex justify-content-center align-items-center">
               <h1 className="mr-2">Profils de </h1>
               <figure className="ml-2 mb-0">
-                <img className="bigLogo_Profiles" src={logoProfiles} alt="ZicoS" />
+                <img
+                  className="bigLogo_Profiles"
+                  src={logoProfiles}
+                  alt="ZicoS"
+                />
               </figure>
             </div>
             <p className="text-center">Cherchez, trouvez, jouez !</p>
           </div>
 
+          {/* =============================== Modal si pas de profil ========================== */}
+
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton className="bg-dark">
               <Modal.Title>
-                <h2 className="text-light">Vous n'avez pas encore de Profil !</h2>
+                <h2 className="text-light">
+                  Vous n'avez pas encore de Profil !
+                </h2>
               </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-              <p>Un profil est nécessaire afin de pouvoir contacter les groupes et musiciens.nes déjà inscrits</p>
-              <p className="text-primary">Voulez-vous créer votre profil maintenant ?</p>
+              <p>
+                Un profil est nécessaire afin de pouvoir contacter les groupes
+                et musiciens.nes déjà inscrits
+              </p>
+              <p className="text-primary">
+                Voulez-vous créer votre profil maintenant ?
+              </p>
             </Modal.Body>
             <Modal.Footer>
               <Link to="/users/profile/new" className="btn btn-primary">
@@ -175,21 +243,79 @@ const ProfilesPage = props => {
             </Modal.Footer>
           </Modal>
 
+          {/* =============================== FILTRES ========================== */}
+          <div className="row justify-content-center">
+            <Button variant="danger" onClick={()=> {setSearch("")}} className="my-3">
+              Effacer les filtres
+            </Button>
+          </div>
+
+          <div className="row justify-content-center my-3">
+
+            <DropdownButton id="dropdown-basic-button" title="Types de profil" className="mx-3">
+              <Dropdown.Item className="disabled" >
+                Tous
+              </Dropdown.Item>
+              {types.map(type => (
+                <Dropdown.Item key={type.id} value={type.name} id={type.name} onClick={handleFilterType} >
+                  {type.name}
+                </Dropdown.Item>
+              ))}
+            </DropdownButton>
+
+            <DropdownButton id="dropdown-basic-button" title="Styles de musique" className="mx-3">
+              <Dropdown.Item className="disabled" >
+                Tous
+              </Dropdown.Item>
+              {styles.map(style => (
+                <Dropdown.Item key={style.id} value={style.name} id={style.name} onClick={handleFilterType} >
+                  {style.name}
+                </Dropdown.Item>
+              ))}
+            </DropdownButton>
+
+            <DropdownButton id="dropdown-basic-button" title="Instruments de musique" className="mx-3">
+              <Dropdown.Item className="disabled" >
+                Tous
+              </Dropdown.Item>
+              {instruments.map(instru => (
+                <Dropdown.Item key={instru.id} value={instru.name} id={instru.name} onClick={handleFilterType} >
+                  {instru.name}
+                </Dropdown.Item>
+              ))}
+            </DropdownButton>
+
+            <DropdownButton id="dropdown-basic-button" title="Régions" className="mx-3">
+              <Dropdown.Item className="disabled" >
+                Tous
+              </Dropdown.Item>
+              {localizations.map(localization => (
+                <Dropdown.Item key={localization.id} value={localization.region} id={localization.region} onClick={handleFilterType} >
+                  {localization.region}
+                </Dropdown.Item>
+              ))}
+            </DropdownButton>
+
+          </div>
+          {/* =============================== RECHERCHE ========================== */}
+
+          <div className="form-group m-5">
+            <input type="text" className="form-control" placeholder="Rechercher..." onChange={handleSearch} value={search} />
+          </div>
 
           {/*  =============================== PROFILS ============================ */}
-          
+
           {!loading && <ProfilesCards paginatedProfiles={paginatedProfiles} />}
 
-          {loading && <ProfilesCardsLoader/>}
-
+          {loading && <ProfilesCardsLoader />}
 
           {/* ================== PAGINATION ============================== */}
 
-          {itemsPerPage < profiles.length && (
+          {itemsPerPage < searchedProfiles.length && (
             <Pagination
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
-              length={profiles.length}
+              length={searchedProfiles.length}
               onPageChanged={handlePageChange}
             />
           )}

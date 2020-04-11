@@ -6,7 +6,7 @@ const ProfilesCards = ({paginatedProfiles}) => {
     <>
       <div className="card-deck">
         {paginatedProfiles.map(profile => (
-          <div key={profile.id} className="card profileCard bg-dark text-white pb-3 shadow">
+          <div key={profile.id} className={"card profileCard bg-dark text-white pb-3 shadow " + profile.type.name}>
             <img className="card-img img-fluid" src={profile.pictureUrl} alt="Card image" />
             <div className="card-img-overlay">
               <Link to={"/profils/" + profile.id} >
