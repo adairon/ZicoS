@@ -39,8 +39,7 @@ const ProfilesPage = props => {
   //state pour gérer la page en cours (pagination)
   const [currentPage, setCurrentPage] = useState(1);
   // state pour gérer la recherche
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState([]);
+  
 
  /* =========================== FONCTIONS REQUETES API ========================== */
 
@@ -51,7 +50,7 @@ const ProfilesPage = props => {
     try {
       const data = await ProfilesAPI.findAll({cancelToken: source.token});
       setProfiles(data);
-      // console.log(data);
+      console.log(data);
       setLoading(false);
     } catch (error) {
       if (Axios.isCancel(error)){
@@ -117,33 +116,7 @@ const ProfilesPage = props => {
     }
   }, []);
 
-  /* ==================================GESTION DES DISPLAYS==============================*/
-
-
-   /*------------------------------GESTION DE LA RECHERCHE------------------------------ */
-  // gestion de la recherche
-  const handleSearch = ({ currentTarget }) => setSearch(currentTarget.value);
-  const handleClick = ({ currentTarget }) => {
-    filter.push(currentTarget.id);
-    setSearch(currentTarget.id);
-    console.log(filter);
-  };
-  const showSearch = () => setSearch("");
-
-  const cleanFilter = () => setSearch("");
-
-  // Filtrage des profils en fonction de la recherche
-  const filteredProfiles = profiles.filter(
-    p =>
-      p.firstName.toLowerCase().includes(search.toLowerCase()) ||
-      p.lastName.toLowerCase().includes(search.toLowerCase()) ||
-      p.type.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.localization.region.toLowerCase().includes(search.toLowerCase()) ||
-      p.localization.departement.toLowerCase().includes(search.toLowerCase()) ||
-      p.level.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.instrument.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.style.name.toLowerCase().includes(search.toLowerCase())
-  );
+  
   /*------------------------------GESTION PAGINATION-------------------------------- */
  
    // Gestion du changement de page
@@ -154,9 +127,9 @@ const ProfilesPage = props => {
    
   //Pagination des données
   const paginatedProfiles =
-    filteredProfiles.length > itemsPerPage
-      ? Pagination.getData(filteredProfiles, currentPage, itemsPerPage)
-      : filteredProfiles;
+    profiles.length > itemsPerPage
+      ? Pagination.getData(profiles, currentPage, itemsPerPage)
+      : profiles;
 
   /*----------------------------- GESTION MODAL --------------------------------------- */
   const [show, setShow] = useState(false);
@@ -202,78 +175,6 @@ const ProfilesPage = props => {
             </Modal.Footer>
           </Modal>
 
-          {/* ----------------------- Menus dropdowns ------------------------ */}
-          {/* <div className="form-group">
-
-            <button type="button" className="btn btn-danger mx-1" onClick={cleanFilter}>
-                  Effacer les filtres
-            </button> */}
-            {/* ---- Filtre Par Type ------ */}
-            {/* <div
-              className="btn-group my-3 mx-1"
-              role="group"
-              aria-label="Button group with nested dropdown"
-            >
-              <button type="button" className="btn btn-primary">
-                Type de profil
-          </button>
-              <div className="btn-group" role="group">
-                <button
-                  id="btnGroupDrop1"
-                  type="button"
-                  className="btn btn-primary dropdown-toggle"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                ></button>
-
-                <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                  <button
-                    className="dropdown-item font-weight-bold"
-                  // onClick={handleClick}
-                  >
-                    Tous
-              </button>
-                  {types.map(type => (
-                    <button
-                      key={type.id}
-                      className="dropdown-item"
-                      onClick={handleClick}
-                      id={type.name}
-                    >
-                      {type.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* ========================= RECHERCHE ================================ */}
-          {/* <button
-            className="btn btn-secondary mx-auto my-3"
-            id="btnRecherche"
-            type="button"
-            data-toggle="collapse"
-            data-target="#collapseExample"
-            aria-expanded="false"
-            aria-controls="collapseExample"
-            onClick={showSearch}
-          >
-            Recherche
-      </button>
-
-          <div className="collapse" id="collapseExample"> */}
-            {/*  ---------------------- Champs de recherche ---------------------- */}
-            {/* <div className="form-group">
-              <input
-                type="text"
-                onChange={handleSearch}
-                value={search}
-                className="form-control"
-                placeholder="Rechercher..."
-              />
-            </div>
-          </div> */}
 
           {/*  =============================== PROFILS ============================ */}
           
@@ -284,11 +185,11 @@ const ProfilesPage = props => {
 
           {/* ================== PAGINATION ============================== */}
 
-          {itemsPerPage < filteredProfiles.length && (
+          {itemsPerPage < profiles.length && (
             <Pagination
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
-              length={filteredProfiles.length}
+              length={profiles.length}
               onPageChanged={handlePageChange}
             />
           )}
