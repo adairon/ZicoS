@@ -57,6 +57,7 @@ const EditGroupPage = props => {
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("")
   const [image, setImage]= useState("")
+  const [uploadError, setUploadError] = useState(false)
   const [btnColor, setBtnColor] = useState("secondary")
   const [btnLabel, setBtnLabel] = useState("Charger l'image")
   const [loading, setLoading] = useState(true)
@@ -68,21 +69,26 @@ const EditGroupPage = props => {
   const handleShow = () => setShow(true);
 
   const handleFile = event => {
-    console.log(event.target.files[0])
+    // console.log(event.target.files[0])
     setFile(event.target.files[0])
   }
   //fct pour gérer l'upload
   const handleUpload = (event)=>{
     event.preventDefault();
-    console.log(file)
+    // console.log(file)
     const data = new FormData()
     data.append('file', file)
-    console.log(data)
-    axios.post("http://localhost:8000/api/media_objects", data,{})
-         .then(response => {setImage(response.data.contentUrl)})
-        //  .then(console.log("file uploaded"))
-    setBtnColor("info")
-    setBtnLabel("Image chargée")
+    // console.log(data)
+    try{
+      axios.post("http://localhost:8000/api/media_objects", data,{})
+           .then(response => {setImage(response.data.contentUrl)})
+          //  .then(console.log("file uploaded"))
+      setBtnColor("info")
+      setBtnLabel("Image chargée")
+    }catch(error){
+      console.log(error.response)
+      setUploadError(true)
+    }
   }
 
   let source = axios.CancelToken.source()
@@ -217,9 +223,11 @@ const EditGroupPage = props => {
                         onChange={handleFile}
                         formEncType="multipart/form-data"
                       />
+                      
                       <button className={"uploadBtn btn my-3 btn-" + btnColor} onClick={handleUpload}>
                         {btnLabel}
                       </button>
+                      {uploadError && <p className="text-danger"> Aucun fichier chargé </p>}
                   </div>
 
                 {/* <Field
