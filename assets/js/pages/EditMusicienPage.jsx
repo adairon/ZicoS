@@ -82,8 +82,10 @@ const EditMusicienPage = (props) => {
   //fct pour gérer l'upload
   const handleUpload = (event)=>{
     event.preventDefault();
+    console.log(file)
     const data = new FormData()
     data.append('file', file)
+    console.log(data)
     axios.post("http://localhost:8000/api/media_objects", data,{})
          .then(response => {setImage(response.data.contentUrl)})
         //  .then(console.log("file uploaded"))

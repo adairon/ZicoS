@@ -20,6 +20,7 @@ import stylesAPI from "../services/stylesAPI";
 
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
+import EditProfileLoader from "../components/loaders/EditProfileLoader";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 const EditGroupPage = props => {
@@ -58,6 +59,7 @@ const EditGroupPage = props => {
   const [image, setImage]= useState("")
   const [btnColor, setBtnColor] = useState("secondary")
   const [btnLabel, setBtnLabel] = useState("Charger l'image")
+  const [loading, setLoading] = useState(true)
 
   //----------------------------------------------FUNCTIONS :
 
@@ -66,14 +68,16 @@ const EditGroupPage = props => {
   const handleShow = () => setShow(true);
 
   const handleFile = event => {
-    // console.log(event.target.files[0])
+    console.log(event.target.files[0])
     setFile(event.target.files[0])
   }
   //fct pour gérer l'upload
   const handleUpload = (event)=>{
     event.preventDefault();
+    console.log(file)
     const data = new FormData()
     data.append('file', file)
+    console.log(data)
     axios.post("http://localhost:8000/api/media_objects", data,{})
          .then(response => {setImage(response.data.contentUrl)})
         //  .then(console.log("file uploaded"))
@@ -126,6 +130,7 @@ const EditGroupPage = props => {
       // console.log(dataProfile)
       const { type, firstName, biography, pictureUrl, linkUrl, localization, style } = dataProfile;
       setProfile({ type: type.id, firstName, biography, pictureUrl, linkUrl, region: localization.id, style: style.id });
+      setLoading(false)
     } catch (error) {
       console.log(error);
     }
@@ -190,6 +195,13 @@ const EditGroupPage = props => {
         <title>Zicos : mon profil </title>
       </Helmet>
       <div className="fondPage bg-secondary py-4">
+
+      {loading && 
+        <div className="container py-2">
+          <EditProfileLoader/>
+        </div>
+      }
+      {!loading &&
         <div className="container profile border rounded py-2 bg-light shadow">
           <form onSubmit={handleSubmit}>
             <div className="row justify-content-center">
@@ -398,7 +410,7 @@ const EditGroupPage = props => {
               </div>
             </form>*/}
 
-          </div> 
+          </div>} 
         </div>
     </>
   );
