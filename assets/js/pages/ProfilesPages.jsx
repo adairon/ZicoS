@@ -276,7 +276,7 @@ const ProfilesPage = props => {
           </div> */}
 
           {/*  =============================== PROFILS ============================ */}
-
+          
           {!loading && <ProfilesCards paginatedProfiles={paginatedProfiles} />}
 
           {loading && <ProfilesCardsLoader/>}
