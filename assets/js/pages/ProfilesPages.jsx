@@ -26,6 +26,7 @@ import Axios from "axios";
 import ProfilesCardsLoader from "../components/loaders/ProfilesCardsLoader";
 import instrumentsAPI from "../services/instrumentsAPI";
 import localizationAPI from "../services/localizationAPI";
+import levelsAPI from "../services/levelsAPI";
 
 const ProfilesPage = (props) => {
   //----------------------------------------------CONTEXTES :
@@ -42,7 +43,9 @@ const ProfilesPage = (props) => {
   const [styles, setStyles] = useState([]);
   const [instruments, setInstruments] = useState([]);
   const [localizations, setLocalizations] = useState([]);
+  const [levels, setLevels] = useState([])
   const [user, setUser] = useState({});
+  
   const [loading, setLoading] = useState(true);
 
   //state pour gérer la page en cours (pagination)
@@ -53,6 +56,7 @@ const ProfilesPage = (props) => {
   const [libFilterType, setLibFilterType] = useState("")
   const [libFilterStyle, setLibFilterStyle] = useState("")
   const [libFilterInstrument, setLibFilterInstrument] = useState("")
+  const [libFilterLevel, setLibFilterLevel] = useState("")
   const [libFilterLocalization, setLibFilterLocalization] = useState("")
 
   /* =========================== FONCTIONS REQUETES API ========================== */
@@ -65,7 +69,7 @@ const ProfilesPage = (props) => {
       const data = await ProfilesAPI.findAll({ cancelToken: source.token });
       setProfiles(data);
       setAllProfiles(data);
-      // console.log(data);
+      console.log(data);
       setLoading(false);
     } catch (error) {
       if (Axios.isCancel(error)) {
@@ -130,6 +134,18 @@ const ProfilesPage = (props) => {
       console.log(error.response);
     }
   };
+  // Pour récupérer les levels
+  const fetchLevels = async () => {
+    try {
+      const dataLevels = await levelsAPI.findAll({
+        cancelToken: source.token,
+      });
+      // console.log(dataLevels)
+      setLevels(dataLevels);
+    }catch(error){
+      console.log(error.response)
+    }
+  }
 
   //Pour savoir si le user authentifié à un profil :
   const fetchUserProfile = async (userId) => {
@@ -154,6 +170,7 @@ const ProfilesPage = (props) => {
     fetchStyles();
     fetchInstruments();
     fecthLocalizations();
+    fetchLevels();
     fetchUserProfile(userId);
     return () => {
       source.cancel();
@@ -188,6 +205,10 @@ const ProfilesPage = (props) => {
     setLibFilterLocalization(currentTarget.id);
     handleFilter({currentTarget})
   }
+  const handleFilterLevel = ({currentTarget}) => {
+    setLibFilterLevel(currentTarget.id)
+    handleFilter({currentTarget})
+  }
 
 
 
@@ -201,7 +222,8 @@ const ProfilesPage = (props) => {
       p.type.name.toLowerCase().includes(search.toLowerCase()) ||
       p.style.name.toLowerCase().includes(search.toLowerCase()) ||
       p.localization.region.toLowerCase() === search.toLowerCase() ||
-      (p.instrument && p.instrument.name.toLowerCase() === search.toLowerCase())
+      (p.instrument && p.instrument.name.toLowerCase() === search.toLowerCase()) ||
+      (p.level && p.level.name.toLowerCase() === search.toLowerCase())
   );
 
   const cancelFilters = () => {
@@ -209,6 +231,7 @@ const ProfilesPage = (props) => {
     setLibFilterType("")
     setLibFilterStyle("")
     setLibFilterInstrument("")
+    setLibFilterLevel("")
     setLibFilterLocalization("")
     setProfiles(allProfiles)
   }
@@ -305,7 +328,7 @@ const ProfilesPage = (props) => {
                   title="Types de profil"
                   className="mx-3 my-2"
                 >
-                  <Dropdown.Item className="disabled">Tous</Dropdown.Item>
+                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {types.map((type) => (
                     <Dropdown.Item
                       key={type.id}
@@ -324,7 +347,7 @@ const ProfilesPage = (props) => {
                   title="Styles de musique"
                   className="mx-3 my-2"
                 >
-                  <Dropdown.Item className="disabled">Tous</Dropdown.Item>
+                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {styles.map((style) => (
                     <Dropdown.Item
                       key={style.id}
@@ -343,7 +366,7 @@ const ProfilesPage = (props) => {
                   title="Instruments de musique"
                   className="mx-3 my-2"
                 >
-                  <Dropdown.Item className="disabled">Tous</Dropdown.Item>
+                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {instruments.map((instru) => (
                     <Dropdown.Item
                       key={instru.id}
@@ -359,10 +382,29 @@ const ProfilesPage = (props) => {
                 <DropdownButton
                   variant="dark"
                   id="dropdown-basic-button"
+                  title="Niveau"
+                  className="mx-3 my-2"
+                >
+                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
+                  {levels.map((level) => (
+                    <Dropdown.Item
+                      key={level.id}
+                      value={level.name}
+                      id={level.name}
+                      onClick={handleFilterLevel}
+                    >
+                      {level.name}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
+
+                <DropdownButton
+                  variant="dark"
+                  id="dropdown-basic-button"
                   title="Régions"
                   className="mx-3 my-2"
                 >
-                  <Dropdown.Item className="disabled">Tous</Dropdown.Item>
+                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {localizations.map((localization) => (
                     <Dropdown.Item
                       key={localization.id}
@@ -385,6 +427,9 @@ const ProfilesPage = (props) => {
               </Badge>
               <Badge pill variant="info" className="mx-5 my-2">
                 {libFilterInstrument}
+              </Badge>
+              <Badge pill variant="info" className="mx-5 my-2">
+                {libFilterLevel}
               </Badge>
               <Badge pill variant="info" className="mx-5 my-2">
                 {libFilterLocalization}
