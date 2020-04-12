@@ -4,8 +4,9 @@ import { Helmet } from "react-helmet";
 
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-import DropdownButton from 'react-bootstrap/DropdownButton'
-import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from "react-bootstrap/DropdownButton";
+import Dropdown from "react-bootstrap/Dropdown";
+import Collapse from "react-bootstrap/Collapse";
 
 import logoProfiles from "../../images/logos/ZicoS.png";
 
@@ -35,18 +36,19 @@ const ProfilesPage = (props) => {
   //----------------------------------------------STATES :
   // states pour les données récupérées via requêtes axios :
   const [profiles, setProfiles] = useState([]);
+  const [allProfiles, setAllProfiles] = useState([])
   const [types, setTypes] = useState([]);
   const [styles, setStyles] = useState([]);
-  const [instruments, setInstruments] = useState([])
-  const [localizations, setLocalizations] = useState([])
+  const [instruments, setInstruments] = useState([]);
+  const [localizations, setLocalizations] = useState([]);
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
   //state pour gérer la page en cours (pagination)
   const [currentPage, setCurrentPage] = useState(1);
   // state pour gérer la recherche
-  const [search, setSearch] = useState("")
-  const [filterType, setFilterType] = useState("")
+  const [search, setSearch] = useState("");
+  const [filterType, setFilterType] = useState("");
 
   /* =========================== FONCTIONS REQUETES API ========================== */
 
@@ -57,7 +59,8 @@ const ProfilesPage = (props) => {
     try {
       const data = await ProfilesAPI.findAll({ cancelToken: source.token });
       setProfiles(data);
-      console.log(data);
+      setAllProfiles(data);
+      // console.log(data);
       setLoading(false);
     } catch (error) {
       if (Axios.isCancel(error)) {
@@ -98,27 +101,30 @@ const ProfilesPage = (props) => {
   // Pour récupérer les instruments de musique :
   const fetchInstruments = async () => {
     try {
-      const dataInstrus = await instrumentsAPI.findAll({cancelToken: source.token});
-      setInstruments(dataInstrus)
-    }catch(error) {
+      const dataInstrus = await instrumentsAPI.findAll({
+        cancelToken: source.token,
+      });
+      setInstruments(dataInstrus);
+    } catch (error) {
       if (Axios.isCancel(error)) {
         console.log("request cancelled");
       } else {
         console.log(error.response);
       }
     }
-  }
+  };
   // Pour récupérer les localizations :
   const fecthLocalizations = async () => {
     try {
-      const dataLocals = await localizationAPI.findAll({cancelToken: source.token});
+      const dataLocals = await localizationAPI.findAll({
+        cancelToken: source.token,
+      });
       // console.log(dataLocals)
-      setLocalizations(dataLocals)
-    }catch(error){
-      console.log(error.response)
+      setLocalizations(dataLocals);
+    } catch (error) {
+      console.log(error.response);
     }
-  }
-
+  };
 
   //Pour savoir si le user authentifié à un profil :
   const fetchUserProfile = async (userId) => {
@@ -148,32 +154,35 @@ const ProfilesPage = (props) => {
       source.cancel();
     };
   }, []);
-  
-  /*------------------------------GESTION FILTRES-------------------------------- */
-  
-  // const filteredProfiles = profiles.filter(
-  //   p => 
-  //     p.type.name.toLowerCase().includes(filterType.toLowerCase())
-  //   );
-  
-  const handleFilterType = ({currentTarget}) => {
-    console.log(currentTarget.id)
-    setSearch(currentTarget.id)
-    }
-  /*------------------------------GESTION RECHERCHE-------------------------------- */
-  const handleSearch = ({currentTarget}) => {
-    setSearch(currentTarget.value)
-    setCurrentPage(1)
-  }
+
+  /*------------------------------GESTION FILTRES & RECHERCHE -------------------------------- */
+
+  const [open, setOpen] = useState(false);
+
+  const handleFilter = ({ currentTarget }) => {
+    // console.log(currentTarget.id)
+    setSearch(currentTarget.id);
+    setCurrentPage(1);
+    setProfiles(searchedProfiles)
+  };
+
+  // const handleSearch = ({currentTarget}) => {
+  //   setSearch(currentTarget.value)
+  //   setCurrentPage(1)
+  // }
 
   const searchedProfiles = profiles.filter(
-    p => 
+    (p) =>
       p.type.name.toLowerCase().includes(search.toLowerCase()) ||
       p.style.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.localization.region.toLowerCase().includes(search.toLowerCase()) ||
-      (p.instrument && p.instrument.name.toLowerCase().includes(search.toLowerCase()))
-      
+      p.localization.region.toLowerCase() === search.toLowerCase() ||
+      (p.instrument && p.instrument.name.toLowerCase() === search.toLowerCase())
   );
+
+  const cancelFilters = () => {
+    setSearch("")
+    setProfiles(allProfiles)
+  }
 
   /*------------------------------GESTION PAGINATION-------------------------------- */
 
@@ -184,7 +193,11 @@ const ProfilesPage = (props) => {
   const itemsPerPage = 12;
 
   //Pagination des données
-  const paginatedProfiles = Pagination.getData(searchedProfiles, currentPage, itemsPerPage)
+  const paginatedProfiles = Pagination.getData(
+    searchedProfiles,
+    currentPage,
+    itemsPerPage
+  );
 
   /*----------------------------- GESTION MODAL --------------------------------------- */
   const [show, setShow] = useState(false);
@@ -214,7 +227,7 @@ const ProfilesPage = (props) => {
             <p className="text-center">Cherchez, trouvez, jouez !</p>
           </div>
 
-          {/* =============================== Modal si pas de profil ========================== */}
+          {/* ------------------------------------------ Modal si pas de profil ---------------------------------------- */}
 
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton className="bg-dark">
@@ -243,73 +256,119 @@ const ProfilesPage = (props) => {
             </Modal.Footer>
           </Modal>
 
-          {/* =============================== FILTRES ========================== */}
-          <div className="row justify-content-center">
-            <Button variant="danger" onClick={()=> {setSearch("")}} className="my-3">
-              Effacer les filtres
+          {/* ---------------------------------------- FILTRES ---------------------------------------- */}
+          <div className="row justify-content-center my-3">
+            <Button
+              onClick={() => setOpen(!open)}
+              aria-controls="example-collapse-text"
+              aria-expanded={open}
+            >
+              Rechercher
             </Button>
           </div>
 
-          <div className="row justify-content-center my-3">
+          <Collapse in={open}>
+            <div id="example-collapse-text">
+              <div className="row justify-content-center my-3">
+                <DropdownButton
+                  variant="dark"
+                  id="dropdown-basic-button"
+                  title="Types de profil"
+                  className="mx-3"
+                >
+                  <Dropdown.Item className="disabled">Tous</Dropdown.Item>
+                  {types.map((type) => (
+                    <Dropdown.Item
+                      key={type.id}
+                      value={type.name}
+                      id={type.name}
+                      onClick={handleFilter}
+                    >
+                      {type.name}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
 
-            <DropdownButton id="dropdown-basic-button" title="Types de profil" className="mx-3">
-              <Dropdown.Item className="disabled" >
-                Tous
-              </Dropdown.Item>
-              {types.map(type => (
-                <Dropdown.Item key={type.id} value={type.name} id={type.name} onClick={handleFilterType} >
-                  {type.name}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
+                <DropdownButton
+                  variant="dark"
+                  id="dropdown-basic-button"
+                  title="Styles de musique"
+                  className="mx-3"
+                >
+                  <Dropdown.Item className="disabled">Tous</Dropdown.Item>
+                  {styles.map((style) => (
+                    <Dropdown.Item
+                      key={style.id}
+                      value={style.name}
+                      id={style.name}
+                      onClick={handleFilter}
+                    >
+                      {style.name}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
 
-            <DropdownButton id="dropdown-basic-button" title="Styles de musique" className="mx-3">
-              <Dropdown.Item className="disabled" >
-                Tous
-              </Dropdown.Item>
-              {styles.map(style => (
-                <Dropdown.Item key={style.id} value={style.name} id={style.name} onClick={handleFilterType} >
-                  {style.name}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
+                <DropdownButton
+                  variant="dark"
+                  id="dropdown-basic-button"
+                  title="Instruments de musique"
+                  className="mx-3"
+                >
+                  <Dropdown.Item className="disabled">Tous</Dropdown.Item>
+                  {instruments.map((instru) => (
+                    <Dropdown.Item
+                      key={instru.id}
+                      value={instru.name}
+                      id={instru.name}
+                      onClick={handleFilter}
+                    >
+                      {instru.name}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
 
-            <DropdownButton id="dropdown-basic-button" title="Instruments de musique" className="mx-3">
-              <Dropdown.Item className="disabled" >
-                Tous
-              </Dropdown.Item>
-              {instruments.map(instru => (
-                <Dropdown.Item key={instru.id} value={instru.name} id={instru.name} onClick={handleFilterType} >
-                  {instru.name}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
+                <DropdownButton
+                  variant="dark"
+                  id="dropdown-basic-button"
+                  title="Régions"
+                  className="mx-3"
+                >
+                  <Dropdown.Item className="disabled">Tous</Dropdown.Item>
+                  {localizations.map((localization) => (
+                    <Dropdown.Item
+                      key={localization.id}
+                      value={localization.region}
+                      id={localization.region}
+                      onClick={handleFilter}
+                    >
+                      {localization.region}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
+              </div>
 
-            <DropdownButton id="dropdown-basic-button" title="Régions" className="mx-3">
-              <Dropdown.Item className="disabled" >
-                Tous
-              </Dropdown.Item>
-              {localizations.map(localization => (
-                <Dropdown.Item key={localization.id} value={localization.region} id={localization.region} onClick={handleFilterType} >
-                  {localization.region}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
+              <div className="row justify-content-center my-3">
+                <Button
+                  variant="warning"
+                  onClick={cancelFilters}
+                >
+                  Effacer les filtres
+                </Button>
+              </div>
+              {/* ---------------------------------------- RECHERCHE ---------------------------------------- */}
+              {/* <div className="form-group m-5">
+                  <input type="text" className="form-control" placeholder="Rechercher..." onChange={handleSearch} value={search} />
+                </div> */}
+            </div>
+          </Collapse>
 
-          </div>
-          {/* =============================== RECHERCHE ========================== */}
-
-          <div className="form-group m-5">
-            <input type="text" className="form-control" placeholder="Rechercher..." onChange={handleSearch} value={search} />
-          </div>
-
-          {/*  =============================== PROFILS ============================ */}
+          {/*  ---------------------------------------- PROFILS ---------------------------------------- */}
 
           {!loading && <ProfilesCards paginatedProfiles={paginatedProfiles} />}
 
           {loading && <ProfilesCardsLoader />}
 
-          {/* ================== PAGINATION ============================== */}
+          {/* ---------------------------------------- PAGINATION ---------------------------------------- */}
 
           {itemsPerPage < searchedProfiles.length && (
             <Pagination

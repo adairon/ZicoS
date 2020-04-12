@@ -13,7 +13,8 @@ const ProfilesCards = ({paginatedProfiles}) => {
                 <h5 className="card-title">
                   {profile.firstName} {profile.lastName}
                 </h5>
-                <p className="card-text">{profile.type.name}</p>
+                <p className="card-text">{profile.type.name} {profile.instrument && "("+profile.instrument.name+")"}</p>
+                <p className="card-text">{profile.style.name}</p>
                 <p className="card-text">{profile.localization.region}</p>
               </Link>
             </div>
