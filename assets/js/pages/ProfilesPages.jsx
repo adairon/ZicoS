@@ -7,6 +7,7 @@ import Button from "react-bootstrap/Button";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import Collapse from "react-bootstrap/Collapse";
+import Badge from 'react-bootstrap/Badge'
 
 import logoProfiles from "../../images/logos/ZicoS.png";
 
@@ -49,6 +50,10 @@ const ProfilesPage = (props) => {
   // state pour gérer la recherche
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState("");
+  const [libFilterType, setLibFilterType] = useState("")
+  const [libFilterStyle, setLibFilterStyle] = useState("")
+  const [libFilterInstrument, setLibFilterInstrument] = useState("")
+  const [libFilterLocalization, setLibFilterLocalization] = useState("")
 
   /* =========================== FONCTIONS REQUETES API ========================== */
 
@@ -159,12 +164,32 @@ const ProfilesPage = (props) => {
 
   const [open, setOpen] = useState(false);
 
+  
   const handleFilter = ({ currentTarget }) => {
     // console.log(currentTarget.id)
     setSearch(currentTarget.id);
     setCurrentPage(1);
     setProfiles(searchedProfiles)
   };
+
+  const handleFilterType = ({currentTarget}) => {
+    setLibFilterType(currentTarget.id);
+    handleFilter({currentTarget})
+  }
+  const handleFilterStyle = ({currentTarget}) => {
+    setLibFilterStyle(currentTarget.id);
+    handleFilter({currentTarget})
+  }
+  const handleFilterInstru = ({currentTarget}) => {
+    setLibFilterInstrument(currentTarget.id);
+    handleFilter({currentTarget})
+  }
+  const handleFilterLocal = ({currentTarget}) => {
+    setLibFilterLocalization(currentTarget.id);
+    handleFilter({currentTarget})
+  }
+
+
 
   // const handleSearch = ({currentTarget}) => {
   //   setSearch(currentTarget.value)
@@ -181,6 +206,10 @@ const ProfilesPage = (props) => {
 
   const cancelFilters = () => {
     setSearch("")
+    setLibFilterType("")
+    setLibFilterStyle("")
+    setLibFilterInstrument("")
+    setLibFilterLocalization("")
     setProfiles(allProfiles)
   }
 
@@ -274,7 +303,7 @@ const ProfilesPage = (props) => {
                   variant="dark"
                   id="dropdown-basic-button"
                   title="Types de profil"
-                  className="mx-3"
+                  className="mx-3 my-2"
                 >
                   <Dropdown.Item className="disabled">Tous</Dropdown.Item>
                   {types.map((type) => (
@@ -282,7 +311,7 @@ const ProfilesPage = (props) => {
                       key={type.id}
                       value={type.name}
                       id={type.name}
-                      onClick={handleFilter}
+                      onClick={handleFilterType}
                     >
                       {type.name}
                     </Dropdown.Item>
@@ -293,7 +322,7 @@ const ProfilesPage = (props) => {
                   variant="dark"
                   id="dropdown-basic-button"
                   title="Styles de musique"
-                  className="mx-3"
+                  className="mx-3 my-2"
                 >
                   <Dropdown.Item className="disabled">Tous</Dropdown.Item>
                   {styles.map((style) => (
@@ -301,7 +330,7 @@ const ProfilesPage = (props) => {
                       key={style.id}
                       value={style.name}
                       id={style.name}
-                      onClick={handleFilter}
+                      onClick={handleFilterStyle}
                     >
                       {style.name}
                     </Dropdown.Item>
@@ -312,7 +341,7 @@ const ProfilesPage = (props) => {
                   variant="dark"
                   id="dropdown-basic-button"
                   title="Instruments de musique"
-                  className="mx-3"
+                  className="mx-3 my-2"
                 >
                   <Dropdown.Item className="disabled">Tous</Dropdown.Item>
                   {instruments.map((instru) => (
@@ -320,7 +349,7 @@ const ProfilesPage = (props) => {
                       key={instru.id}
                       value={instru.name}
                       id={instru.name}
-                      onClick={handleFilter}
+                      onClick={handleFilterInstru}
                     >
                       {instru.name}
                     </Dropdown.Item>
@@ -331,7 +360,7 @@ const ProfilesPage = (props) => {
                   variant="dark"
                   id="dropdown-basic-button"
                   title="Régions"
-                  className="mx-3"
+                  className="mx-3 my-2"
                 >
                   <Dropdown.Item className="disabled">Tous</Dropdown.Item>
                   {localizations.map((localization) => (
@@ -339,12 +368,27 @@ const ProfilesPage = (props) => {
                       key={localization.id}
                       value={localization.region}
                       id={localization.region}
-                      onClick={handleFilter}
+                      onClick={handleFilterLocal}
                     >
                       {localization.region}
                     </Dropdown.Item>
                   ))}
                 </DropdownButton>
+              </div>
+
+              <div className="row justify-content-center my-3">
+              <Badge pill variant="info" className="mx-5 my-2">
+                {libFilterType}
+              </Badge>
+              <Badge pill variant="info" className="mx-5 my-2">
+                {libFilterStyle}
+              </Badge>
+              <Badge pill variant="info" className="mx-5 my-2">
+                {libFilterInstrument}
+              </Badge>
+              <Badge pill variant="info" className="mx-5 my-2">
+                {libFilterLocalization}
+              </Badge>
               </div>
 
               <div className="row justify-content-center my-3">
