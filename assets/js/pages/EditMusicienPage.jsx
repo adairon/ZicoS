@@ -160,7 +160,7 @@ const EditMusicienPage = (props) => {
     try {
       const dataProfile = await profilesAPI.findOne(id);
       const { type, firstName, lastName, biography, pictureUrl, linkUrl, instrument, localization, style, level } = dataProfile;
-      console.log(dataProfile)
+      // console.log(dataProfile)
       setProfile({ type: type.id, firstName, lastName, biography, pictureUrl, linkUrl, instrument: instrument.id, region: localization.id, style: style.id, level:level.id });
       //Pour donner à l'image une valeur par défaut correspondant au nom du fichier déjà enregistré
       setImage(dataProfile.pictureUrl.replace("/media/", "").toString())

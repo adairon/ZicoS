@@ -7,6 +7,7 @@ import ProfilesAPI from "../services/profilesAPI";
 
 import Profile from "../components/Profile";
 import ProfileLoader from "../components/loaders/ProfileLoader";
+import CssProfileLoader from "../components/loaders/CssProfileLoader";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 const ProfilePage = props => {
@@ -87,9 +88,10 @@ const ProfilePage = props => {
 
       <div className="bg-secondary py-4">
       
+
         {loading && 
         <div className="container py-2">
-          <ProfileLoader/>
+        <CssProfileLoader/>
         </div>}
 
         {!loading && 
