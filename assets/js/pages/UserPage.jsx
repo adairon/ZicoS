@@ -15,7 +15,9 @@ import UserContext from "../contexts/UserContext";
 
 import userAPI from "../services/userAPI";
 import AuthAPI from "../services/authAPI";
+
 import UserPageLoader from "../components/loaders/UserPageLoader";
+import CssUserPageLoader from "../components/loaders/CssUserPageLoader";
 
 const UserPage = ({ history }) => {
   //CONTEXTES :
@@ -89,6 +91,10 @@ const UserPage = ({ history }) => {
         <div className="container bg-light shadow rounded p-5">
           <h1>MON COMPTE</h1>
           <h2>Mes infos</h2>
+          
+
+          {loading && <CssUserPageLoader/>}
+          
           {!loading && (
             <>
               <div className="alert alert-secondary">
@@ -160,7 +166,6 @@ const UserPage = ({ history }) => {
               </div>
             </>
           )}
-          {loading && <UserPageLoader/>}
         </div>
       </div>
     </>

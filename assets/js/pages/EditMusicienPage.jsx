@@ -22,7 +22,7 @@ import levelsAPI from "../services/levelsAPI";
 
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
-import EditProfileLoader from "../components/loaders/EditProfileLoader";
+import CssProfileLoader from "../components/loaders/CssProfileLoader";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 const EditMusicienPage = (props) => {
@@ -256,7 +256,7 @@ const EditMusicienPage = (props) => {
 
       {loading && 
         <div className="container py-2">
-          <EditProfileLoader/>
+          <CssProfileLoader/>
         </div>
       }
         {!loading &&

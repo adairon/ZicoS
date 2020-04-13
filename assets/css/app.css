@@ -282,6 +282,15 @@ footer{
 .loadingPicture{
     animation: loader 2s infinite ease-in-out;
 }
+.loadignUserInfos{
+    height: 99px;
+    animation: loader 2s infinite ease-in-out;
+}
+.loadingUserBtn{
+    height: 34px;
+    width: 155px;
+    animation: loader 2s infinite ease-in-out;
+}
 
 
 @keyframes loader {
@@ -289,7 +298,7 @@ footer{
         background-color: rgba(165, 165, 165, 0.3);
     }
     50%{
-        background-color: rgba(165, 165, 165, 0.8);
+        background-color: rgba(165, 165, 165, 0.9);
     }
     100%{
         background-color: rgba(165, 165, 165, 0.3);
