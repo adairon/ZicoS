@@ -27,6 +27,7 @@ import Axios from "axios";
 import ProfilesCardsLoader from "../components/loaders/ProfilesCardsLoader";
 import instrumentsAPI from "../services/instrumentsAPI";
 import localizationAPI from "../services/localizationAPI";
+import CssProfilesCardsLoader from "../components/loaders/CssProfileCardsLoader";
 
 const ProfilesPage = (props) => {
   //----------------------------------------------CONTEXTES :
@@ -455,7 +456,9 @@ const ProfilesPage = (props) => {
 
           {!loading && <ProfilesCards paginatedProfiles={paginatedProfiles} />}
 
-          {loading && <ProfilesCardsLoader />}
+          {/* {loading && <ProfilesCardsLoader />} */}
+
+          {loading && <CssProfilesCardsLoader/>}
 
           {/* ---------------------------------------- PAGINATION ---------------------------------------- */}
 

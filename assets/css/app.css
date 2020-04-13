@@ -161,6 +161,40 @@ a{
 .user_email{
     font-size: 1rem;
 }
+/*  ============================== CHARGEMENT DES PROFILS ============================== */
+
+.loadingCard{
+    animation: loader 2s infinite ease-in-out;
+    height: 203px;
+    z-index: 99;
+    border: 0;
+}
+
+
+@keyframes loader {
+    0%{
+        background-color: rgba(165, 165, 165, 0.2);
+    }
+    50%{
+        background-color: rgba(165, 165, 165, 0.7);
+    }
+    100%{
+        background-color: rgba(165, 165, 165, 0.2);
+    }
+}
+
+@-webkit-keyframes loader {
+    0%{
+        background-color: rgba(165, 165, 165, 0.1);
+    }
+    50%{
+        background-color: rgba(165, 165, 165, 0.3);
+    }
+    100%{
+        background-color: rgba(165, 165, 165, 0.1);
+    }
+}
+
 
 /*  ============================== PAGE DES PROFILS ============================== */
 .bigLogo_Profiles{
@@ -197,6 +231,7 @@ a{
     border: white solid 3px;
     z-index: 99;
 }
+
 
 .card-img{
     height: 200px;
