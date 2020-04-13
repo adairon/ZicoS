@@ -76,7 +76,7 @@ const HomePage = ({ history }) => {
             )) || (
               <>
                 <div className="login_link d-flex justify-content-center my-4">
-                  <Link to="/profils" className="btn btn-dark mx-2">
+                  <Link to="/profils" className="btn btn-primary mx-2">
                     Voir les Profils
                   </Link>
                 </div>

@@ -34,8 +34,9 @@ import EditMusicienPage from "./pages/EditMusicienPage";
 import EditGroupPage from "./pages/EditGroupPage";
 import RegisterPage from "./pages/RegisterPage";
 
-// import "../css/app.css";
-import "../css/App.scss"
+import "../css/bootstrap.css"
+import "../css/app.css";
+// import "../css/App.scss"
 
 
 
