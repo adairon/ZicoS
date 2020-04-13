@@ -26,6 +26,7 @@ const ProfilePage = props => {
     instrument: "",
     localization: "",
     style: "",
+    level: "",
     user: ""
   });
 
@@ -46,6 +47,7 @@ const ProfilePage = props => {
         instrument,
         localization,
         style,
+        level,
         user
       } = await ProfilesAPI.findOne(id);
       setProfile({
@@ -59,6 +61,7 @@ const ProfilePage = props => {
         instrument,
         localization,
         style,
+        level,
         user
       });
       setLoading(false);
