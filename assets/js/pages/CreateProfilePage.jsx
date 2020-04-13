@@ -172,11 +172,11 @@ const CreateProfilePage = ({ history }) => {
     if (currentTarget.id === "type") {
       if (currentTarget.value === typeGroupId.toString()) {
         setGroupEdit(true);
-        console.log("groupe");
+        // console.log("groupe");
         delete profile.instrument;
       } else {
         setGroupEdit(false);
-        console.log("musicien");
+        // console.log("musicien");
       }
     }
     const { name, value } = currentTarget;
