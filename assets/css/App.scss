@@ -1,0 +1,348 @@
+@import "../css/bootstrap.css";
+
+@import "custom";
+
+@font-face {
+    font-family: 'Big John PRO Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Big John PRO Regular'), url('./fonts/BigJohnPRO-Regular.woff') format('woff');
+    }
+    
+    
+    @font-face {
+    font-family: 'Big John PRO Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Big John PRO Bold'), url('./fonts/BigJohnPRO-Bold.woff') format('woff');
+    }
+    
+    
+    @font-face {
+    font-family: 'Big John PRO Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Big John PRO Light'), url('./fonts/BigJohnPRO-Light.woff') format('woff');
+    }
+
+
+
+/* ================================ REÈGLES GÉNÉRALES =========================== */
+body {
+    /* background-color: lightgrey; */
+}
+
+h1{
+    text-align: center;
+}
+
+a{
+    text-decoration: none;
+}
+
+:root{
+    --color-dark : #333333;
+    --color-darkOpaque : rgba(51, 51, 51, 0.8);
+}
+
+.fondPage{
+    min-height: 700px;
+}
+
+/* ============================== NAVBAR ========================================= */
+.navbar{
+    /* height: 3.5rem; */
+}
+
+.navbar-brand{
+    height: 40px;
+    padding: 0;
+}
+.logo{
+    height: 40px;
+}
+
+.btnProfiles{
+    color: white;
+    text-decoration: none;
+}
+.navbarDrop{
+    margin-right: 100px;
+}
+
+/* ================================= HOME PAGE =================================== */
+.homeContainer{
+    width: 100%;
+    font-family: "Big John PRO Regular";
+}
+
+.homeDiv{
+    width: 100%;
+    height: 550px;
+}
+.home_title{
+    font-size: 3rem;
+}
+.home1{
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.80);
+}
+
+/*pour gérer la transparence de l'image de fond*/
+.home1::after{
+    content:"";
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url(../images/photos/band-gig.jpg);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -1;
+}
+.bigLogo{
+    width: 400px;
+    margin: auto;
+}
+.home_text{
+    font-size: 1.7rem;
+    margin-top: 200px;
+}
+.dropdown_home1:hover{
+    color: black !important;
+}
+
+
+.home2{
+    position: relative;
+    background-color: var(--color-darkOpaque);
+    color: white;
+}
+.home2::after{
+    content:"";
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url(../images/photos/bassist-gig.jpg);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+
+.home3{
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.80);
+}
+.home3::after{
+    content:"";
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url(../images/photos/guitarist-gig1.jpg);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+/* =============================== CREATION DU PROFIL ============================ */
+.profile_creation{
+    min-height: 650px;
+}
+.create_profil_card{
+    height: 500px;
+}
+
+/* =============================== USER PAGE ===================================== */
+.user_email{
+    font-size: 1rem;
+}
+
+
+
+/*  ============================== PAGE DES PROFILS ============================== */
+.bigLogo_Profiles{
+    height: 3rem;
+}
+.Profiles_title{
+    font-family: "Big John PRO Regular";
+}
+.Profiles_title>h1{
+    font-size: 3rem;
+}
+.Profiles_title>p{
+    font-size: 1.5rem;
+}
+
+#btnRecherche{
+    display: block;
+    width: 200px;
+}
+
+/* ============================== CARTES DE PROFIL =============================== */
+.card-deck {
+    margin: 0 -15px;
+    justify-content: space-between;
+}
+
+.card-deck .card {
+    margin: 0 0 1rem;
+}
+
+.profileCard{
+    height: 203px;
+    font-family: "Big John PRO Bold";
+    border: white solid 3px;
+    z-index: 99;
+}
+
+
+.card-img{
+    height: 200px;
+    opacity: 0.4;
+    object-fit: cover;
+    padding-bottom: 3px; /*padding bottom de la même taille que la bordure pour ne pas que l'image "déborde" sur la bordure*/
+}
+
+.card-img-overlay>a{
+    color: white;
+    text-shadow: black 1px 1px 5px;
+}
+
+/* =========================== PAGE DE PROFIL ======================================== */
+.profile{
+    font-family: "Big John PRO Regular";
+    font-size: 1.5rem;
+}
+
+.profile_figure{
+    cursor: pointer;
+}
+
+.profile_picture{
+    width: 600px;
+    height: 500px;
+    object-fit: cover;
+    margin: auto;
+}
+.profile_name{
+    font-family: "Big John PRO Bold";
+    font-size: 3rem;
+}
+.profile_type{
+    font-size: 2rem;
+}
+.profile_subtitle{
+    font-family: "Big John PRO Bold";
+}
+.profile_link_url>a{
+    color: black !important;
+}
+
+/* =========================== EDITION DE PROFIL ======================================== */
+.editUploadForm{
+    font-size: 1rem;
+}
+.uploadBtn{
+    font-size: 0.6rem;
+}
+
+
+/* =========================== FOOTER ================================================ */
+footer{
+    height: 100px;
+    border-top: white 3px solid;
+}
+
+/*  ============================== CSS LOADING CONTENT ============================== */
+
+.loadingCard{
+    animation: loader 2s infinite ease-in-out;
+    height: 203px;
+    z-index: 99;
+    border: 0;
+}
+
+.loadingInfo{
+    height: 85px;
+    animation: loader 2s infinite ease-in-out;
+}
+.loadingProfilTitle{
+    height: 157px;
+    animation: loader 2s infinite ease-in-out;
+}
+.loadingProfileText{
+    height: 99px;
+    animation: loader 2s infinite ease-in-out;
+}
+.loadingPicture{
+    animation: loader 2s infinite ease-in-out;
+}
+.loadignUserInfos{
+    height: 99px;
+    animation: loader 2s infinite ease-in-out;
+}
+.loadingUserBtn{
+    height: 34px;
+    width: 155px;
+    animation: loader 2s infinite ease-in-out;
+}
+
+
+@keyframes loader {
+    0%{
+        background-color: rgba(165, 165, 165, 0.3);
+    }
+    50%{
+        background-color: rgba(165, 165, 165, 0.9);
+    }
+    100%{
+        background-color: rgba(165, 165, 165, 0.3);
+    }
+}
+
+@-webkit-keyframes loader {
+    0%{
+        background-color: rgba(165, 165, 165, 0.1);
+    }
+    50%{
+        background-color: rgba(165, 165, 165, 0.3);
+    }
+    100%{
+        background-color: rgba(165, 165, 165, 0.1);
+    }
+}
+
+
+/* ---------------------------------Media Queries ----------------------------------- */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .card-deck .card {
+      -ms-flex: 0 0 48.7%;
+      flex: 0 0 48.7%;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .card-deck .card {
+      -ms-flex: 0 0 32%;
+      flex: 0 0 32%;
+    }
+  }
+  
+  @media (min-width: 992px)
+  {
+    .card-deck .card {
+      -ms-flex: 0 0 30%;
+      flex: 0 0 30%;
+    }
+  }
+  
+

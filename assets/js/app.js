@@ -10,8 +10,6 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Switch, Route, withRouter } from "react-router-dom";
 
-import "../css/app.css";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -35,6 +33,11 @@ import CreateProfilePage from "./pages/CreateProfilePage";
 import EditMusicienPage from "./pages/EditMusicienPage";
 import EditGroupPage from "./pages/EditGroupPage";
 import RegisterPage from "./pages/RegisterPage";
+
+// import "../css/app.css";
+import "../css/App.scss"
+
+
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 // import $ from 'jquery';
