@@ -168,6 +168,7 @@ const EditMusicienPage = (props) => {
     }
   };
 
+  // ------------------------------------- FONCTIONS EDITION FORMULAIRE :
   // Fonctions pour l'upload de l'image : 
   const handleFile = event => {
     // console.log(event.target.files[0])

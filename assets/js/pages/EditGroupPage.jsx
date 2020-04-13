@@ -17,6 +17,7 @@ import localizationAPI from "../services/localizationAPI";
 import profilesAPI from "../services/profilesAPI";
 import userAPI from "../services/userAPI";
 import stylesAPI from "../services/stylesAPI";
+import levelsAPI from "../services/levelsAPI";
 
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
@@ -39,7 +40,8 @@ const EditGroupPage = props => {
     linkUrl: "",
     region: "",
     departement: "",
-    style: ""
+    style: "",
+    level: ""
   });
   const [errors, setErrors] = useState({
     type: "",
@@ -49,10 +51,12 @@ const EditGroupPage = props => {
     linkUrl: "",
     region: "",
     departement: "",
-    style: ""
+    style: "",
+    level: ""
   });
   const [localizations, setLocalizations] = useState([]);
   const [styles, setStyles] = useState([]);
+  const [levels, setLevels] = useState([]);
   const [user, setUser] = useState([]);
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("")
@@ -68,6 +72,80 @@ const EditGroupPage = props => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  
+  // ------------------------------------- FONCTIONS REQUETES API :
+  let source = axios.CancelToken.source()
+
+  //fct pour récupérer les localizations :
+  const fetchLocalizations = async () => {
+    try {
+      const dataLocals = await localizationAPI.findAll({cancelToken: source.token});
+      setLocalizations(dataLocals);
+      //   console.log(dataLocals);
+    } catch (error) {
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      };
+    }
+  };
+  //fct pour récupérer les styles :
+  const fetchStyles = async () => {
+    try {
+      const dataStyles = await stylesAPI.findAll({cancelToken: source.token});
+      setStyles(dataStyles);
+      //   console.log(dataStyles);
+    } catch (error) {
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      };
+    }
+  };
+
+  // Pour récupérer les levels
+  const fetchLevels = async () => {
+    try {
+      const dataLevels = await levelsAPI.findAll({
+        cancelToken: source.token,
+      });
+      // console.log(dataLevels)
+      setLevels(dataLevels);
+    }catch(error){
+      console.log(error.response)
+    }
+  }
+  
+  //fct pour récupérer le user :
+  const fetchUser = async userId => {
+    try {
+      const dataUser = await userAPI.findOne(userId);
+      setUser(dataUser);
+      // console.log(dataUser)
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  //fct pour récupérer le profil du user :
+  const fetchProfile = async id => {
+    try {
+      const dataProfile = await profilesAPI.findOne(id);
+      // console.log(dataProfile)
+      const { type, firstName, biography, pictureUrl, linkUrl, localization, style, level } = dataProfile;
+      setProfile({ type: type.id, firstName, biography, pictureUrl, linkUrl, region: localization.id, style: style.id, level: level.id });
+      //Pour donner à l'image une valeur par défaut correspondant au nom du fichier déjà enregistré
+      setImage(dataProfile.pictureUrl.replace("/media/", "").toString())
+      setLoading(false)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ------------------------------------- FONCTIONS EDITION FORMULAIRE :
+  // Fonctions pour l'upload de l'image : 
   const handleFile = event => {
     // console.log(event.target.files[0])
     setFile(event.target.files[0])
@@ -90,58 +168,6 @@ const EditGroupPage = props => {
       setUploadError(true)
     }
   }
-
-  let source = axios.CancelToken.source()
-
-  //fct pour récupérer les localizations :
-  const fetchLocalizations = async () => {
-    try {
-      const dataLocals = await localizationAPI.findAll();
-      setLocalizations(dataLocals);
-      //   console.log(dataLocals);
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-  //fct pour récupérer les styles :
-  const fetchStyles = async () => {
-    try {
-      const dataStyles = await stylesAPI.findAll({cancelToken: source.token});
-      setStyles(dataStyles);
-      //   console.log(dataStyles);
-    } catch (error) {
-      if (Axios.isCancel(error)){
-        console.log("request cancelled")
-      } else {
-        console.log(error.response);
-      };
-    }
-  };
-  
-  //fct pour récupérer le user :
-  const fetchUser = async userId => {
-    try {
-      const dataUser = await userAPI.findOne(userId);
-      setUser(dataUser);
-      // console.log(dataUser)
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
-  //fct pour récupérer le profil du user :
-  const fetchProfile = async id => {
-    try {
-      const dataProfile = await profilesAPI.findOne(id);
-      // console.log(dataProfile)
-      const { type, firstName, biography, pictureUrl, linkUrl, localization, style } = dataProfile;
-      setProfile({ type: type.id, firstName, biography, pictureUrl, linkUrl, region: localization.id, style: style.id });
-      setLoading(false)
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   //fct pour gérer les changements dans le formulaire :
   const handleChange = ({ currentTarget }) => {
     // extrait le name et la value depuis le champs en cours (currentTarget)
@@ -163,6 +189,7 @@ const EditGroupPage = props => {
           pictureUrl: `/media/${image}`,
           type: `api/types/${profile.type}`,
           style: `api/styles/${profile.style}`,
+          level: `api/levels/${profile.level}`,
           email: `${user.email}`,
           localization: `/api/localizations/${profile.region}`
         }
@@ -187,6 +214,7 @@ const EditGroupPage = props => {
   useEffect(() => {
     fetchLocalizations();
     fetchStyles();
+    fetchLevels();
     fetchUser(userId);
     fetchProfile(id);
     return ()=>{
@@ -262,6 +290,37 @@ const EditGroupPage = props => {
 
                 </div>
 
+                <div className="style p-1 m-2 alert alert-secondary">
+                  <Select
+                    name="style"
+                    label="Style de musique"
+                    value={profile.style}
+                    error={errors.style}
+                    onChange={handleChange}
+                  >
+                    {styles.map(style => (
+                      <option key={style.id} value={style.id}>
+                        {style.name}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="level p-1 m-2 alert alert-secondary">
+                  <Select
+                    name="level"
+                    label="Niveau"
+                    value={profile.level}
+                    error={errors.level}
+                    onChange={handleChange}
+                  >
+                    {levels.map(level => (
+                      <option key={level.id} value={level.id}>
+                        {level.name}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
 
                 <div className="localization p-1 m-2 alert alert-secondary">
                   <Select
@@ -279,21 +338,7 @@ const EditGroupPage = props => {
                   </Select>
                 </div>
 
-                <div className="style p-1 m-2 alert alert-secondary">
-                  <Select
-                    name="style"
-                    label="Style de musique"
-                    value={profile.style}
-                    error={errors.style}
-                    onChange={handleChange}
-                  >
-                    {styles.map(style => (
-                      <option key={style.id} value={style.id}>
-                        {style.name}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
+                
               </div>
             </div>
 
