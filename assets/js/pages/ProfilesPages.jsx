@@ -18,6 +18,7 @@ import ProfilesAPI from "../services/profilesAPI";
 import TypeAPI from "../services/typeAPI";
 import StylesAPI from "../services/stylesAPI";
 import userAPI from "../services/userAPI";
+import levelsAPI from "../services/levelsAPI";
 
 import ProfilesCards from "../components/ProfilesCards";
 import Pagination from "../components/Pagination";
@@ -26,7 +27,6 @@ import Axios from "axios";
 import ProfilesCardsLoader from "../components/loaders/ProfilesCardsLoader";
 import instrumentsAPI from "../services/instrumentsAPI";
 import localizationAPI from "../services/localizationAPI";
-import levelsAPI from "../services/levelsAPI";
 
 const ProfilesPage = (props) => {
   //----------------------------------------------CONTEXTES :
@@ -69,7 +69,7 @@ const ProfilesPage = (props) => {
       const data = await ProfilesAPI.findAll({ cancelToken: source.token });
       setProfiles(data);
       setAllProfiles(data);
-      console.log(data);
+      // console.log(data);
       setLoading(false);
     } catch (error) {
       if (Axios.isCancel(error)) {

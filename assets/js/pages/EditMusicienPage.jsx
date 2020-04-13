@@ -18,6 +18,7 @@ import localizationAPI from "../services/localizationAPI";
 import stylesAPI from "../services/stylesAPI";
 import profilesAPI from "../services/profilesAPI";
 import userAPI from "../services/userAPI";
+import levelsAPI from "../services/levelsAPI";
 
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
@@ -43,7 +44,8 @@ const EditMusicienPage = (props) => {
     instrument: "",
     region: "",
     departement: "",
-    style: ""
+    style: "",
+    level: ""
   });
   const [errors, setErrors] = useState({
     type: "",
@@ -55,12 +57,14 @@ const EditMusicienPage = (props) => {
     instrument: "",
     region: "",
     departement: "",
-    style: ""
+    style: "",
+    level: ""
   });
 
   const [instruments, setIntruments] = useState([]);
   const [localizations, setLocalizations] = useState([]);
   const [styles, setStyles] = useState([]);
+  const [levels, setLevels] = useState([]);
   const [user, setUser] = useState([]);
   const [show, setShow] = useState(false);
   const [file, setFile] = useState("")
@@ -75,45 +79,38 @@ const EditMusicienPage = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleFile = event => {
-    // console.log(event.target.files[0])
-    setFile(event.target.files[0])
-  }
-  //fct pour gérer l'upload
-  const handleUpload = (event)=>{
-    event.preventDefault();
-    console.log(file)
-    const data = new FormData()
-    data.append('file', file)
-    console.log(data)
-    axios.post("http://localhost:8000/api/media_objects", data,{})
-         .then(response => {setImage(response.data.contentUrl)})
-        //  .then(console.log("file uploaded"))
-    setBtnColor("info")
-    setBtnLabel("Image chargée")
-  }
 
+
+  // ------------------------------------- FONCTIONS REQUETES API :
   let source = axios.CancelToken.source()
 
   //ftc pour récupérer les instruments :
   const fetchInstruments = async () => {
     try {
-      const dataInstrus = await instrumentsAPI.findAll();
+      const dataInstrus = await instrumentsAPI.findAll({cancelToken: source.token});
       setIntruments(dataInstrus);
       // console.log(dataInstrus)
     } catch (error) {
-      console.log(error.response);
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      };
     }
   };
 
   //fct pour récupérer les localizations :
   const fetchLocalizations = async () => {
     try {
-      const dataLocals = await localizationAPI.findAll();
+      const dataLocals = await localizationAPI.findAll({cancelToken: source.token});
       setLocalizations(dataLocals);
       //   console.log(dataLocals);
     } catch (error) {
-      console.log(error.response);
+      if (Axios.isCancel(error)){
+        console.log("request cancelled")
+      } else {
+        console.log(error.response);
+      };
     }
   };
 
@@ -131,6 +128,18 @@ const EditMusicienPage = (props) => {
       };
     }
   };
+  // Pour récupérer les levels
+  const fetchLevels = async () => {
+    try {
+      const dataLevels = await levelsAPI.findAll({
+        cancelToken: source.token,
+      });
+      // console.log(dataLevels)
+      setLevels(dataLevels);
+    }catch(error){
+      console.log(error.response)
+    }
+  }
   //fct pour récupérer le user :
   const fetchUser = async userId => {
     try {
@@ -142,17 +151,41 @@ const EditMusicienPage = (props) => {
     }
   };
 
+
+
   //fct pour récupérer le profil du user :
   const fetchProfile = async id => {
     try {
       const dataProfile = await profilesAPI.findOne(id);
-      const { type, firstName, lastName, biography, pictureUrl, linkUrl, instrument, localization, style } = dataProfile;
-      setProfile({ type: type.id, firstName, lastName, biography, pictureUrl, linkUrl, instrument: instrument.id, region: localization.id, style: style.id });
+      const { type, firstName, lastName, biography, pictureUrl, linkUrl, instrument, localization, style, level } = dataProfile;
+      console.log(dataProfile)
+      setProfile({ type: type.id, firstName, lastName, biography, pictureUrl, linkUrl, instrument: instrument.id, region: localization.id, style: style.id, level:level.id });
+      //Pour donner à l'image une valeur par défaut correspondant au nom du fichier déjà enregistré
+      setImage(dataProfile.pictureUrl.replace("/media/", "").toString())
       setLoading(false)
     } catch (error) {
       console.log(error);
     }
   };
+
+  // Fonctions pour l'upload de l'image : 
+  const handleFile = event => {
+    // console.log(event.target.files[0])
+    setFile(event.target.files[0])
+  }
+  //fct pour gérer l'upload
+  const handleUpload = (event)=>{
+    event.preventDefault();
+    console.log(file)
+    const data = new FormData()
+    data.append('file', file)
+    console.log(data)
+    axios.post("http://localhost:8000/api/media_objects", data,{})
+         .then(response => {setImage(response.data.contentUrl)})
+        //  .then(console.log("file uploaded"))
+    setBtnColor("info")
+    setBtnLabel("Image chargée")
+  }
 
   //fct pour gérer les changements dans le formulaire :
   const handleChange = ({ currentTarget }) => {
@@ -174,6 +207,7 @@ const EditMusicienPage = (props) => {
           ...profile,
           pictureUrl: `/media/${image}`,
           type: `api/types/${profile.type}`,
+          level: `api/levels/${profile.level}`,
           instrument: `api/instruments/${profile.instrument}`,
           style: `api/styles/${profile.style}`,
           email: `${user.email}`,
@@ -195,12 +229,13 @@ const EditMusicienPage = (props) => {
     }
   };
 
-  //----------------------------------------------EFFETCS
+  //----------------------------------------------EFFETCS :
   useEffect(() => {
     // fetchTypes();
     fetchInstruments();
     fetchLocalizations();
     fetchStyles();
+    fetchLevels();
     fetchUser(userId);
     fetchProfile(id);
     return ()=>{
@@ -233,7 +268,7 @@ const EditMusicienPage = (props) => {
                       <Form.File
                         name="image"
                         label="Changer votre photo de profil"
-                        // value={profile.image}
+                        // value={profile.pictureUrl}
                         onChange={handleFile}
                         formEncType="multipart/form-data"
                       />
@@ -297,6 +332,38 @@ const EditMusicienPage = (props) => {
                   </Select>
                 </div>
 
+                <div className="style p-1 m-2 alert alert-secondary">
+                  <Select
+                    name="style"
+                    label="Style de musique"
+                    value={profile.style}
+                    error={errors.style}
+                    onChange={handleChange}
+                  >
+                    {styles.map(style => (
+                      <option key={style.id} value={style.id}>
+                        {style.name}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+
+                <div className="level p-1 m-2 alert alert-secondary">
+                  <Select
+                    name="level"
+                    label="Niveau"
+                    value={profile.level}
+                    error={errors.level}
+                    onChange={handleChange}
+                  >
+                    {levels.map(level => (
+                      <option key={level.id} value={level.id}>
+                        {level.name}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+
                 <div className="localization p-1 m-2 alert alert-secondary">
                   <Select
                     name="region"
@@ -313,21 +380,6 @@ const EditMusicienPage = (props) => {
                   </Select>
                 </div>
 
-                <div className="style p-1 m-2 alert alert-secondary">
-                  <Select
-                    name="style"
-                    label="Style de musique"
-                    value={profile.style}
-                    error={errors.style}
-                    onChange={handleChange}
-                  >
-                    {styles.map(style => (
-                      <option key={style.id} value={style.id}>
-                        {style.name}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
               </div>
             </div>
 

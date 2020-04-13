@@ -48,6 +48,7 @@ const Navbar = ({ history }) => {
   //   }
   // };
 
+
   // fonction pour gérer la déconnexion
   const handleLogout = () => {
     // au clic sur le bouton, on fait appel à AuthAPI pour se déconnecter avec la méthode logout
