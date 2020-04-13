@@ -3,13 +3,13 @@ import React, { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import axios from "axios";
 import Helmet from "react-helmet";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
 
-import Accordion from 'react-bootstrap/Accordion'
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
-import Form from 'react-bootstrap/Form'
-import ProgressBar from 'react-bootstrap/ProgressBar'
+import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import ProgressBar from "react-bootstrap/ProgressBar";
 
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
@@ -19,13 +19,13 @@ import instrumentsAPI from "../services/instrumentsAPI";
 import localizationAPI from "../services/localizationAPI";
 import stylesAPI from "../services/stylesAPI";
 import userAPI from "../services/userAPI";
+import levelsAPI from "../services/levelsAPI";
 import profilesAPI from "../services/profilesAPI";
 
 import robotPicture from "../../images/placeholders/profile_picture/raphael_dairon-robot-vinyl.jpg";
 
 //---------------------------------------------- FUNCTIONNAL COMPONENT :
-const CreateProfilePage = ({history}) => {
-
+const CreateProfilePage = ({ history }) => {
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
@@ -41,6 +41,7 @@ const CreateProfilePage = ({history}) => {
     region: "",
     departement: "",
     style: "",
+    level: "",
   });
   const [errors, setErrors] = useState({
     type: "",
@@ -52,85 +53,107 @@ const CreateProfilePage = ({history}) => {
     instrument: "",
     region: "",
     departement: "",
-    style: ""
+    style: "",
+    level: "",
   });
-  const [file, setFile] = useState("")
-  const [image, setImage]= useState("")
+  const [file, setFile] = useState("");
+  const [image, setImage] = useState("/defaultPicture/raphael_dairon-robot-vinyl.jpg");
   const [types, setTypes] = useState([]);
   const [instruments, setIntruments] = useState([]);
   const [localizations, setLocalizations] = useState([]);
   const [styles, setStyles] = useState([]);
+  const [levels, setLevels] = useState([]);
   const [user, setUser] = useState([]);
-  const [groupEdit, setGroupEdit] = useState(false)
-  const [typeGroupId, setTypeGroupId] = useState("")
-  const [progress, setProgress] = useState("0")
-  const [clicCount, setClicCount]=useState(1)
-  const [step1Class, setStep1Class]= useState("")
-  const [step2Class, setStep2Class]= useState("")
-  const [step3Class, setStep3Class]= useState("")
-  const [collapse, setCollapse] = useState("")
-  const [btnColor, setBtnColor] = useState("secondary")
-  const [btnLabel, setBtnLabel] = useState("Charger l'image")
+  const [groupEdit, setGroupEdit] = useState(false);
+  const [typeGroupId, setTypeGroupId] = useState("");
+  const [progress, setProgress] = useState("0");
+  const [clicCount, setClicCount] = useState(1);
+  const [step1Class, setStep1Class] = useState("");
+  const [step2Class, setStep2Class] = useState("");
+  const [step3Class, setStep3Class] = useState("");
+  const [collapse, setCollapse] = useState("");
+  const [btnColor, setBtnColor] = useState("secondary");
+  const [btnLabel, setBtnLabel] = useState("Charger l'image");
 
   // ---------------------------------------------- FUNCTIONS :
 
   //_____________________________________AXIOS API REQUEST FUNCTIONS :
 
-  let source = axios.CancelToken.source()
+  let source = axios.CancelToken.source();
 
   //fct pour récupérer les types :
   const fetchTypes = async () => {
     try {
-      const dataTypes = await typeAPI.findAll({cancelToken: source.token});
+      const dataTypes = await typeAPI.findAll({ cancelToken: source.token });
       setTypes(dataTypes);
       // console.log(dataTypes)
-      dataTypes.map(type => (
-        (type.name === "groupe" && setTypeGroupId(type.id))
-      ))
+      dataTypes.map(
+        (type) => type.name === "groupe" && setTypeGroupId(type.id)
+      );
     } catch (error) {
-      if (Axios.isCancel(error)){
-        console.log("request cancelled")
+      if (Axios.isCancel(error)) {
+        console.log("request cancelled");
       } else {
         console.log(error.response);
-      };
+      }
     }
   };
   //ftc pour récupérer les instruments :
   const fetchInstruments = async () => {
     try {
-      const dataInstrus = await instrumentsAPI.findAll();
+      const dataInstrus = await instrumentsAPI.findAll({cancelToken: source.token});
       setIntruments(dataInstrus);
       // console.log(dataInstrus)
     } catch (error) {
-      console.log(error.response);
-    }
-  };
-  //fct pour récupérer les localizations :
-  const fetchLocalizations = async () => {
-    try {
-      const dataLocals = await localizationAPI.findAll();
-      setLocalizations(dataLocals);
-      //   console.log(dataLocals);
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-  //fct pour récupérer les styles :
-  const fetchStyles = async () => {
-    try {
-      const dataStyles = await stylesAPI.findAll({cancelToken: source.token});
-      setStyles(dataStyles);
-      //   console.log(dataStyles);
-    } catch (error) {
-      if (Axios.isCancel(error)){
-        console.log("request cancelled")
+      if (Axios.isCancel(error)) {
+        console.log("request cancelled");
       } else {
         console.log(error.response);
       };
     }
   };
+  //fct pour récupérer les localizations :
+  const fetchLocalizations = async () => {
+    try {
+      const dataLocals = await localizationAPI.findAll({cancelToken: source.token});
+      setLocalizations(dataLocals);
+      //   console.log(dataLocals);
+    } catch (error) {
+      if (Axios.isCancel(error)) {
+        console.log("request cancelled");
+      } else {
+        console.log(error.response);
+      };
+    }
+  };
+  //fct pour récupérer les styles :
+  const fetchStyles = async () => {
+    try {
+      const dataStyles = await stylesAPI.findAll({ cancelToken: source.token });
+      setStyles(dataStyles);
+      //   console.log(dataStyles);
+    } catch (error) {
+      if (Axios.isCancel(error)) {
+        console.log("request cancelled");
+      } else {
+        console.log(error.response);
+      }
+    }
+  };
+
+  // Pour récupérer les levels
+  const fetchLevels = async () => {
+    try {
+      const dataLevels = await levelsAPI.findAll({cancelToken: source.token});
+      // console.log(dataLevels)
+      setLevels(dataLevels);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
   //fct pour récupérer le user :
-  const fetchUser = async userId => {
+  const fetchUser = async (userId) => {
     try {
       const dataUser = await userAPI.findOne(userId);
       setUser(dataUser);
@@ -146,14 +169,14 @@ const CreateProfilePage = ({history}) => {
   const handleChange = ({ currentTarget }) => {
     // extrait le name et la value depuis le champs en cours (currentTarget)
     // console.log(currentTarget.id);
-    if(currentTarget.id === "type"){
-      if(currentTarget.value === typeGroupId.toString()){
-        setGroupEdit(true)
-        console.log("groupe")
-        delete profile.instrument
-      }else{
-        setGroupEdit(false)
-        console.log("musicien")
+    if (currentTarget.id === "type") {
+      if (currentTarget.value === typeGroupId.toString()) {
+        setGroupEdit(true);
+        console.log("groupe");
+        delete profile.instrument;
+      } else {
+        setGroupEdit(false);
+        console.log("musicien");
       }
     }
     const { name, value } = currentTarget;
@@ -162,31 +185,31 @@ const CreateProfilePage = ({history}) => {
   };
 
   // ftc pour gérer la progression de la progress bar aux clics sur le 1er bouton
-  const begin = ()=>{
-    setClicCount(clicCount +1)
-    if(clicCount%2 !== 0){
-      setProgress("15")
-    }else{
-      setProgress("0")
+  const begin = () => {
+    setClicCount(clicCount + 1);
+    if (clicCount % 2 !== 0) {
+      setProgress("15");
+    } else {
+      setProgress("0");
     }
-  }
+  };
 
   // const toStep1 = () => {
   //   setStep1Class("collapse show")
   // }
 
   // const toStep2 = (event) => {
-    // const apiErrors = {};
-    // if(profile.type === ""){
-    //   console.log("type null")
-    //   apiErrors.type = "Merci de préciser quel type de profil vous vouler créer"
-    //   setErrors(apiErrors)
-    //   setStep2Class("collapse")
-    // }else{
-    //   setStep2Class("collapse show")
-    //   setStep1Class("collapse")
+  // const apiErrors = {};
+  // if(profile.type === ""){
+  //   console.log("type null")
+  //   apiErrors.type = "Merci de préciser quel type de profil vous vouler créer"
+  //   setErrors(apiErrors)
+  //   setStep2Class("collapse")
+  // }else{
+  //   setStep2Class("collapse show")
+  //   setStep1Class("collapse")
 
-    // }
+  // }
   // }
 
   //fct pour vérif avant envoi :
@@ -198,62 +221,75 @@ const CreateProfilePage = ({history}) => {
   //   setShowBtn("")
   // }
 
-  const handleFile = event => {
+  const handleFile = (event) => {
     // console.log(event.target.files[0])
-    setFile(event.target.files[0])
-  }
+    setFile(event.target.files[0]);
+  };
   //fct pour gérer l'upload
-  const handleUpload = (event)=>{
+  const handleUpload = (event) => {
     event.preventDefault();
-    const data = new FormData()
-    data.append('file', file)
-    axios.post("http://localhost:8000/api/media_objects", data,{})
-         .then(response => {setImage(response.data.contentUrl)})
-        //  .then(console.log("file uploaded"))
-    setBtnColor("info")
-    setBtnLabel("Image chargée")
-  }
+    const data = new FormData();
+    data.append("file", file);
+    axios
+      .post("http://localhost:8000/api/media_objects", data, {})
+      .then((response) => {
+        setImage(response.data.contentUrl);
+      });
+    //  .then(console.log("file uploaded"))
+    setBtnColor("info");
+    setBtnLabel("Image chargée");
+  };
 
   //fct pour gérer la soumission du formulaire et les erreurs:
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     //Gestion des erreurs pour les champs en relation avec d'autres entités avant de faire partir la requête :
     const apiErrors = {};
-    if(profile.type === ""){
-      console.log("type null")
-      apiErrors.type = "Merci de préciser quel type de profil vous vouler créer"
-      setStep1Class("show")
-      setCollapse("collapse")
-      setErrors(apiErrors)
+    if (profile.type === "") {
+      console.log("type null");
+      apiErrors.type =
+        "Merci de préciser quel type de profil vous vouler créer";
+      setStep1Class("show");
+      setCollapse("collapse");
+      setErrors(apiErrors);
       return;
     }
-    if(!groupEdit & profile.instrument === ""){
-      console.log("instrument null")
-      apiErrors.instrument = "Merci de préciser de quel instrument vous jouez"
-      setStep2Class("show")
-      setCollapse("collapse")
-      setErrors(apiErrors)
+    if (!groupEdit & (profile.instrument === "")) {
+      console.log("instrument null");
+      apiErrors.instrument = "Merci de préciser de quel instrument vous jouez";
+      setStep2Class("show");
+      setCollapse("collapse");
+      setErrors(apiErrors);
       return;
     }
-    if(profile.style === ""){
-      console.log("style null")
-      apiErrors.style = "Merci de préciser quel style de musique vous jouez principalement"
-      setStep2Class("show")
-      setCollapse("collapse")
-      setErrors(apiErrors)
+    if (profile.style === "") {
+      console.log("style null");
+      apiErrors.style =
+        "Merci de préciser quel style de musique vous jouez principalement";
+      setStep2Class("show");
+      setCollapse("collapse");
+      setErrors(apiErrors);
       return;
     }
-    if(profile.region === ""){
-      console.log("region null")
-      apiErrors.region = "Merci de préciser votre région"
-      setStep2Class("show")
-      setCollapse("collapse")
-      setErrors(apiErrors)
+    if (profile.level === "") {
+      console.log("level null");
+      apiErrors.style = "Merci de préciser votre niveau";
+      setStep2Class("show");
+      setCollapse("collapse");
+      setErrors(apiErrors);
+      return;
+    }
+    if (profile.region === "") {
+      console.log("region null");
+      apiErrors.region = "Merci de préciser votre région";
+      setStep2Class("show");
+      setCollapse("collapse");
+      setErrors(apiErrors);
       return;
     }
     // console.log(profile)
     try {
-      if (!groupEdit){
+      if (!groupEdit) {
         //Si c'est un profil musicien.ne; on envoie une requête en post via axios en passant ce profile en objet
         const response = await axios.post(
           "http://localhost:8000/api/profiles",
@@ -261,20 +297,21 @@ const CreateProfilePage = ({history}) => {
             ...profile,
             pictureUrl: `/media/${image}`,
             type: `api/types/${profile.type}`,
+            level: `api/levels/${profile.level}`,
             instrument: `api/instruments/${profile.instrument}`,
             style: `api/styles/${profile.style}`,
             email: `${user.email}`,
-            localization: `/api/localizations/${profile.region}`
+            localization: `/api/localizations/${profile.region}`,
           }
         );
         setErrors({});
         console.log(response.data);
-        toast.success("Votre Profil à bien été créé !")
-        history.push(`/profils`)
+        toast.success("Votre Profil à bien été créé !");
+        history.push(`/profils`);
       } else {
         //sinon, on commence par supprimer la propriété instrument de l'objet profile car elle est vide et fera planter la requête
-        delete profile.instrument
-        delete errors.instrument
+        delete profile.instrument;
+        delete errors.instrument;
         //et, c'est un profil groupe et on envoie une requête en post via axios en passant ce profil en objet
         const response = await axios.post(
           "http://localhost:8000/api/profiles",
@@ -282,21 +319,22 @@ const CreateProfilePage = ({history}) => {
             ...profile,
             pictureUrl: `/media/${image}`,
             type: `api/types/${profile.type}`,
+            level: `api/levels/${profile.level}`,
             style: `api/styles/${profile.style}`,
             email: `${user.email}`,
-            localization: `/api/localizations/${profile.region}`
+            localization: `/api/localizations/${profile.region}`,
           }
         );
         setErrors({});
         // console.log(response.data);
-        toast.success("Votre Profil à bien été créé !")
-        history.push(`/profils`)
+        toast.success("Votre Profil à bien été créé !");
+        history.push(`/profils`);
       }
     } catch (error) {
-      console.log(error.response)
+      console.log(error.response);
       if (error.response) {
         const apiErrors = {};
-        error.response.data.violations.forEach(violation => {
+        error.response.data.violations.forEach((violation) => {
           apiErrors[violation.propertyPath] = violation.message;
         });
         setErrors(apiErrors);
@@ -310,10 +348,11 @@ const CreateProfilePage = ({history}) => {
     fetchInstruments();
     fetchLocalizations();
     fetchStyles();
+    fetchLevels();
     fetchUser(userId);
-    return ()=>{
-      source.cancel()
-    }
+    return () => {
+      source.cancel();
+    };
   }, []);
   //----------------------------------------------RETURN :
   return (
@@ -326,73 +365,106 @@ const CreateProfilePage = ({history}) => {
           <h1>Création du profil</h1>
 
           <form className="m-5">
-          <Accordion>
-            
-            <ProgressBar animated now={progress} className="mb-3"/>
+            <Accordion>
+              <ProgressBar animated now={progress} className="mb-3" />
 
-            <Card>
+              <Card>
+                <Card.Header className="text-center">
+                  <Card.Title className="mb-4">
+                    Il vous faut un profil pour pouvoir entrer en contact avec
+                    les autres musiciens.nes et groupes déjà présents sur ZicoS
+                  </Card.Title>
 
-              <Card.Header className="text-center">
-                <Card.Title className="mb-4">Il vous faut un profil pour pouvoir entrer en contact avec les autres musiciens.nes et groupes déjà présents sur ZicoS</Card.Title>
-                
-                {/* <button className="btn btn-primary" onClick={toStep1}>
+                  {/* <button className="btn btn-primary" onClick={toStep1}>
                   Créer mon profil ZicoS !
                 </button> */}
-                <Accordion.Toggle as={Button} variant="primary" eventKey="0" onClick={begin} className={collapse} >
-                  Créer mon profil Zicos !
-                </Accordion.Toggle>
+                  <Accordion.Toggle
+                    as={Button}
+                    variant="primary"
+                    eventKey="0"
+                    onClick={begin}
+                    className={collapse}
+                  >
+                    Créer mon profil Zicos !
+                  </Accordion.Toggle>
+                </Card.Header>
 
-              </Card.Header>
+                <Accordion.Collapse eventKey="0" className={step1Class}>
+                  <Card.Body className="create_profil_card">
+                    <h3 className={collapse}>
+                      Bon, commençons par quelques informations de base...
+                    </h3>
+                    <Select
+                      name="type"
+                      label="Êtes-vous un.e musicien.ne ou un groupe ?"
+                      value={profile.type}
+                      error={errors.type}
+                      onChange={handleChange}
+                    >
+                      {types.map((type) => (
+                        <option key={type.id} value={type.id} id={type.name}>
+                          {type.name}
+                        </option>
+                      ))}
+                    </Select>
+                    <Field
+                      name="firstName"
+                      label={(!groupEdit && "Votre Prénom ") || "Nom du Groupe"}
+                      placeholder={
+                        (!groupEdit && "Votre Prénom ") || "Le nom du Groupe"
+                      }
+                      value={profile.firstName}
+                      onChange={handleChange}
+                      error={errors.firstName}
+                    />
 
-              <Accordion.Collapse eventKey="0" className={step1Class}>
-                <Card.Body className="create_profil_card">
-                <h3 className={collapse}>Bon, commençons par quelques informations de base...</h3>
-                <Select
-                  name="type"
-                  label="Êtes-vous un.e musicien.ne ou un groupe ?"
-                  value={profile.type}
-                  error={errors.type}
-                  onChange={handleChange}
-                >
-                  {types.map(type => (
-                    <option key={type.id} value={type.id} id={type.name}>
-                      {type.name}
-                    </option>
-                  ))}
-                </Select>
-                <Field
-                  name="firstName"
-                  label={(!groupEdit && "Votre Prénom ") || "Nom du Groupe"}
-                  placeholder={(!groupEdit && "Votre Prénom ") || "Le nom du Groupe"}
-                  value={profile.firstName}
-                  onChange={handleChange}
-                  error={errors.firstName}
-                />
-
-                {!groupEdit && (
-                  <Field
-                    name="lastName"
-                    label="Nom de famille"
-                    placeholder="Votre nom de famille"
-                    value={profile.lastName}
-                    onChange={handleChange}
-                  />
-                )}
-                  {/* <button className="btn btn-primary" onClick={toStep2}>
+                    {!groupEdit && (
+                      <Field
+                        name="lastName"
+                        label="Nom de famille"
+                        placeholder="Votre nom de famille"
+                        value={profile.lastName}
+                        onChange={handleChange}
+                      />
+                    )}
+                    <Select
+                      name="region"
+                      label="Région"
+                      value={profile.region}
+                      error={errors.region}
+                      onChange={handleChange}
+                    >
+                      {localizations.map((localization) => (
+                        <option key={localization.id} value={localization.id}>
+                          {localization.region}
+                        </option>
+                      ))}
+                    </Select>
+                    {/* <button className="btn btn-primary" onClick={toStep2}>
                     continuer
                   </button> */}
-                  <Accordion.Toggle as={Button} variant="primary" eventKey="1" onClick={()=>{setProgress("40")}} className={collapse}>
-                    Continuer
-                  </Accordion.Toggle>
+                    <Accordion.Toggle
+                      as={Button}
+                      variant="primary"
+                      eventKey="1"
+                      onClick={() => {
+                        setProgress("40");
+                      }}
+                      className={collapse}
+                    >
+                      Continuer
+                    </Accordion.Toggle>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
 
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-           
-            <Card>
-              <Accordion.Collapse eventKey="1" className={step2Class}>
-                <Card.Body className="create_profil_card">
-                  <h3 className={collapse}>Super ! Maintenant quelques détails sur vous et votre musique...</h3>
+              <Card>
+                <Accordion.Collapse eventKey="1" className={step2Class}>
+                  <Card.Body className="create_profil_card">
+                    <h3 className={collapse}>
+                      Super ! Maintenant quelques détails sur vous et votre
+                      musique...
+                    </h3>
                     {!groupEdit && (
                       <Select
                         name="instrument"
@@ -401,7 +473,7 @@ const CreateProfilePage = ({history}) => {
                         error={errors.instrument}
                         onChange={handleChange}
                       >
-                        {instruments.map(instrument => (
+                        {instruments.map((instrument) => (
                           <option key={instrument.id} value={instrument.id}>
                             {instrument.name}
                           </option>
@@ -415,43 +487,61 @@ const CreateProfilePage = ({history}) => {
                       error={errors.style}
                       onChange={handleChange}
                     >
-                      {styles.map(style => (
+                      {styles.map((style) => (
                         <option key={style.id} value={style.id}>
                           {style.name}
                         </option>
                       ))}
                     </Select>
+
                     <Select
-                      name="region"
-                      label="Région"
-                      value={profile.region}
-                      error={errors.region}
+                      name="level"
+                      label="Votre niveau"
+                      value={profile.level}
+                      error={errors.level}
                       onChange={handleChange}
                     >
-                      {localizations.map(localization => (
-                        <option key={localization.id} value={localization.id}>
-                          {localization.region}
+                      {levels.map((level) => (
+                        <option key={level.id} value={level.id}>
+                          {level.name}
                         </option>
                       ))}
                     </Select>
-                    
 
-                  <Accordion.Toggle as={Button} variant="link" eventKey="0" onClick={()=>{setProgress("15")}} className={collapse}>
-                    Retour
-                  </Accordion.Toggle>
-                  <Accordion.Toggle as={Button} variant="primary" eventKey="2" onClick={()=>{setProgress("65")}} className={collapse}>
-                    Continuer
-                  </Accordion.Toggle>
 
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
+                    <Accordion.Toggle
+                      as={Button}
+                      variant="link"
+                      eventKey="0"
+                      onClick={() => {
+                        setProgress("15");
+                      }}
+                      className={collapse}
+                    >
+                      Retour
+                    </Accordion.Toggle>
+                    <Accordion.Toggle
+                      as={Button}
+                      variant="primary"
+                      eventKey="2"
+                      onClick={() => {
+                        setProgress("65");
+                      }}
+                      className={collapse}
+                    >
+                      Continuer
+                    </Accordion.Toggle>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
 
-            <Card>
-              <Accordion.Collapse eventKey="2" className={step3Class}>
-                <Card.Body className="create_profil_card" >
-                  <h3 className={collapse}>Parfait ! quelques mots pour vous décrire ?</h3>
-                  {/* <Field
+              <Card>
+                <Accordion.Collapse eventKey="2" className={step3Class}>
+                  <Card.Body className="create_profil_card">
+                    <h3 className={collapse}>
+                      Parfait ! quelques mots pour vous décrire ?
+                    </h3>
+                    {/* <Field
                     name="biography"
                     label="A propos de vous"
                     placeholder="Un petit texte de présentation ? Décrivez votre style, votre groupe, vos influences et inspirations..."
@@ -460,82 +550,107 @@ const CreateProfilePage = ({history}) => {
                     onChange={handleChange}
                     rows="3"
                   /> */}
-                  <Form.Group controlId="biography" name="biography">
-                    <Form.Label>A propos de vous</Form.Label>
-                    <Form.Control 
-                      name="biography"
-                      as="textarea" 
-                      rows="3" 
-                      placeholder="Un petit texte de présentation ? Décrivez votre style, votre groupe, vos influences et inspirations..."
-                      value={profile.biography}
-                      onChange={handleChange}
+                    <Form.Group controlId="biography" name="biography">
+                      <Form.Label>A propos de vous</Form.Label>
+                      <Form.Control
+                        name="biography"
+                        as="textarea"
+                        rows="3"
+                        placeholder="Un petit texte de présentation ? Décrivez votre style, votre groupe, vos influences et inspirations..."
+                        value={profile.biography}
+                        onChange={handleChange}
                       />
-                  </Form.Group>
-                  <Accordion.Toggle as={Button} variant="link" eventKey="1" onClick={()=>{setProgress("40")}} className={collapse}>
-                    Retour
-                  </Accordion.Toggle>
-                  <Accordion.Toggle as={Button} variant="primary" eventKey="3" onClick={()=>{setProgress("90")}} className={collapse}>
-                    Continuer
-                  </Accordion.Toggle>
+                    </Form.Group>
+                    <Accordion.Toggle
+                      as={Button}
+                      variant="link"
+                      eventKey="1"
+                      onClick={() => {
+                        setProgress("40");
+                      }}
+                      className={collapse}
+                    >
+                      Retour
+                    </Accordion.Toggle>
+                    <Accordion.Toggle
+                      as={Button}
+                      variant="primary"
+                      eventKey="3"
+                      onClick={() => {
+                        setProgress("90");
+                      }}
+                      className={collapse}
+                    >
+                      Continuer
+                    </Accordion.Toggle>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
 
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-
-            <Card>
-              <Accordion.Collapse eventKey="3" className="">
-                <Card.Body className="create_profil_card">
-                  <h3 className={collapse}>Et pour finir ...</h3>
-                  <div className="row">
-                    <div className="col-8">
-                      <Form.File
-                        name="image"
-                        label="Votre photo de profil"
-                        // value={profile.image}
-                        onChange={handleFile}
-                        formEncType="multipart/form-data"
-                      />
+              <Card>
+                <Accordion.Collapse eventKey="3" className="">
+                  <Card.Body className="create_profil_card">
+                    <h3 className={collapse}>Et pour finir ...</h3>
+                    <div className="row">
+                      <div className="col-8">
+                        <Form.File
+                          name="image"
+                          label="Votre photo de profil"
+                          // value={profile.image}
+                          onChange={handleFile}
+                          formEncType="multipart/form-data"
+                        />
+                      </div>
+                      <div className="col">
+                        <button
+                          className={"btn my-3 btn-" + btnColor}
+                          onClick={handleUpload}
+                        >
+                          {btnLabel}
+                        </button>
+                      </div>
                     </div>
-                    <div className="col">
-                      <button className={"btn my-3 btn-" + btnColor} onClick={handleUpload}>
-                        {btnLabel}
-                      </button>
-                    </div>
-
-                  </div>
-                  {/* <Field
+                    {/* <Field
                     name="pictureUrl"
                     label="Votre photo de profil"
                     placeholder="lien vers votre photo de profil"
                     value={profile.pictureUrl}
                     onChange={handleChange}
                   /> */}
-                  <Field
-                    name="linkUrl"
-                    label="Vous avez un site internet ou un profil facebook à partager ?"
-                    placeholder="Lien vers votre site internet"
-                    value={profile.linkUrl}
-                    onChange={handleChange}
-                  />
+                    <Field
+                      name="linkUrl"
+                      label="Vous avez un site internet ou un profil facebook à partager ?"
+                      placeholder="Lien vers votre site internet"
+                      value={profile.linkUrl}
+                      onChange={handleChange}
+                    />
 
-
-                  <div className="form-group">
-                    <Accordion.Toggle as={Button} variant="link" eventKey="2" onClick={()=>{setProgress("65")}} className={collapse}>
-                      Retour
-                    </Accordion.Toggle>
-                    {/* <button className="btn btn-warning" onClick={handleCheck}>
+                    <div className="form-group">
+                      <Accordion.Toggle
+                        as={Button}
+                        variant="link"
+                        eventKey="2"
+                        onClick={() => {
+                          setProgress("65");
+                        }}
+                        className={collapse}
+                      >
+                        Retour
+                      </Accordion.Toggle>
+                      {/* <button className="btn btn-warning" onClick={handleCheck}>
                       Vérifier
                     </button> */}
-                    <button onClick={handleSubmit} className="btn btn-success">
-                      Enregistrer
-                    </button>
-                  </div>
-
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-
-          </Accordion>
+                      <button
+                        onClick={handleSubmit}
+                        className="btn btn-success"
+                      >
+                        Enregistrer
+                      </button>
+                    </div>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
+            </Accordion>
           </form>
 
           {/* <form onSubmit={handleSubmit}>
@@ -644,8 +759,6 @@ const CreateProfilePage = ({history}) => {
               </button>
             </div>
           </form> */}
-
-
         </div>
       </div>
     </>

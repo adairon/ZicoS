@@ -128,6 +128,7 @@ const EditMusicienPage = (props) => {
       };
     }
   };
+  
   // Pour récupérer les levels
   const fetchLevels = async () => {
     try {
@@ -140,6 +141,7 @@ const EditMusicienPage = (props) => {
       console.log(error.response)
     }
   }
+
   //fct pour récupérer le user :
   const fetchUser = async userId => {
     try {
