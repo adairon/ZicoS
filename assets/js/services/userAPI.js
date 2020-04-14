@@ -1,9 +1,18 @@
 import axios from 'axios'
+import Cache from "./cache";
 
-function findOne(id) {
+async function findOne(id) {
+    const cachedUser = await Cache.get("user");
+
+    if (cachedUser) return cachedUser;
+
     return axios
         .get("http://localhost:8000/api/users/" + id)
-        .then(response => response.data);
+        .then(response => {
+            const user = response.data;
+            Cache.set("user", user);
+            return user;
+        });
 }
 
 function register(user){

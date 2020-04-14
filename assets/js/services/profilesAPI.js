@@ -13,17 +13,16 @@ async function findAll({ cancelToken }) {
       Cache.set("profiles", profiles);
       return profiles;
     });
-}
+};
 
 function findOne(id) {
   return axios
     .get("http://localhost:8000/api/profiles/" + id)
     .then((response) => response.data);
-}
+};
+
 
 function deleteProfil(id) {
-    
-
   return axios.delete("http://localhost:8000/api/profiles/" + id).then(async response => {
     const cachedProfiles = await Cache.get("profiles")
 
@@ -32,7 +31,7 @@ function deleteProfil(id) {
     }
     return response;
   });
-}
+};
 
 export default {
   findAll,
