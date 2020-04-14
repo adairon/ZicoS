@@ -37,7 +37,7 @@ const UserPage = ({ history }) => {
   const handleShow = () => setShow(true);
 
   //on récupère les données du profil et on définit le type pour l'affichage du bouton de modification. Si pas de profil : bouton de création
-  const fetchUserProfile = async userId => {
+  const fetchUserProfile = async (userId) => {
     try {
       const data = await userAPI.findOne(userId);
       // console.log(data);
@@ -61,7 +61,7 @@ const UserPage = ({ history }) => {
   };
 
   //fonction pour gérer la suppression du compte :
-  const handleDelete = id => {
+  const handleDelete = (id) => {
     // console.log(id);
     //On supprime le compte
     axios.delete("http://localhost:8000/api/users/" + id);
@@ -91,10 +91,9 @@ const UserPage = ({ history }) => {
         <div className="container bg-light shadow rounded p-5">
           <h1>MON COMPTE</h1>
           <h2>Mes infos</h2>
-          
 
-          {loading && <CssUserPageLoader/>}
-          
+          {loading && <CssUserPageLoader />}
+
           {!loading && (
             <>
               <div className="profile_info alert alert-secondary">
@@ -163,6 +162,11 @@ const UserPage = ({ history }) => {
                 >
                   Supprimer mon compte
                 </button> */}
+              </div>
+              <div className="d-flex justify-content-center">
+                <Link className="btn btn-outline-black my-3" to="/profils">
+                  Retour aux profils
+                </Link>
               </div>
             </>
           )}
