@@ -106,7 +106,7 @@ const LoginModal = ({ libBtn, variant }) => {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton className="bg-dark">
+        <Modal.Header closeButton className="bg-primary">
           <Modal.Title className="text-light">
             <h2>ZicoS : connexion</h2>
           </Modal.Title>

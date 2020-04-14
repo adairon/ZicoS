@@ -97,9 +97,9 @@ const UserPage = ({ history }) => {
           
           {!loading && (
             <>
-              <div className="alert alert-secondary">
+              <div className="profile_info alert alert-secondary">
                 <h3>Mon adresse email :</h3>
-                <span className="badge badge-dark user_email">
+                <span className="badge badge-black user_email">
                   {user.email}
                 </span>
               </div>

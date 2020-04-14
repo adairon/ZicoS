@@ -77,7 +77,7 @@ const Navbar = ({ history }) => {
   //----------------------------------------------RETURN :
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light border-primary">
       
       <NavLink to="/" className="navbar-brand">
         <figure className="">
@@ -103,7 +103,7 @@ const Navbar = ({ history }) => {
           <ul className="navbar-nav mr-auto">
             <li className="nav-item ml-5">
               <NavLink
-                className="btn btn-outline-secondary btnProfiles my-1"
+                className="btn btn-outline-black my-1"
                 to="/profils"
               >
                 Profils
@@ -122,7 +122,7 @@ const Navbar = ({ history }) => {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <LoginModal libBtn="Connexion" variant="outline-secondary" />
+                <LoginModal libBtn="Connexion" variant="outline-primary" />
               </li>
             </>
           )) || (

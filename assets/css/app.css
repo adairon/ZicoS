@@ -45,16 +45,17 @@ a {
   --color-greyBrown : #333333;
   --color-primary: #158cba;
   --color-secondary: #f0f0f0;
+  --card-height: 330px
 }
 /* ================================ CUSTOM BOOTSTRAP =========================== */
 
-.bg-dark {
+/* .bg-dark {
   background-color: var(--color-dark) !important;
   border-color: var(--color-primary);
-}
-.bg-secondary {
-  background-color: black!important;
-}
+} */
+/* .bg-secondary {
+  background-color: rgb(255, 255, 255)!important;
+} */
 .btn-dark {
   color: #fff;
   background-color: var(--color-greyBrown);
@@ -87,9 +88,9 @@ a {
 .logo {
   height: 40px;
 }
-
-.btnProfiles {
-  color: white;
+.btn-outline-black{
+  border-color: black;
+  color: black;
   text-decoration: none;
 }
 .navbarDrop {
@@ -196,7 +197,7 @@ a {
 }
 .Profiles_title {
   font-family: "Big John PRO Regular";
-  color: white;
+
 }
 .Profiles_title > h1 {
   font-size: 3rem;
@@ -221,15 +222,19 @@ a {
 }
 
 .profileCard {
-  height: 203px;
+  height: var(--card-height);
   font-family: "Big John PRO Bold";
+  color: black;
   border: white solid 3px;
   z-index: 99;
 }
+.card-body>a{
+  color: black;
+}
 
-.card-img {
+.card-img-top {
   height: 200px;
-  opacity: 0.7;
+  opacity: 0.85;
   object-fit: cover;
   padding-bottom: 3px; /*padding bottom de la même taille que la bordure pour ne pas que l'image "déborde" sur la bordure*/
 }
@@ -262,6 +267,14 @@ a {
 .profile_type {
   font-size: 2rem;
 }
+.profile_info{
+  background-color: white;
+  border-color: black;
+}
+.badge-black{
+  background-color: black;
+  color: white;
+}
 .profile_subtitle {
   font-family: "Big John PRO Bold";
 }
@@ -287,7 +300,7 @@ footer {
 
 .loadingCard {
   animation: loader 2s infinite ease-in-out;
-  height: 203px;
+  height: var(--card-height);
   z-index: 99;
   border: 0;
 }

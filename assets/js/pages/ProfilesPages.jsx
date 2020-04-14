@@ -324,7 +324,7 @@ const ProfilesPage = (props) => {
             <div id="example-collapse-text">
               <div className="row justify-content-center my-3">
                 <DropdownButton
-                  variant="dark"
+                  variant="outline-black"
                   id="dropdown-basic-button"
                   title="Types de profil"
                   className="mx-3 my-2"
@@ -343,7 +343,7 @@ const ProfilesPage = (props) => {
                 </DropdownButton>
 
                 <DropdownButton
-                  variant="dark"
+                  variant="outline-black"
                   id="dropdown-basic-button"
                   title="Styles de musique"
                   className="mx-3 my-2"
@@ -362,7 +362,7 @@ const ProfilesPage = (props) => {
                 </DropdownButton>
 
                 <DropdownButton
-                  variant="dark"
+                  variant="outline-black"
                   id="dropdown-basic-button"
                   title="Instruments de musique"
                   className="mx-3 my-2"
@@ -381,7 +381,7 @@ const ProfilesPage = (props) => {
                 </DropdownButton>
 
                 <DropdownButton
-                  variant="dark"
+                  variant="outline-black"
                   id="dropdown-basic-button"
                   title="Niveau"
                   className="mx-3 my-2"
@@ -400,7 +400,7 @@ const ProfilesPage = (props) => {
                 </DropdownButton>
 
                 <DropdownButton
-                  variant="dark"
+                  variant="outline-black"
                   id="dropdown-basic-button"
                   title="Régions"
                   className="mx-3 my-2"
@@ -420,19 +420,19 @@ const ProfilesPage = (props) => {
               </div>
 
               <div className="row justify-content-center my-3">
-              <Badge pill variant="info" className="mx-5 my-2">
+              <Badge variant="primary" className="mx-5 my-2">
                 {libFilterType}
               </Badge>
-              <Badge pill variant="info" className="mx-5 my-2">
+              <Badge variant="primary" className="mx-5 my-2">
                 {libFilterStyle}
               </Badge>
-              <Badge pill variant="info" className="mx-5 my-2">
+              <Badge variant="primary" className="mx-5 my-2">
                 {libFilterInstrument}
               </Badge>
-              <Badge pill variant="info" className="mx-5 my-2">
+              <Badge variant="primary" className="mx-5 my-2">
                 {libFilterLevel}
               </Badge>
-              <Badge pill variant="info" className="mx-5 my-2">
+              <Badge variant="primary" className="mx-5 my-2">
                 {libFilterLocalization}
               </Badge>
               </div>

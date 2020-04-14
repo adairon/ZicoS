@@ -53,8 +53,8 @@ const Profile = ({profile,email}) => {
               
             </Modal>
 
-            <div className="col-lg-6 col-md-12 col-sm-12 profile_info p-1 my-2">
-            <div className="alert alert alert-dark mx-2">
+            <div className="col-lg-6 col-md-12 col-sm-12 profile_title p-1 my-2">
+            <div className="alert alert alert-primary mx-2">
                 <h1 className="profile_name">
                   {profile.firstName}{" "}
                   {profile.type.name === "musicien.ne" && profile.lastName}
@@ -64,28 +64,28 @@ const Profile = ({profile,email}) => {
               </div>
 
               {profile.type.name === "musicien.ne" && (
-                <div className="instrus p-1 m-2 alert alert-secondary">
+                <div className="profile_info instrus p-1 m-2 alert alert-secondary">
                   <div className="mx-2">
                     <h3>Instrument : </h3>
-                    <span className="badge badge-dark">
+                    <span className="badge badge-black">
                       {profile.instrument.name} 
                     </span>
                   </div>
                 </div>
               )}
               
-              <div className="style p-1 m-2 alert alert-secondary">
+              <div className="profile_info style p-1 m-2 alert alert-secondary">
                 <h3>Style de musique principal :</h3>
-                <span className="badge badge-dark">
+                <span className="badge badge-black">
                   {profile.style.name}
                 </span>
               </div>
  
               {profile.level && 
-                <div className="level p-1 m-2 alert alert-secondary">
+                <div className="profile_info level p-1 m-2 alert alert-secondary">
                   <div className="mx-2">
                     <h3 >Niveau</h3>
-                    <span className="badge badge-dark">
+                    <span className="badge badge-black">
                       {profile.level.name}
                     </span>
                   </div>
@@ -93,19 +93,24 @@ const Profile = ({profile,email}) => {
               }
               
 
-              <div className="localization p-1 m-2 alert alert-secondary">
+              <div className="profile_info localization p-1 m-2 alert alert-secondary">
                 <h3>Région :</h3>
-                <span className="badge badge-dark">
+                <span className="badge badge-black">
                   {profile.localization.region}
                 </span>
               </div>
 
             </div>
+
           </div>
+          
+          {profile.biography && 
           <div className="profile_bio p-1 my-2 border border-light rounded">
             <h3 className="profile_subtitle" >Présentation : </h3>
             <p> {profile.biography} </p>
           </div>
+          }
+
           {profile.linkUrl && 
             <div className="profile_link p-1 my-2 border border-light rounded">
               <h3 className="profile_subtitle" >Liens :</h3>

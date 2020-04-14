@@ -7,7 +7,7 @@ const CssProfilesCardsLoader = (props) => {
     <>
       <div className="card-deck">
         {loadingCards.map(card => (
-          <div key={card} className="card bg-dark text-white pb-3 shadow loadingCard">
+          <div key={card} className="card bg-dark text-white shadow my-5 loadingCard">
             <span className=""></span>
             <div className="">
                 <h5 className="">

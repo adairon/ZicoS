@@ -298,7 +298,7 @@ const EditMusicienPage = (props) => {
               </Modal>
 
               <div className="col-lg-6 col-md-12 col-sm-12 profile_info p-1 my-2">
-                <div className="alert alert alert-dark mx-2">
+                <div className="alert alert alert-primary mx-2">
                   <Field
                     name="firstName"
                     label="Votre Prénom "
@@ -319,7 +319,7 @@ const EditMusicienPage = (props) => {
 
                 </div>
 
-                <div className="instrus p-1 m-2 alert alert-secondary">
+                <div className="profile_info instrus p-1 m-2 alert alert-secondary">
                   <Select
                     name="instrument"
                     label="Instrument"
@@ -335,7 +335,7 @@ const EditMusicienPage = (props) => {
                   </Select>
                 </div>
 
-                <div className="style p-1 m-2 alert alert-secondary">
+                <div className="profile_info style p-1 m-2 alert alert-secondary">
                   <Select
                     name="style"
                     label="Style de musique"
@@ -351,7 +351,7 @@ const EditMusicienPage = (props) => {
                   </Select>
                 </div>
 
-                <div className="level p-1 m-2 alert alert-secondary">
+                <div className="profile_info level p-1 m-2 alert alert-secondary">
                   <Select
                     name="level"
                     label="Niveau"
@@ -367,7 +367,7 @@ const EditMusicienPage = (props) => {
                   </Select>
                 </div>
 
-                <div className="localization p-1 m-2 alert alert-secondary">
+                <div className="profile_info localization p-1 m-2 alert alert-secondary">
                   <Select
                     name="region"
                     label="Région"

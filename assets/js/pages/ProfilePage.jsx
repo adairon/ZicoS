@@ -86,7 +86,7 @@ const ProfilePage = props => {
       </Helmet>
 
 
-      <div className="bg-secondary py-4">
+      <div className="bg-secondary py-5">
       
 
         {loading && 
