@@ -10,6 +10,8 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Switch, Route, withRouter } from "react-router-dom";
 
+import Favicon from 'react-favicon';
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -63,6 +65,8 @@ const App = () => {
   const NavBarWithRouter = withRouter(Navbar);
 
   return (
+    <>
+    {/* <Favicon url="favicon.ico" /> */}
     <AuthContext.Provider
       value={{
         isAuthenticated,
@@ -107,10 +111,15 @@ const App = () => {
         </LogedInModalContext.Provider>
       </UserContext.Provider>
     </AuthContext.Provider>
+    </>
   );
 };
 
 // On récupère la div avec l'id "app" qu'on a créé dans le block body de index.html.twig :
 const rootElement = document.querySelector("#app");
 // On demande à ReactDOM de faire le rendu de notre constante App dans la div #app :
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(
+  <>
+    <App />
+  </>
+, rootElement);

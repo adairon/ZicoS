@@ -16,6 +16,7 @@ import userAPI from "../services/userAPI";
 import LoginModal from "./LoginModal";
 
 import Logo from "../../images/logos/ZicoS.png";
+import LogoDark from "../../images/logos/ZicoS-inverted.png";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 
@@ -81,7 +82,7 @@ const Navbar = ({ history }) => {
       
       <NavLink to="/" className="navbar-brand">
         <figure className="">
-          <img className="logo" src={Logo} alt="" />
+          <img className="logo" src={LogoDark} alt="" />
         </figure>
       </NavLink>
 
