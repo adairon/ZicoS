@@ -12,12 +12,13 @@ function findOne(id) {
         .then(response => response.data);
 }
 
-function updateMusician(id, profile) {
-    return axios.put("http://localhost:8000/api/profiles/" + id, profile);
+function create(profile) {
+    return axios.post("http://localhost:8000/api/profiles", profile)
 }
 
-function updateBand(id, profile){
-    return axios.put("http://localhost:8000/api/profiles/" + id, profile)
+
+function update(id, profile) {
+    return axios.put("http://localhost:8000/api/profiles/" + id, profile);
 }
 
 function deleteProfil(id){
@@ -30,6 +31,6 @@ export default {
     findAll,
     delete: deleteProfil,
     findOne,
-    updateMusician,
-    updateBand
+    update,
+    create
 }

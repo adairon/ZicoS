@@ -182,7 +182,7 @@ const EditGroupPage = props => {
     event.preventDefault();
     // console.log(profile);
     try {
-      const response = await profilesAPI.updateBand(id,
+      const response = await profilesAPI.update(id,
         {
           ...profile,
           pictureUrl: `/media/${image}`,

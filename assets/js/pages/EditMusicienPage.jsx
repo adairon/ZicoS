@@ -204,7 +204,7 @@ const EditMusicienPage = (props) => {
     event.preventDefault();
     // console.log(profile);
     try {
-      const response = await profilesAPI.updateMusician(id,
+      const response = await profilesAPI.update(id,
         {
           ...profile,
           pictureUrl: `/media/${image}`,
