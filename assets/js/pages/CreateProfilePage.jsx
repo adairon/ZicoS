@@ -73,7 +73,7 @@ const CreateProfilePage = ({ history }) => {
   const [step3Class, setStep3Class] = useState("");
   const [collapse, setCollapse] = useState("");
   const [btnColor, setBtnColor] = useState("secondary");
-  const [btnLabel, setBtnLabel] = useState("Charger l'image");
+  const [btnLabel, setBtnLabel] = useState("");
 
   // ---------------------------------------------- FUNCTIONS :
 
@@ -221,24 +221,36 @@ const CreateProfilePage = ({ history }) => {
   //   setShowBtn("")
   // }
 
-  const handleFile = (event) => {
+  const handleFile = event => {
     // console.log(event.target.files[0])
-    setFile(event.target.files[0]);
-  };
+    // setFile(event.target.files[0])
+    const data = new FormData()
+    data.append('file', event.target.files[0])
+    try{
+      axios.post("http://localhost:8000/api/media_objects", data,{})
+           .then(response => {setImage(response.data.contentUrl)})
+          //  .then(console.log("file uploaded"))
+      setBtnColor("info")
+      setBtnLabel("Image chargée")
+    }catch(error){
+      console.log(error.response)
+      setUploadError(true)
+    }
+  }
   //fct pour gérer l'upload
-  const handleUpload = (event) => {
-    event.preventDefault();
-    const data = new FormData();
-    data.append("file", file);
-    axios
-      .post("http://localhost:8000/api/media_objects", data, {})
-      .then((response) => {
-        setImage(response.data.contentUrl);
-      });
-    //  .then(console.log("file uploaded"))
-    setBtnColor("info");
-    setBtnLabel("Image chargée");
-  };
+  // const handleUpload = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData();
+  //   data.append("file", file);
+  //   axios
+  //     .post("http://localhost:8000/api/media_objects", data, {})
+  //     .then((response) => {
+  //       setImage(response.data.contentUrl);
+  //     });
+  //   //  .then(console.log("file uploaded"))
+  //   setBtnColor("info");
+  //   setBtnLabel("Image chargée");
+  // };
 
   //fct pour gérer la soumission du formulaire et les erreurs:
   const handleSubmit = async (event) => {
@@ -589,7 +601,7 @@ const CreateProfilePage = ({ history }) => {
                 <Accordion.Collapse eventKey="3" className="">
                   <Card.Body className="create_profil_card">
                     <h3 className={collapse}>Et pour finir ...</h3>
-                    <div className="row">
+                    <div className="row mb-2">
                       <div className="col-8">
                         <Form.File
                           name="image"
@@ -600,12 +612,13 @@ const CreateProfilePage = ({ history }) => {
                         />
                       </div>
                       <div className="col">
-                        <button
+                      <span className="badge badge-success">{btnLabel}</span>
+                        {/* <button
                           className={"btn my-3 btn-" + btnColor}
                           onClick={handleUpload}
                         >
                           {btnLabel}
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                     {/* <Field

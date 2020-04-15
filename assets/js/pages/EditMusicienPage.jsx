@@ -414,6 +414,7 @@ const EditMusicienPage = (props) => {
                 label="votre site internet"
                 placeholder="Lien vers votre site internet"
                 value={profile.linkUrl}
+                error={errors.linkUrl}
                 onChange={handleChange}
               />
             </div>

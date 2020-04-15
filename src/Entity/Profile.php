@@ -87,7 +87,7 @@ class Profile
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
-     * @Assert\Url(message="'{{ value }}' n'est pas une url valide !")
+     * @Assert\Url(message="'{{ value }}' n'est pas une url valide ! (n'oubliez pas de précisier 'http://' ou 'https://' si vous ne l'avez pas fait...)")
      */
     private $linkUrl;
 
