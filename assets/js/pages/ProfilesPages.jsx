@@ -278,7 +278,7 @@ const ProfilesPage = (props) => {
       <Helmet>
         <title>Zicos : Profils</title>
       </Helmet>
-      <div className="bg-secondary">
+      <div className="bg-secondary py-4">
         <div className="container">
           <div className="Profiles_title pt-3">
             <div className="logo_title d-flex justify-content-center align-items-center">
@@ -340,7 +340,7 @@ const ProfilesPage = (props) => {
             onExited={()=>{setlibSearchBtn("rechercher")}}
             >
             <div id="example-collapse-text">
-              <div className="row justify-content-center my-3">
+              <div className="row justify-content-center">
                 <DropdownButton
                   variant="outline-black"
                   id="dropdown-basic-button"

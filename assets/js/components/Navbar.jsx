@@ -81,9 +81,7 @@ const Navbar = ({ history }) => {
     <nav className="navbar navbar-expand-lg navbar-light bg-light border-primary">
       
       <NavLink to="/" className="navbar-brand">
-        <figure className="">
           <img className="logo" src={LogoDark} alt="" />
-        </figure>
       </NavLink>
 
       <button
@@ -99,83 +97,39 @@ const Navbar = ({ history }) => {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarColor02">
-        
-        {isAuthenticated && (
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item ml-5">
-              <NavLink
-                className="btn btn-outline-black my-1"
-                to="/profils"
-              >
-                Profils
-              </NavLink>
-            </li>
-          </ul>
-        )}
 
-        <ul className="navbar-nav navbarDrop ml-auto align-items-center">
-          
-          {(!isAuthenticated && (
-            <>
-              <li className="nav-item">
-                <NavLink to="/register" className="nav-link mx-1 my-1">
-                  Inscription
-                </NavLink>
+        <ul className="navbar-nav m-auto">
+
+            {isAuthenticated && 
+            <li className="nav-item mx-5 my-auto">
+              <NavLink className="btn btn-outline-black my-1" to="/profils" > Profils </NavLink>
+            </li>
+            }
+            {!isAuthenticated && 
+              <>
+              <li className="nav-item mx-5 my-auto">
+                <NavLink to="/register" className="nav-link mx-1 my-1"> Inscription </NavLink>
               </li>
-              <li className="nav-item">
+              <li className="nav-item mx-5 my-auto">
                 <LoginModal libBtn="Connexion" variant="outline-primary" />
               </li>
-            </>
-          )) || (
+              </>
+            }
+            {isAuthenticated && 
             <>
-              <li
-                className="nav-item btn-group"
-                role="group"
-                aria-label="Button group with nested dropdown"
-              >
-                <button type="button" className="btn btn-primary">
-                  Mon Compte
-                </button>
-                <div className="btn-group" role="group">
-                  <button
-                    id="btnGroupDrop1"
-                    type="button"
-                    className="btn btn-primary dropdown-toggle"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  ></button>
-                  <div
-                    className="dropdown-menu dropdown-menu-right"
-                    aria-labelledby="btnGroupDrop1"
-                  >
-                    <NavLink
-                      to={"/users/" + userId}
-                      className="dropdown-item"
-                      href="#"
-                    >
-                      Mes infos
-                    </NavLink>
-                    {userProfileId && (
-                      <NavLink
-                        to={"/profils/" + userProfileId}
-                        className="dropdown-item"
-                      >
-                        Voir mon profil
-                      </NavLink>
-                    )}
-                    <button
-                      onClick={handleLogout}
-                      className="dropdown-item text-danger"
-                    >
-                      Déconnexion
-                    </button>
-                  </div>
-                </div>
-              </li>
+            <li className="nav-item dropdown mx-5 my-auto">
+              <a className="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Mon Compte
+              </a>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <NavLink to={"/users/" + userId} className="dropdown-item" href="#" > Mes infos </NavLink>
+                {userProfileId && (<NavLink to={"/profils/" + userProfileId} className="dropdown-item" > Voir mon profil </NavLink> )}
+                <div className="dropdown-divider"></div>
+                <button onClick={handleLogout} className="dropdown-item text-danger" > Déconnexion </button>
+              </div>
+            </li>
             </>
-          )}
-          
+            }
         </ul>
       </div>
     </nav>
