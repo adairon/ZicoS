@@ -70,7 +70,7 @@ const EditMusicienPage = (props) => {
   const [file, setFile] = useState("")
   const [image, setImage]= useState("")
   const [btnColor, setBtnColor] = useState("secondary")
-  const [btnLabel, setBtnLabel] = useState("Charger l'image")
+  const [btnLabel, setBtnLabel] = useState("")
   const [loading, setLoading] = useState(true)
 
   //----------------------------------------------FUNCTIONS :
@@ -174,21 +174,33 @@ const EditMusicienPage = (props) => {
   // Fonctions pour l'upload de l'image : 
   const handleFile = event => {
     // console.log(event.target.files[0])
-    setFile(event.target.files[0])
+    // setFile(event.target.files[0])
+    const data = new FormData()
+    data.append('file', event.target.files[0])
+    try{
+      axios.post("http://localhost:8000/api/media_objects", data,{})
+           .then(response => {setImage(response.data.contentUrl)})
+          //  .then(console.log("file uploaded"))
+      setBtnColor("info")
+      setBtnLabel("Image chargée")
+    }catch(error){
+      console.log(error.response)
+      setUploadError(true)
+    }
   }
   //fct pour gérer l'upload
-  const handleUpload = (event)=>{
-    event.preventDefault();
-    console.log(file)
-    const data = new FormData()
-    data.append('file', file)
-    console.log(data)
-    axios.post("http://localhost:8000/api/media_objects", data,{})
-         .then(response => {setImage(response.data.contentUrl)})
-        //  .then(console.log("file uploaded"))
-    setBtnColor("info")
-    setBtnLabel("Image chargée")
-  }
+  // const handleUpload = (event)=>{
+  //   event.preventDefault();
+  //   // console.log(file)
+  //   const data = new FormData()
+  //   data.append('file', file)
+  //   console.log(data)
+  //   axios.post("http://localhost:8000/api/media_objects", data,{})
+  //        .then(response => {setImage(response.data.contentUrl)})
+  //       //  .then(console.log("file uploaded"))
+  //   setBtnColor("info")
+  //   setBtnLabel("Image chargée")
+  // }
 
   //fct pour gérer les changements dans le formulaire :
   const handleChange = ({ currentTarget }) => {
@@ -265,7 +277,7 @@ const EditMusicienPage = (props) => {
               <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex flex-column profile_figure" >
                 <img className="img-thumbnail profile_picture" src={profile.pictureUrl} alt="" onClick={handleShow}/>
                 
-                <div className="editUploadForm border border-dark rounded pl-2">
+                <div className="editUploadForm border border-dark rounded p-2">
                       <Form.File
                         name="image"
                         label="Changer votre photo de profil"
@@ -273,9 +285,10 @@ const EditMusicienPage = (props) => {
                         onChange={handleFile}
                         formEncType="multipart/form-data"
                       />
-                      <button className={"uploadBtn btn my-3 btn-" + btnColor} onClick={handleUpload}>
+                      <span className="badge badge-success">{btnLabel}</span>
+                      {/* <button className={"uploadBtn btn my-3 btn-" + btnColor} onClick={handleUpload}>
                         {btnLabel}
-                      </button>
+                      </button> */}
                   </div>
                 
                 {/* <Field
