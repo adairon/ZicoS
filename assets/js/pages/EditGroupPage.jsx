@@ -182,8 +182,7 @@ const EditGroupPage = props => {
     event.preventDefault();
     // console.log(profile);
     try {
-      const response = await axios.put(
-        "http://localhost:8000/api/profiles/" + id,
+      const response = await profilesAPI.update(id,
         {
           ...profile,
           pictureUrl: `/media/${image}`,
@@ -192,8 +191,7 @@ const EditGroupPage = props => {
           level: `api/levels/${profile.level}`,
           email: `${user.email}`,
           localization: `/api/localizations/${profile.region}`
-        }
-      );
+        });
       setErrors({});
       toast.success("Votre Profil à bien été modifié !")
       props.history.push(`/profils`)

@@ -296,7 +296,7 @@ const ProfilesPage = (props) => {
           {/* ------------------------------------------ Modal si pas de profil ---------------------------------------- */}
 
           <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton className="bg-dark">
+            <Modal.Header closeButton className="bg-primary">
               <Modal.Title>
                 <h2 className="text-light">
                   Vous n'avez pas encore de Profil !

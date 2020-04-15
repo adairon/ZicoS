@@ -291,8 +291,7 @@ const CreateProfilePage = ({ history }) => {
     try {
       if (!groupEdit) {
         //Si c'est un profil musicien.ne; on envoie une requête en post via axios en passant ce profile en objet
-        const response = await axios.post(
-          "http://localhost:8000/api/profiles",
+        const response = await profilesAPI.create(
           {
             ...profile,
             pictureUrl: `/media/${image}`,
@@ -303,7 +302,7 @@ const CreateProfilePage = ({ history }) => {
             email: `${user.email}`,
             localization: `/api/localizations/${profile.region}`,
           }
-        );
+        )
         setErrors({});
         // console.log(response.data);
         toast.success("Votre Profil à bien été créé !");
@@ -313,8 +312,7 @@ const CreateProfilePage = ({ history }) => {
         delete profile.instrument;
         delete errors.instrument;
         //et, c'est un profil groupe et on envoie une requête en post via axios en passant ce profil en objet
-        const response = await axios.post(
-          "http://localhost:8000/api/profiles",
+        const response = await profilesAPI.create(
           {
             ...profile,
             pictureUrl: `/media/${image}`,
