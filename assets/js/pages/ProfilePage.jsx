@@ -8,9 +8,10 @@ import ProfilesAPI from "../services/profilesAPI";
 import Profile from "../components/Profile";
 import ProfileLoader from "../components/loaders/ProfileLoader";
 import CssProfileLoader from "../components/loaders/CssProfileLoader";
+import { Link } from "react-router-dom";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
-const ProfilePage = props => {
+const ProfilePage = (props) => {
   // on récupère l'identifiant du profil concerné :
   const id = props.match.params.id;
 
@@ -28,12 +29,12 @@ const ProfilePage = props => {
     localization: "",
     style: "",
     level: "",
-    user: ""
+    user: "",
   });
 
-  //----------------------------------------------FUNCTIONS : 
+  //----------------------------------------------FUNCTIONS :
   //On récupère les données du profil
-  const fetchProfile = async id => {
+  const fetchProfile = async (id) => {
     try {
       const data = await ProfilesAPI.findOne(id);
       // console.log(data);
@@ -49,7 +50,7 @@ const ProfilePage = props => {
         localization,
         style,
         level,
-        user
+        user,
       } = await ProfilesAPI.findOne(id);
       setProfile({
         lastName,
@@ -63,7 +64,7 @@ const ProfilePage = props => {
         localization,
         style,
         level,
-        user
+        user,
       });
       setLoading(false);
     } catch (error) {
@@ -71,7 +72,7 @@ const ProfilePage = props => {
     }
   };
 
-  //----------------------------------------------EFFECTS : 
+  //----------------------------------------------EFFECTS :
   //On récupère le profil au chargement de la page
   useEffect(() => {
     // setLoading(true);
@@ -85,21 +86,19 @@ const ProfilePage = props => {
         <title>Zicos : profil de {profile.firstName} </title>
       </Helmet>
 
-
       <div className="bg-secondary py-5">
-      
+        {loading && (
+          <div className="container py-2">
+            <CssProfileLoader />
+          </div>
+        )}
 
-        {loading && 
-        <div className="container py-2">
-        <CssProfileLoader/>
-        </div>}
-
-        {!loading && 
-        <Profile
-          profile={profile}
-          email={profile.user.email}
-        />}
-      
+        {!loading && <Profile profile={profile} email={profile.user.email} />}
+        <div className="d-flex justify-content-center">
+          <Link className="btn btn-outline-black my-3" to="/profils">
+            Retour aux profils
+          </Link>
+        </div>
       </div>
     </>
   );

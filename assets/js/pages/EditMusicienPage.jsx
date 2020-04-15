@@ -204,8 +204,7 @@ const EditMusicienPage = (props) => {
     event.preventDefault();
     // console.log(profile);
     try {
-      const response = await axios.put(
-        "http://localhost:8000/api/profiles/" + id,
+      const response = await profilesAPI.updateMusician(id,
         {
           ...profile,
           pictureUrl: `/media/${image}`,
@@ -215,8 +214,7 @@ const EditMusicienPage = (props) => {
           style: `api/styles/${profile.style}`,
           email: `${user.email}`,
           localization: `/api/localizations/${profile.region}`
-        }
-      );
+        });
       setErrors({});
       toast.success("Votre Profil à bien été modifié !")
       props.history.push(`/profils`)
