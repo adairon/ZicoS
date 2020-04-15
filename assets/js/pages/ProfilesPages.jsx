@@ -55,10 +55,15 @@ const ProfilesPage = (props) => {
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState("");
   const [libFilterType, setLibFilterType] = useState("")
+  const [disableTypeBtn, setDisableTypeBtn] = useState(false)
   const [libFilterStyle, setLibFilterStyle] = useState("")
+  const [disableStyleBtn, setDisableStyleBtn] = useState(false)
   const [libFilterInstrument, setLibFilterInstrument] = useState("")
+  const [disableInstrumentBtn, setDisableInstrumentBtn] = useState(false)
   const [libFilterLevel, setLibFilterLevel] = useState("")
+  const [disableLevelBtn, setDisableLevelBtn] = useState(false)
   const [libFilterLocalization, setLibFilterLocalization] = useState("")
+  const [disableLocalizationBtn, setDisableLocalizationBtn] = useState(false)
 
   /* =========================== FONCTIONS REQUETES API ========================== */
 
@@ -192,26 +197,29 @@ const ProfilesPage = (props) => {
 
   const handleFilterType = ({currentTarget}) => {
     setLibFilterType(currentTarget.id);
+    setDisableTypeBtn(true)
     handleFilter({currentTarget})
   }
   const handleFilterStyle = ({currentTarget}) => {
     setLibFilterStyle(currentTarget.id);
+    setDisableStyleBtn(true)
     handleFilter({currentTarget})
   }
   const handleFilterInstru = ({currentTarget}) => {
     setLibFilterInstrument(currentTarget.id);
+    setDisableInstrumentBtn(true)
     handleFilter({currentTarget})
   }
   const handleFilterLocal = ({currentTarget}) => {
     setLibFilterLocalization(currentTarget.id);
+    setDisableLocalizationBtn(true)
     handleFilter({currentTarget})
   }
   const handleFilterLevel = ({currentTarget}) => {
     setLibFilterLevel(currentTarget.id)
+    setDisableLevelBtn(true)
     handleFilter({currentTarget})
   }
-
-
 
   // const handleSearch = ({currentTarget}) => {
   //   setSearch(currentTarget.value)
@@ -234,6 +242,11 @@ const ProfilesPage = (props) => {
     setLibFilterInstrument("")
     setLibFilterLevel("")
     setLibFilterLocalization("")
+    setDisableTypeBtn(false)
+    setDisableStyleBtn(false)
+    setDisableInstrumentBtn(false)
+    setDisableLevelBtn(false)
+    setDisableLocalizationBtn(false)
     setProfiles(allProfiles)
   }
 
@@ -328,6 +341,7 @@ const ProfilesPage = (props) => {
                   id="dropdown-basic-button"
                   title="Types de profil"
                   className="mx-3 my-2"
+                  disabled={disableTypeBtn}
                 >
                   {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {types.map((type) => (
@@ -347,6 +361,7 @@ const ProfilesPage = (props) => {
                   id="dropdown-basic-button"
                   title="Styles de musique"
                   className="mx-3 my-2"
+                  disabled={disableStyleBtn}
                 >
                   {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {styles.map((style) => (
@@ -366,6 +381,7 @@ const ProfilesPage = (props) => {
                   id="dropdown-basic-button"
                   title="Instruments de musique"
                   className="mx-3 my-2"
+                  disabled={disableInstrumentBtn}
                 >
                   {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {instruments.map((instru) => (
@@ -385,6 +401,7 @@ const ProfilesPage = (props) => {
                   id="dropdown-basic-button"
                   title="Niveau"
                   className="mx-3 my-2"
+                  disabled={disableLevelBtn}
                 >
                   {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {levels.map((level) => (
@@ -404,6 +421,7 @@ const ProfilesPage = (props) => {
                   id="dropdown-basic-button"
                   title="Régions"
                   className="mx-3 my-2"
+                  disabled={disableLocalizationBtn}
                 >
                   {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {localizations.map((localization) => (

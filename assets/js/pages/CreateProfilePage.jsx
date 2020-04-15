@@ -305,7 +305,7 @@ const CreateProfilePage = ({ history }) => {
           }
         );
         setErrors({});
-        console.log(response.data);
+        // console.log(response.data);
         toast.success("Votre Profil à bien été créé !");
         history.push(`/profils`);
       } else {
