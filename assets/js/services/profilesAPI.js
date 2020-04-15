@@ -1,29 +1,30 @@
 import axios from 'axios'
+import {PROFILES_API} from "../config"
 
 function findAll({cancelToken}) {
     return axios
-        .get("http://localhost:8000/api/profiles", {cancelToken})
+        .get(PROFILES_API, {cancelToken})
         .then(response => response.data["hydra:member"]);
 }
 
 function findOne(id) {
     return axios
-        .get("http://localhost:8000/api/profiles/" + id)
+        .get(PROFILES_API + "/" + id)
         .then(response => response.data);
 }
 
 function create(profile) {
-    return axios.post("http://localhost:8000/api/profiles", profile)
+    return axios.post(PROFILES_API, profile)
 }
 
 
 function update(id, profile) {
-    return axios.put("http://localhost:8000/api/profiles/" + id, profile);
+    return axios.put(PROFILES_API + "/" + id, profile);
 }
 
 function deleteProfil(id){
     return axios
-        .delete("http://localhost:8000/api/profiles/" + id)
+        .delete(PROFILES_API + "/" + id)
 }
 
 

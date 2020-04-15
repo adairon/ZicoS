@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { LOGIN_API } from "../config";
 
 
 /**
@@ -17,7 +18,7 @@ function logout() {
 function authenticate(credentials) {
   // on récupère le token généré par la requête en post
   return axios
-    .post("http://localhost:8000/api/login_check", credentials)
+    .post(LOGIN_API, credentials)
     .then(response => response.data.token)
     .then(token => {
       // On stocke le token dans la mémoire du navigateur via le localeStorage
