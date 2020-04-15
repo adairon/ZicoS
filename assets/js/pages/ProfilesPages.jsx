@@ -64,6 +64,7 @@ const ProfilesPage = (props) => {
   const [disableLevelBtn, setDisableLevelBtn] = useState(false)
   const [libFilterLocalization, setLibFilterLocalization] = useState("")
   const [disableLocalizationBtn, setDisableLocalizationBtn] = useState(false)
+  const [libSearchBtn, setlibSearchBtn] = useState("Rechercher")
 
   /* =========================== FONCTIONS REQUETES API ========================== */
 
@@ -329,11 +330,15 @@ const ProfilesPage = (props) => {
               aria-controls="example-collapse-text"
               aria-expanded={open}
             >
-              Rechercher
+              {libSearchBtn}
             </Button>
           </div>
 
-          <Collapse in={open}>
+          <Collapse 
+            in={open}
+            onEntered={()=>{setlibSearchBtn("fermer la recherche")}}
+            onExited={()=>{setlibSearchBtn("rechercher")}}
+            >
             <div id="example-collapse-text">
               <div className="row justify-content-center my-3">
                 <DropdownButton
