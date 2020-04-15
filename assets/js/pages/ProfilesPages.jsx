@@ -185,9 +185,9 @@ const ProfilesPage = (props) => {
 
   /*------------------------------GESTION FILTRES & RECHERCHE -------------------------------- */
 
+  //pour ouvrir le menu de recherche
   const [open, setOpen] = useState(false);
 
-  
   const handleFilter = ({ currentTarget }) => {
     // console.log(currentTarget.id)
     setSearch(currentTarget.id);
@@ -471,12 +471,32 @@ const ProfilesPage = (props) => {
           </Collapse>
 
           {/*  ---------------------------------------- PROFILS ---------------------------------------- */}
-
-          {!loading && <ProfilesCards paginatedProfiles={paginatedProfiles} />}
+          
 
           {/* {loading && <ProfilesCardsLoader />} */}
 
           {loading && <CssProfilesCardsLoader/>}
+
+          {!loading && <ProfilesCards paginatedProfiles={paginatedProfiles} />}
+
+          {(!loading && !searchedProfiles.length) && 
+            <>
+              <div className="m-5 p-5 bg-light shadow rounded">
+                <h2 className="text-center">Malheureusement, aucun profil ne correspond à votre recherche</h2>
+                <div className="row justify-content-center my-3">
+                  <Button
+                    variant="warning"
+                    onClick={cancelFilters}
+                  >
+                    Effacer la recherche
+                  </Button>
+              </div>
+
+              </div>
+            </>
+          }
+
+
 
           {/* ---------------------------------------- PAGINATION ---------------------------------------- */}
 
