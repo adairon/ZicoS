@@ -27,6 +27,7 @@
         "react-favicon": "0.0.18",
         "react-helmet": "^5.2.1",
         "react-router-dom": "^5.0.0",
+        "react-scroll-up-button": "^1.6.4",
         "react-toastify": "^5.5.0"
     }
 }
