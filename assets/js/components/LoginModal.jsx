@@ -13,7 +13,7 @@ import AuthAPI from "../services/authAPI";
 import { useEffect } from "react";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
-const LoginModal = ({ libBtn, variant }) => {
+const LoginModal = ({ libBtn, variant, margin }) => {
   
   //----------------------------------------------CONTEXTS :
 
@@ -95,7 +95,7 @@ const LoginModal = ({ libBtn, variant }) => {
       <Button
         variant={variant}
         onClick={handleShow}
-        className="d-flex justify-content-center"
+        className={"d-flex justify-content-center " + margin}
       >
         {libBtn}
       </Button>

@@ -61,17 +61,25 @@ const HomePage = ({ history }) => {
               <>
                 <div className="login_link d-flex justify-content-center my-4">
                   <Link
+                    to="/about"
+                    type="button"
+                    className="btn btn-primary"
+                  >
+                    Découvrir ZicoS
+                  </Link>
+                </div>
+                <div className="login_link d-flex justify-content-center my-5">
+                  <Link
                     to="/register"
                     type="button"
-                    className="btn btn-primary mx-2"
+                    className="btn btn-success mx-5"
                   >
                     Je veux m'inscrire !
                   </Link>
-                </div>
-                <div className="login_link d-flex justify-content-center my-4">
                   <LoginModal
                     libBtn="J'ai déjà un compte"
                     variant="secondary"
+                    margin="mx-5"
                   />
                 </div>
               </>

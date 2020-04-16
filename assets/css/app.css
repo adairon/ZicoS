@@ -355,6 +355,13 @@ footer {
   border-top: white 3px solid;
 }
 
+.footer_container{
+  height: 100%;
+}
+.footer_links{
+  height: 100%;
+}
+
 /*  ============================== CSS LOADING CONTENT ============================== */
 
 .loadingCard {
