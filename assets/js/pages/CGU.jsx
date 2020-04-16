@@ -8,7 +8,7 @@ const CGU = (props) => {
             <title>Zicos : CGU</title>
         </Helmet>
         <div className="bg-secondary py-4">
-            <div className="container">
+            <div className="container bg-light shadow rounded p-5">
                 <h1 className="my-4">Conditions générales d'utilisation</h1>
                 <div className="cgu text-justify">
                     <p className="text-center">

@@ -42,6 +42,7 @@ import "../css/bootstrap.css"
 import "../css/app.css";
 import AboutZicos from "./pages/AboutZicos";
 import CGU from "./pages/CGU";
+import MentionsLegales from "./pages/MentionsLegales";
 // import "../css/App.scss"
 
 
@@ -107,6 +108,7 @@ const App = () => {
                 <PrivateRoute path="/users/:id" component={UserPage} />
                 <Route path="/about" component={AboutZicos} />
                 <Route path="/terms" component={CGU} />
+                <Route path="/mentions_legales" component={MentionsLegales} />
                 <Route path="/" component={HomePage} />
               </Switch>
               <Footer />
