@@ -9,6 +9,8 @@ import { Helmet } from "react-helmet";
 import { toast } from "react-toastify";
 
 import bigLogo from "../../images/logos/ZicoS-grey.png";
+import logoPrimary from "../../images/logos/ZicoS-primary.png";
+import logoPrimaryAnimated from "../../images/logos/ZicoS-primary.gif";
 
 import LogedInModalContext from "../contexts/LogedInModalContext";
 
@@ -45,7 +47,7 @@ const HomePage = ({ history }) => {
           <div className="container">
             <div className="row justify-content-center">
               <figure className="pt-4 m-0 col-12 d-flex">
-                <img className="bigLogo" src={bigLogo} alt="ZicoS" />
+                <img className="bigLogo" src={logoPrimaryAnimated} alt="ZicoS" />
               </figure>
             </div>
             <div className="home_text d-flex mt-2 mb-4">
