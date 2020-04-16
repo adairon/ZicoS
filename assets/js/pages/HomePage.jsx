@@ -47,7 +47,7 @@ const HomePage = ({ history }) => {
           <div className="container">
             <div className="row justify-content-center">
               <figure className="pt-4 m-0 col-12 d-flex">
-                <img className="bigLogo" src={logoPrimaryAnimated} alt="ZicoS" />
+                <img className="bigLogo" src={logoPrimary} alt="ZicoS" />
               </figure>
             </div>
             <div className="home_text d-flex mt-2 mb-4">
