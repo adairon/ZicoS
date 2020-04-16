@@ -241,6 +241,10 @@ a {
   object-fit: cover;
   padding-bottom: 3px; /*padding bottom de la même taille que la bordure pour ne pas que l'image "déborde" sur la bordure*/
 }
+.infos-cartes{
+  color: black;
+  
+}
 
 .card-img-overlay > a {
   color: white;
