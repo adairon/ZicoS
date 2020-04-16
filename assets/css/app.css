@@ -74,6 +74,9 @@ a {
   background-color: var(--color-primary);
   border-color: #127ba3;
 }
+.bg-secondary{
+  box-shadow: inset 0px 0px 50px 30px white;
+}
 /* ============================== NAVBAR ========================================= */
 .navbar {
   /* height: 3.5rem; */
