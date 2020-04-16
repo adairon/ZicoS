@@ -13,8 +13,8 @@ import logoPrimary from "../../images/logos/ZicoS-primary.png";
 import logoPrimaryAnimated from "../../images/logos/ZicoS-primary.gif";
 
 import LogedInModalContext from "../contexts/LogedInModalContext";
-
 import AuthContext from "../contexts/AuthContext";
+
 import LoginModal from "../components/LoginModal";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :

@@ -1,7 +1,29 @@
-import React from 'react';
-import { Helmet } from "react-helmet";
+//----------------------------------------------IMPORTS :
 
-const CGU = (props) => {
+import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
+import LogedInModalContext from "../contexts/LogedInModalContext";
+import AuthContext from "../contexts/AuthContext";
+
+const CGU = ({ history }) => {
+    //CONTEXTS :
+  const { logedInModal, setLogedInModal } = useContext(LogedInModalContext);
+  const { isAuthenticated } = useContext(AuthContext);
+
+  //----------------------------------------------EFFECTS :
+
+  useEffect(() => {
+    if (logedInModal) {
+      setLogedInModal(false);
+      // Notification Toast :
+      toast.success("Vous êtes connecté ! À vous de jouer 🎸 🎹");
+      history.push("/profils");
+    }
+  }, [logedInModal]);
+
+  //----------------------------------------------RETURN :
     return ( 
         <>
         <Helmet>
