@@ -41,6 +41,7 @@ import RegisterPage from "./pages/RegisterPage";
 import "../css/bootstrap.css"
 import "../css/app.css";
 import AboutZicos from "./pages/AboutZicos";
+import CGU from "./pages/CGU";
 // import "../css/App.scss"
 
 
@@ -105,6 +106,7 @@ const App = () => {
                 <PrivateRoute path="/users/profile/new" component={CreateProfilePage}/>
                 <PrivateRoute path="/users/:id" component={UserPage} />
                 <Route path="/about" component={AboutZicos} />
+                <Route path="/terms" component={CGU} />
                 <Route path="/" component={HomePage} />
               </Switch>
               <Footer />
