@@ -38,7 +38,7 @@ const ProfilePage = (props) => {
   const fetchProfile = async (id) => {
     try {
       const data = await ProfilesAPI.findOne(id);
-      console.log(data);
+      // console.log(data);
       const {
         lastName,
         firstName,

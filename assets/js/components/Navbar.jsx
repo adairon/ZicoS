@@ -37,17 +37,17 @@ const Navbar = ({ history }) => {
 
   //----------------------------------------------FUNCTIONS :
 
-  // const fetchUserProfile = async userId => {
-  //   try {
-  //     const data = await userAPI.findOne(userId);
-  //     console.log(data.profile.id);
-  //     // if(mounted){
-  //       setUserProfile(data.profile.id);
-  //     // }
-  //   } catch (error) {
-  //     console.log(error.response);
-  //   }
-  // };
+  const fetchUserProfile = async userId => {
+    try {
+      const data = await userAPI.findOne(userId);
+      // console.log(data.profile.id);
+      // if(mounted){
+        setUserProfile(data.profile.id);
+      // }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
 
   // fonction pour gérer la déconnexion
@@ -57,7 +57,8 @@ const Navbar = ({ history }) => {
     // on précise à l'application qu'on est déconnecté
       setIsAuthenticated(false);
       setUserId("");
-      setUserProfileId("")
+      // setUserProfileId("")
+      setUserProfile("")
     toast.info(" Vous êtes déconnecté. À bientôt sur ZicoS !");
     // on se redirige vers la page d'accueil avec history
     history.push("/");
@@ -65,15 +66,15 @@ const Navbar = ({ history }) => {
 
   //----------------------------------------------EFFECTS :
   // effet qui se déclenche si l'utilisateur est authentifié et qui se nettoie au démontage
-  // if (isAuthenticated) {
-  //   useEffect(() => {
-  //     fetchUserProfile(userId);
-  //     // setMounted(true)
-  //     return () => {
-  //       // setMounted(false)
-  //     }
-  //   }, []);
-  // }
+  if (isAuthenticated) {
+    useEffect(() => {
+      fetchUserProfile(userId);
+      // setMounted(true)
+      return () => {
+        // setMounted(false)
+      }
+    }, []);
+  }
 
   //----------------------------------------------RETURN :
 
@@ -123,7 +124,8 @@ const Navbar = ({ history }) => {
               </a>
               <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <NavLink to={"/users/" + userId} className="dropdown-item" href="#" > Mes infos </NavLink>
-                {userProfileId && (<NavLink to={"/profils/" + userProfileId} className="dropdown-item" > Voir mon profil </NavLink> )}
+                {userProfile && (<NavLink to={"/profils/" + userProfile} className="dropdown-item" > Voir mon profil </NavLink> )}
+                {/* {userProfileId && (<NavLink to={"/profils/" + userProfileId} className="dropdown-item" > Voir mon profil </NavLink> )} */}
                 <div className="dropdown-divider"></div>
                 <button onClick={handleLogout} className="dropdown-item text-danger" > Déconnexion </button>
               </div>

@@ -129,12 +129,13 @@ const Profile = ({profile,email}) => {
                 <ReactPlayer 
                   url={profile.youtubeUrl} 
                   className='react-player'
-                  playing 
+                  playing
+                  controls
                   width='100%'
                   height='100%'
                   config={{
                     youtube: {
-                      playerVars: { origin: {API_URL} },
+                      playerVars: { origin: {API_URL}, showinfo: 1 },
                       embedOptions: {enablejsapi: 1}
                     }
                   }}  

@@ -37,6 +37,7 @@ const CreateProfilePage = ({ history }) => {
     biography: "",
     pictureUrl: robotPicture,
     linkUrl: "",
+    youtubeUrl:"",
     instrument: "",
     region: "",
     departement: "",
@@ -50,6 +51,7 @@ const CreateProfilePage = ({ history }) => {
     biography: "",
     pictureUrl: "",
     linkUrl: "",
+    youtubeUrl:"",
     instrument: "",
     region: "",
     departement: "",
@@ -633,6 +635,13 @@ const CreateProfilePage = ({ history }) => {
                       label="Vous avez un site internet ou un profil facebook à partager ?"
                       placeholder="Lien vers votre site internet"
                       value={profile.linkUrl}
+                      onChange={handleChange}
+                    />
+                    <Field
+                      name="youtubeUrl"
+                      label="Vous avez une video youtube que vous voulez montrer ?"
+                      placeholder="Lien vers votre Video YouTube"
+                      value={profile.youtubeUrl}
                       onChange={handleChange}
                     />
 

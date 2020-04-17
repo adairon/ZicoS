@@ -41,6 +41,7 @@ const EditMusicienPage = (props) => {
     biography: "",
     pictureUrl: "",
     linkUrl: "",
+    youtubeUrl:"",
     instrument: "",
     region: "",
     departement: "",
@@ -54,6 +55,7 @@ const EditMusicienPage = (props) => {
     biography: "",
     pictureUrl: "",
     linkUrl: "",
+    youtubeUrl:"",
     instrument: "",
     region: "",
     departement: "",
@@ -159,9 +161,9 @@ const EditMusicienPage = (props) => {
   const fetchProfile = async id => {
     try {
       const dataProfile = await profilesAPI.findOne(id);
-      const { type, firstName, lastName, biography, pictureUrl, linkUrl, instrument, localization, style, level } = dataProfile;
+      const { type, firstName, lastName, biography, pictureUrl, linkUrl, youtubeUrl, instrument, localization, style, level } = dataProfile;
       // console.log(dataProfile)
-      setProfile({ type: type.id, firstName, lastName, biography, pictureUrl, linkUrl, instrument: instrument.id, region: localization.id, style: style.id, level:level.id });
+      setProfile({ type: type.id, firstName, lastName, biography, pictureUrl, linkUrl, youtubeUrl, instrument: instrument.id, region: localization.id, style: style.id, level:level.id });
       //Pour donner à l'image une valeur par défaut correspondant au nom du fichier déjà enregistré
       setImage(dataProfile.pictureUrl.replace("/media/", "").toString())
       setLoading(false)
@@ -415,6 +417,17 @@ const EditMusicienPage = (props) => {
                 placeholder="Lien vers votre site internet"
                 value={profile.linkUrl}
                 error={errors.linkUrl}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="profile_link p-1 my-2 border border-light rounded">
+              <Field
+                name="youtubeUrl"
+                label="Contenu YouTube"
+                placeholder="Lien vers une video YouTube"
+                value={profile.youtubeUrl}
+                error={errors.youtubeUrl}
                 onChange={handleChange}
               />
             </div>
