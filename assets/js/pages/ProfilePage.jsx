@@ -98,7 +98,7 @@ const ProfilePage = (props) => {
 
         {!loading && <Profile profile={profile} email={profile.user.email} />}
         <div className="d-flex justify-content-center">
-          <Link className="btn btn-outline-black my-3" to="/profils">
+          <Link className="btn btn-outline-black" to="/profils">
             Retour aux profils
           </Link>
         </div>

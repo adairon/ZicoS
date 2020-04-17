@@ -40,7 +40,7 @@ const Profile = ({profile,email}) => {
 
 
     return ( 
-        <div className="container profile border rounded py-2 bg-light shadow">
+        <div className="container profile border rounded py-2 bg-light shadow mb-5">
           <div className="row justify-content-center">
 
             <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex profile_figure" onClick={handleShow}>
