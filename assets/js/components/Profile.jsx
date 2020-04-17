@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal'
 import UserContext from "../contexts/UserContext";
 import userAPI from "../services/userAPI";
+import {API_URL} from "../config"
+import ReactPlayer from 'react-player'
 
 const Profile = ({profile,email}) => {
   // CONTEXTES : 
@@ -119,6 +121,28 @@ const Profile = ({profile,email}) => {
               </p>
             </div>
           }
+
+          {profile.youtubeUrl && 
+            <div className="profile_link p-1 my-2 border border-light rounded">
+              <h3 className="profile_subtitle" >Découvrir {profile.firstName} </h3>
+              <div className='player-wrapper'>
+                <ReactPlayer 
+                  url={profile.youtubeUrl} 
+                  className='react-player'
+                  playing 
+                  width='100%'
+                  height='100%'
+                  config={{
+                    youtube: {
+                      playerVars: { origin: {API_URL} },
+                      embedOptions: {enablejsapi: 1}
+                    }
+                  }}  
+                  />
+              </div>
+            </div>
+          }
+
           {!userProfile && 
             <div className="d-flex my-3 justify-content-center">
               <Link to="/users/profile/new" className="btn btn-warning">
@@ -126,6 +150,7 @@ const Profile = ({profile,email}) => {
               </Link>
             </div>
           }
+
           {userProfile && 
             <div className="profil_contact d-flex my-3">
               <button className="btn btn-primary m-auto p-3" type="button">

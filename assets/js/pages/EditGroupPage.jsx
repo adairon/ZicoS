@@ -41,7 +41,8 @@ const EditGroupPage = props => {
     region: "",
     departement: "",
     style: "",
-    level: ""
+    level: "",
+    youtubeUrl:""
   });
   const [errors, setErrors] = useState({
     type: "",
@@ -52,7 +53,8 @@ const EditGroupPage = props => {
     region: "",
     departement: "",
     style: "",
-    level: ""
+    level: "",
+    youtubeUrl:""
   });
   const [localizations, setLocalizations] = useState([]);
   const [styles, setStyles] = useState([]);
@@ -134,8 +136,8 @@ const EditGroupPage = props => {
     try {
       const dataProfile = await profilesAPI.findOne(id);
       // console.log(dataProfile)
-      const { type, firstName, biography, pictureUrl, linkUrl, localization, style, level } = dataProfile;
-      setProfile({ type: type.id, firstName, biography, pictureUrl, linkUrl, region: localization.id, style: style.id, level: level.id });
+      const { type, firstName, biography, pictureUrl, linkUrl, youtubeUrl, localization, style, level } = dataProfile;
+      setProfile({ type: type.id, firstName, biography, pictureUrl, linkUrl, youtubeUrl, region: localization.id, style: style.id, level: level.id });
       //Pour donner à l'image une valeur par défaut correspondant au nom du fichier déjà enregistré
       setImage(dataProfile.pictureUrl.replace("/media/", "").toString())
       setLoading(false)
@@ -372,6 +374,17 @@ const EditGroupPage = props => {
                 placeholder="Lien vers votre site internet"
                 value={profile.linkUrl}
                 error={errors.linkUrl}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="profile_link p-1 my-2 border border-light rounded">
+              <Field
+                name="youtubeUrl"
+                label="Contenu YouTube"
+                placeholder="Lien vers une video YouTube"
+                value={profile.youtubeUrl}
+                error={errors.youtubeUrl}
                 onChange={handleChange}
               />
             </div>
