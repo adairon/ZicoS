@@ -115,7 +115,7 @@ const App = () => {
               </Switch>
               <Footer />
             </HashRouter>
-            <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
+            <ToastContainer position={toast.POSITION.BOTTOM_CENTER} autoClose={3000} />
             <ScrollUpButton />
           </UserProfileContext.Provider>
         </LogedInModalContext.Provider>

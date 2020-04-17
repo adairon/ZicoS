@@ -92,6 +92,7 @@ a {
 }
 .logo {
   height: 40px;
+  position: absolute;
 }
 .btn-outline-black{
   border-color: black;
@@ -353,7 +354,7 @@ a {
 
 /* =========================== FOOTER ================================================ */
 footer {
-  height: 100px;
+  min-height: 100px;
   border-top: white 3px solid;
 }
 
