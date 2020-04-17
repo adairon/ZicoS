@@ -124,7 +124,10 @@ const RegisterPage = ({history}) => {
       <div className="fondPage bg-secondary p-4 d-flex align-items-center">
         <div className="container bg-light shadow rounded p-5">
           <h1>Inscription sur ZicoS</h1>
-          <p className="text-center">Pour créer votre profil et découvrir des groupes ou musiciens.nes, vous dévez d'abord créer un compte si vous n'en avez pas.</p>
+          <p className="text-center">
+            Pour créer votre profil et découvrir des groupes ou musiciens.nes, vous dévez d'abord créer un compte si vous n'en avez pas.<br/>
+            Créer un compte et un profil sur ZicoS c'est rapide et aussi gratuit !
+            </p>
           <div className="d-flex justify-content-center">
             <Button
               onClick={() => setOpen(!open)}
