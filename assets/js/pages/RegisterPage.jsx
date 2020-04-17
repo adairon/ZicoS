@@ -42,7 +42,6 @@ const RegisterPage = ({history}) => {
   const [show, setShow] = useState(false);
 
   //pour gérer la validation
-  const [validated, setValidated] = useState(false);
   const [termsValidation, setTermsValidation] = useState()
   
   //----------------------------------------------FUNCTIONS :
@@ -68,13 +67,20 @@ const RegisterPage = ({history}) => {
   const handleSubmit = async event => {
     event.preventDefault();
     const apiErrors = {};
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
     //Erreur "personnalisée" pour la validation du mdp
     if(user.password !== user.passwordConfirm){
       apiErrors.passwordConfirm = "Votre confirmation ne correspond pas à votre premier mot de passe";
       setErrors(apiErrors)
-      return;
+      return
     }
-    //Erreur si la date de naissance est vide (car ce cas de figure est non gérer par l'api)
+    // Erreur si la date de naissance est vide (car ce cas de figure est non gérer par l'api)
     if(user.birthDate === ""){
       apiErrors.birthDate = "Votre date de naissance est obligatoire"
       setErrors(apiErrors)
@@ -82,11 +88,11 @@ const RegisterPage = ({history}) => {
     }
     try{
       await userAPI.register(user);
-      // //on "vide" les erreurs
+      //on "vide" les erreurs
       setErrors({})
-      // //notification toast:
+      //notification toast:
       toast.success("Votre compte est bien créé ! Connectez vous")
-      // //redirection vers la page de login :
+      //redirection vers la page de login :
       history.replace('/login')
     }catch(error){
       console.log(error.response)
@@ -98,8 +104,21 @@ const RegisterPage = ({history}) => {
         setErrors(apiErrors)
       }
     }
-    // console.log(user);
+    console.log(user);
   };
+
+
+  const [validated, setValidated] = useState(false);
+
+  // const handleSubmit = (event) => {
+  //   const form = event.currentTarget;
+  //   if (form.checkValidity() === false) {
+  //     event.preventDefault();
+  //     event.stopPropagation();
+  //   }
+
+  //   setValidated(true);
+  // };
 
   //----------------------------------------------EFFECTS :
   useEffect(()=>{
@@ -130,10 +149,93 @@ const RegisterPage = ({history}) => {
             <LoginModal libBtn="J'ai déjà un compte" variant="link"/>
           </div>         
           <Collapse in={open}>
+          {/* <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form.Row>
+              <div className="col">
+                <Form.Group controlId="validationCustom01">
+                  <Form.Label>Votre adresse Email</Form.Label>
+                  <Form.Control
+                    name="email"
+                    required
+                    type="text"
+                    placeholder="Entrez votre adresse email"
+                    value={user.email}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.email}
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </div>
+              <div className="col">
+                <Form.Group  controlId="validationCustom02">
+                  <Form.Label>Date de naissance</Form.Label>
+                  <Form.Control
+                    name="birthDate"
+                    required
+                    type="date"
+                    value={user.birthDate}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Merci de renseigner votre date de naissance
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </div>
+            </Form.Row>
+
+            <Form.Group  controlId="validationCustom03">
+                <Form.Label>Votre mot de passe</Form.Label>
+                <Form.Control
+                  name="password"
+                  required
+                  type="password"
+                  laceholder="Entrez un mot de passe sécurisé d'au moins 8 caractères"
+                  value={user.password}
+                  onChange={handleChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.password}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Form.Group  controlId="validationCustom04">
+                  <Form.Label>Confirmez votre mot de passe</Form.Label>
+                  <Form.Control
+                    name="passwordConfirm"
+                    required
+                    type="password"
+                    laceholder="Confirmez votre mot de passe"
+                    value={user.passwordConfirm}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Merci de confirmer votre Mot de passe
+                  </Form.Control.Feedback>
+                </Form.Group>
+
+                <Form.Group className="d-flex">
+                  <Form.Check
+                    required
+                    onChange={handleTermsValidation}
+                    label={"J'ai lu et j'accepte les" + " "}
+                    feedback="Vous devez accepter les conditions générales d'utilisation pour créer un compte"
+                  />
+                  <Button variant="link" onClick={handleShow} className="ml-1 border-0 p-0">
+                    conditions générales d'utilisation
+                  </Button>
+                </Form.Group>
+              <Button type="submit">Enregistrer</Button>
+          </Form> */}
+
+
+
+
             <div id="example-collapse-text">
               <form onSubmit={handleSubmit}>
                 <div className="row mt-4">
                   <div className="col">
+
                     <Field
                       name="email"
                       label="Votre adresse email"
@@ -143,6 +245,7 @@ const RegisterPage = ({history}) => {
                       value={user.email}
                       onChange={handleChange}
                     />
+
                   </div>
                   <div className="col">
                     <Field
@@ -176,7 +279,7 @@ const RegisterPage = ({history}) => {
                 />
                   <Form.Group className="d-flex">
                     <Form.Check
-                      required
+                      // required
                       onChange={handleTermsValidation}
                       label={"J'ai lu et j'accepte les" + " "}
                       isInvalid={termsValidation}
@@ -193,6 +296,7 @@ const RegisterPage = ({history}) => {
               </form>
             </div>
           </Collapse>
+
           <Modal show={show} onHide={handleClose} centered>
             <Modal.Header className="bg-primary text-light" closeButton>
               <Modal.Title >Conditions générales d'utilisation</Modal.Title>
