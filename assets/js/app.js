@@ -43,6 +43,7 @@ import "../css/app.css";
 import AboutZicos from "./pages/AboutZicos";
 import CGU from "./pages/CGU";
 import MentionsLegales from "./pages/MentionsLegales";
+import ScrollToTop from "./components/ScrollToTop";
 // import "../css/App.scss"
 
 
@@ -96,6 +97,7 @@ const App = () => {
             }}
           >
             <HashRouter>
+            <ScrollToTop/>
               <NavBarWithRouter />
               <Switch>
                 <Route path="/login" component={LoginPage} />
