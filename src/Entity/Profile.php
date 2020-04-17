@@ -132,6 +132,16 @@ class Profile
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $youtubeUrl;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $soundcloudURL;
+
 
     public function getId(): ?int
     {
@@ -278,6 +288,30 @@ class Profile
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getYoutubeUrl(): ?string
+    {
+        return $this->youtubeUrl;
+    }
+
+    public function setYoutubeUrl(?string $youtubeUrl): self
+    {
+        $this->youtubeUrl = $youtubeUrl;
+
+        return $this;
+    }
+
+    public function getSoundcloudURL(): ?string
+    {
+        return $this->soundcloudURL;
+    }
+
+    public function setSoundcloudURL(?string $soundcloudURL): self
+    {
+        $this->soundcloudURL = $soundcloudURL;
 
         return $this;
     }
