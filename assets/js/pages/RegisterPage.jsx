@@ -43,6 +43,8 @@ const RegisterPage = ({history}) => {
 
   //pour gérer la validation
   const [validated, setValidated] = useState(false);
+  const [clicCount, setClicCount] = useState(1);
+  const [btnDisabled, setBtnDisabled] = useState("disabled")
   const [termsValidation, setTermsValidation] = useState()
   
   //----------------------------------------------FUNCTIONS :
@@ -59,10 +61,15 @@ const RegisterPage = ({history}) => {
     setUser({ ...user, [name]: value });
   };
 
-  const handleTermsValidation = () => {
-    setTermsValidation(false)
-    console.log("CGU acceptées")
-  }
+  const enableConfim = () => {
+    setClicCount(clicCount + 1);
+    if (clicCount % 2 !== 0) {
+      setBtnDisabled("");
+    } else {
+      setBtnDisabled("disabled");
+    }
+  };
+
   
   //fct pour gérer la soumission du formulaire
   const handleSubmit = async event => {
@@ -177,7 +184,7 @@ const RegisterPage = ({history}) => {
                   <Form.Group className="d-flex">
                     <Form.Check
                       required
-                      onChange={handleTermsValidation}
+                      onChange={enableConfim}
                       label={"J'ai lu et j'accepte les" + " "}
                       isInvalid={termsValidation}
                       feedback="Vous devez accepter les conditions générales d'utilisation pour créer un compte"
@@ -187,7 +194,7 @@ const RegisterPage = ({history}) => {
                     </Button>
                   </Form.Group>
 
-                <button type="submit" className="btn btn-success">
+                <button type="submit" className="btn btn-success" disabled={btnDisabled}>
                     Confirmation
                 </button>
               </form>
