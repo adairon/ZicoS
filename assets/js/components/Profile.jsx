@@ -66,7 +66,7 @@ const Profile = ({profile,email}) => {
               {profile.type.name === "musicien.ne" && (
                 <div className="profile_info instrus p-1 m-2 alert alert-secondary">
                   <div className="mx-2">
-                    <h3>Instrument : </h3>
+                    <h3>Instrument</h3>
                     <span className="badge badge-black">
                       {profile.instrument.name} 
                     </span>
@@ -75,7 +75,7 @@ const Profile = ({profile,email}) => {
               )}
               
               <div className="profile_info style p-1 m-2 alert alert-secondary">
-                <h3>Style de musique principal :</h3>
+                <h3>Style de musique principal</h3>
                 <span className="badge badge-black">
                   {profile.style.name}
                 </span>
@@ -94,7 +94,7 @@ const Profile = ({profile,email}) => {
               
 
               <div className="profile_info localization p-1 m-2 alert alert-secondary">
-                <h3>Région :</h3>
+                <h3>Région</h3>
                 <span className="badge badge-black">
                   {profile.localization.region}
                 </span>

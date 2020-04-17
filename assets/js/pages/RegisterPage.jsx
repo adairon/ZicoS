@@ -70,7 +70,6 @@ const RegisterPage = ({history}) => {
     }
   };
 
-  
   //fct pour gérer la soumission du formulaire
   const handleSubmit = async event => {
     event.preventDefault();
