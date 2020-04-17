@@ -25,6 +25,8 @@
 /* ================================ RÈGLES GÉNÉRALES =========================== */
 body {
   /* background-color: lightgrey; */
+  font-family: "Big John PRO Regular";
+  font-size: 1rem;
 }
 
 h1 {

@@ -101,7 +101,7 @@ const CGU = ({ history }) => {
                         <li>qui contiennent des pages à accès restreint ou accessibles uniquement par mots de passe, ou des images et pages dissimulées (qui ne contiennent pas de liens vers ou provenant d'une autre page accessible)</li>
                         <li>qui mettent à disposition du matériel pornographique ou violent qui met en scène des individus âgés de moins de 18 ans ou qui sollicite des informations aux personnes âgées de moins de 18 ans</li>
                         <li>qui fournissent des informations quant à toute activité illégale, telles que la fabrication ou l’achat d’armes, la violation de la vie privée, ou la création et diffusion de virus informatiques </li>
-                        <li>qui sollicitent auprès d’autres utilisateurs des mots de passe ou des informations d’identification personnelles à des fins commerciales ou illicites ; et</li>
+                        <li>qui sollicitent auprès d’autres utilisateurs des mots de passe ou des informations d’identification personnelles à des fins commerciales ou illicites</li>
                         <li>qui mènent des activités commerciales et/ou activités de vente sans notre consentement écrit préalable, tels que des concours, loteries, troc, publicité, et vente pyramidale.</li>
                     </ul>
 
