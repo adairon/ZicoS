@@ -217,8 +217,8 @@ const CreateProfilePage = ({ history }) => {
       setErrors(apiErrors);
       return;
     }
-    if (profile.region === "") {
-      apiErrors.region = "Merci de préciser votre région";
+    if (profile.departement === "") {
+      apiErrors.departement = "Merci de préciser votre département";
       setStep1Class("show");
       setCollapse("collapse");
       setErrors(apiErrors);
@@ -258,7 +258,7 @@ const CreateProfilePage = ({ history }) => {
             instrument: `api/instruments/${profile.instrument}`,
             style: `api/styles/${profile.style}`,
             email: `${user.email}`,
-            localization: `/api/localizations/${profile.region}`,
+            localization: `/api/localizations/${profile.departement}`,
           }
         )
         setErrors({});
@@ -277,7 +277,7 @@ const CreateProfilePage = ({ history }) => {
             level: `api/levels/${profile.level}`,
             style: `api/styles/${profile.style}`,
             email: `${user.email}`,
-            localization: `/api/localizations/${profile.region}`,
+            localization: `/api/localizations/${profile.departement}`,
           }
         );
         setErrors({});
@@ -387,15 +387,15 @@ const CreateProfilePage = ({ history }) => {
                       />
                     )}
                     <Select
-                      name="region"
-                      label="Région"
-                      value={profile.region}
-                      error={errors.region}
+                      name="departement"
+                      label="Département"
+                      value={profile.departement}
+                      error={errors.departement}
                       onChange={handleChange}
                     >
                       {localizations.map((localization) => (
                         <option key={localization.id} value={localization.id}>
-                          {localization.region}
+                          {localization.departement}
                         </option>
                       ))}
                     </Select>

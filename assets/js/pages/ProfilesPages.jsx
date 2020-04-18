@@ -45,15 +45,11 @@ const ProfilesPage = (props) => {
   const [instruments, setInstruments] = useState([]);
   const [localizations, setLocalizations] = useState([]);
   const [levels, setLevels] = useState([])
-  ////const [user, setUser] = useState({});
-  
   const [loading, setLoading] = useState(true);
-
   //state pour gérer la page en cours (pagination)
   const [currentPage, setCurrentPage] = useState(1);
   // state pour gérer la recherche
   const [search, setSearch] = useState("");
-  ////const [filterType, setFilterType] = useState("");
   const [libFilterType, setLibFilterType] = useState("")
   const [disableTypeBtn, setDisableTypeBtn] = useState(false)
   const [libFilterStyle, setLibFilterStyle] = useState("")
@@ -76,7 +72,6 @@ const ProfilesPage = (props) => {
       const data = await ProfilesAPI.findAll({ cancelToken: source.token });
       setProfiles(data);
       setAllProfiles(data);
-      //// console.log(data);
       setLoading(false);
     } catch (error) {
       if (Axios.isCancel(error)) {
@@ -91,7 +86,6 @@ const ProfilesPage = (props) => {
     try {
       const dataType = await TypeAPI.findAll({ cancelToken: source.token });
       setTypes(dataType);
-      //// console.log(dataType)
     } catch (error) {
       if (Axios.isCancel(error)) {
         console.log("request cancelled");
@@ -105,7 +99,6 @@ const ProfilesPage = (props) => {
     try {
       const dataStyle = await StylesAPI.findAll({ cancelToken: source.token });
       setStyles(dataStyle);
-      // //  console.log(dataStyle);
     } catch (error) {
       if (Axios.isCancel(error)) {
         console.log("request cancelled");
@@ -135,7 +128,6 @@ const ProfilesPage = (props) => {
       const dataLocals = await localizationAPI.findAll({
         cancelToken: source.token,
       });
-      //// console.log(dataLocals)
       setLocalizations(dataLocals);
     } catch (error) {
       console.log(error.response);
@@ -147,7 +139,6 @@ const ProfilesPage = (props) => {
       const dataLevels = await levelsAPI.findAll({
         cancelToken: source.token,
       });
-      //// console.log(dataLevels)
       setLevels(dataLevels);
     }catch(error){
       console.log(error.response)
@@ -158,7 +149,6 @@ const ProfilesPage = (props) => {
   const fetchUserProfile = async (userId) => {
     try {
       const data = await userAPI.findOne(userId);
-      //// console.log(data)
       if (data.profile) {
         setUserProfileId(data.profile.id);
       } else {
@@ -190,7 +180,6 @@ const ProfilesPage = (props) => {
   const [open, setOpen] = useState(false);
 
   const handleFilter = ({ currentTarget }) => {
-    //// console.log(currentTarget.id)
     setSearch(currentTarget.id);
     setCurrentPage(1);
     setProfiles(searchedProfiles)
@@ -222,16 +211,11 @@ const ProfilesPage = (props) => {
     handleFilter({currentTarget})
   }
 
-  //// const handleSearch = ({currentTarget}) => {
-  ////   setSearch(currentTarget.value)
-  ////   setCurrentPage(1)
-  //// }
-
   const searchedProfiles = profiles.filter(
     (p) =>
       p.type.name.toLowerCase().includes(search.toLowerCase()) ||
       p.style.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.localization.region.toLowerCase() === search.toLowerCase() ||
+      p.localization.departement.toLowerCase() === search.toLowerCase() ||
       (p.instrument && p.instrument.name.toLowerCase() === search.toLowerCase()) ||
       (p.level && p.level.name.toLowerCase() === search.toLowerCase())
   );
@@ -425,18 +409,18 @@ const ProfilesPage = (props) => {
                 <DropdownButton
                   variant="outline-black"
                   id="dropdown-basic-button"
-                  title="Régions"
-                  className="mx-3 my-2"
+                  title="Département"
+                  className="mx-3 my-2 scrollable-menu"
                   disabled={disableLocalizationBtn}
                 >
                   {localizations.map((localization) => (
                     <Dropdown.Item
                       key={localization.id}
-                      value={localization.region}
-                      id={localization.region}
+                      value={localization.departement}
+                      id={localization.departement}
                       onClick={handleFilterLocal}
                     >
-                      {localization.region}
+                      {localization.departement}
                     </Dropdown.Item>
                   ))}
                 </DropdownButton>

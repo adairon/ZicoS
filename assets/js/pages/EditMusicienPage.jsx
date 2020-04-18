@@ -152,7 +152,7 @@ const EditMusicienPage = (props) => {
     try {
       const dataProfile = await profilesAPI.findOne(id);
       const { type, firstName, lastName, biography, pictureUrl, linkUrl, youtubeUrl, instrument, localization, style, level } = dataProfile;
-      setProfile({ type: type.id, firstName, lastName, biography, pictureUrl, linkUrl, youtubeUrl, instrument: instrument.id, region: localization.id, style: style.id, level:level.id });
+      setProfile({ type: type.id, firstName, lastName, biography, pictureUrl, linkUrl, youtubeUrl, instrument: instrument.id, departement: localization.id, style: style.id, level:level.id });
       //Pour donner à l'image une valeur par défaut correspondant au nom du fichier déjà enregistré
       setImage(dataProfile.pictureUrl.replace("/media/", "").toString())
       setLoading(false)
@@ -197,7 +197,7 @@ const EditMusicienPage = (props) => {
           instrument: `api/instruments/${profile.instrument}`,
           style: `api/styles/${profile.style}`,
           email: `${user.email}`,
-          localization: `/api/localizations/${profile.region}`
+          localization: `/api/localizations/${profile.departement}`
         });
       setErrors({});
       toast.success("Votre Profil à bien été modifié !")
@@ -258,14 +258,6 @@ const EditMusicienPage = (props) => {
                       />
                       <span className="badge badge-success">{btnLabel}</span>
                   </div>
-                
-                {/* <Field
-                  name="pictureUrl"
-                  label="photo de profil"
-                  placeholder="lien vers votre photo de profil"
-                  value={profile.pictureUrl}
-                  onChange={handleChange}
-                /> */}
 
               </figure>
 
@@ -347,15 +339,15 @@ const EditMusicienPage = (props) => {
 
                 <div className="profile_info localization p-1 m-2 alert alert-secondary">
                   <Select
-                    name="region"
-                    label="Région"
-                    value={profile.region}
-                    error={errors.region}
+                    name="departement"
+                    label="Département"
+                    value={profile.departement}
+                    error={errors.departement}
                     onChange={handleChange}
                   >
                     {localizations.map(localization => (
                       <option key={localization.id} value={localization.id}>
-                        {localization.region}
+                        {localization.departement}
                       </option>
                     ))}
                   </Select>

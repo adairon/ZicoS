@@ -100,10 +100,18 @@ const Profile = ({profile,email}) => {
               }
 
               <div className="profile_info localization p-1 m-2 alert alert-secondary">
-                <h3>Région</h3>
-                <span className="badge badge-black">
-                  {profile.localization.region}
-                </span>
+                <h3>Lieu</h3>
+                <div className="d-flex">
+
+                  <span className="badge badge-black mr-3">
+                    {profile.localization.region}
+                  </span>
+
+                  <span className="badge badge-black ml-3">
+                    {profile.localization.departement}
+                  </span>
+
+                </div>
               </div>
 
             </div>

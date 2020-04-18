@@ -273,6 +273,12 @@ a {
   width: 200px;
 }
 
+.dropdown-menu {
+  height: auto;
+  max-height: 200px;
+  overflow-x: hidden;
+}
+
 /* ============================== CARTES DE PROFIL =============================== */
 .card-deck {
   margin: 0 -15px;

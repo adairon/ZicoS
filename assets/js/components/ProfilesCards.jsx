@@ -21,7 +21,7 @@ const ProfilesCards = ({paginatedProfiles}) => {
                   <p className="card-text infos-cartes">
                   {profile.type.name} {profile.instrument && "("+profile.instrument.name+")"} <br/>
                   {profile.style.name} <br/>
-                  {profile.localization.region}
+                  {profile.localization.region + " (" + profile.localization.departementNumber + ")"}
                   </p>
               </div>
 

@@ -143,7 +143,7 @@ const EditGroupPage = (props) => {
         pictureUrl,
         linkUrl,
         youtubeUrl,
-        region: localization.id,
+        departement: localization.id,
         style: style.id,
         level: level.id,
       });
@@ -193,7 +193,7 @@ const EditGroupPage = (props) => {
         style: `api/styles/${profile.style}`,
         level: `api/levels/${profile.level}`,
         email: `${user.email}`,
-        localization: `/api/localizations/${profile.region}`,
+        localization: `/api/localizations/${profile.departement}`,
       });
       setErrors({});
       toast.success("Votre Profil à bien été modifié !");
@@ -314,15 +314,15 @@ const EditGroupPage = (props) => {
 
                   <div className="profile_info localization p-1 m-2 alert alert-secondary">
                     <Select
-                      name="region"
-                      label="Région"
-                      value={profile.region}
-                      error={errors.region}
+                      name="departement"
+                      label="Département"
+                      value={profile.departement}
+                      error={errors.departement}
                       onChange={handleChange}
                     >
                       {localizations.map((localization) => (
                         <option key={localization.id} value={localization.id}>
-                          {localization.region}
+                          {localization.departement}
                         </option>
                       ))}
                     </Select>
