@@ -1,17 +1,16 @@
 //----------------------------------------------IMPORTS :
 
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { toast } from "react-toastify";
+//contexts :
 import LogedInModalContext from "../contexts/LogedInModalContext";
-import AuthContext from "../contexts/AuthContext";
+//components:
 import CGU from "../components/CGU";
 
 const cguPage = ({ history }) => {
     //CONTEXTS :
   const { logedInModal, setLogedInModal } = useContext(LogedInModalContext);
-  const { isAuthenticated } = useContext(AuthContext);
 
   //----------------------------------------------EFFECTS :
 
@@ -33,7 +32,9 @@ const cguPage = ({ history }) => {
         <div className="bg-secondary py-4">
             <div className="container bg-light shadow rounded p-5">
                 <h1 className="my-4">Conditions générales d'utilisation</h1>
+                
                 <CGU/>
+                
             </div>
         </div>
         </>

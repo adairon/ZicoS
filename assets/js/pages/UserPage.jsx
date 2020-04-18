@@ -73,7 +73,6 @@ const UserPage = ({ history }) => {
     toast.error("Votre compte a bien été supprimé");
     // on se redirige vers la page d'accueil avec history
     history.push("/");
-    // //TODO : NOTIF TOAST
   };
 
   // On lance la fonction de récupération des infos du User au chargement du composant
@@ -103,13 +102,16 @@ const UserPage = ({ history }) => {
                 </span>
               </div>
 
-              {!user.profile && (
-                //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
-                <Link to="/users/profile/new" className="btn btn-primary">
-                  Créer un profil ZicoS
-                </Link>
-              )}
+
               <div className="d-flex justify-content-center">
+
+                {!user.profile && (
+                  //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
+                  <Link to="/users/profile/new" className="btn btn-success m-4">
+                    Créer un profil ZicoS
+                  </Link>
+                )}
+
                 {typeMusicien && (
                   //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
                   <Link
@@ -134,7 +136,7 @@ const UserPage = ({ history }) => {
                   Supprimer mon compte
                 </Button>
 
-                <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal show={show} onHide={handleClose} centered>
                   <Modal.Header closeButton className="bg-danger text-light">
                     <Modal.Title>Attention !</Modal.Title>
                   </Modal.Header>
@@ -144,14 +146,14 @@ const UserPage = ({ history }) => {
                     Êtes-vous certain.e de vouloir supprimer votre compte ?
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                      Finalement non
-                    </Button>
                     <Button
                       variant="danger"
                       onClick={() => handleDelete(user.id)}
                     >
                       Supprimer mon compte
+                    </Button>
+                    <Button variant="secondary" onClick={handleClose}>
+                      Finalement non
                     </Button>
                   </Modal.Footer>
                 </Modal>
