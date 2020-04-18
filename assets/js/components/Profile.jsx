@@ -1,28 +1,33 @@
+//----------------------------------------------IMPORTS :
+
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import ReactPlayer from 'react-player'
 import Modal from 'react-bootstrap/Modal'
+//contexts:
 import UserContext from "../contexts/UserContext";
+//API:
 import userAPI from "../services/userAPI";
 import {API_URL} from "../config"
-import ReactPlayer from 'react-player'
 
+//----------------------------------------------FUNCTIONNAL COMPONENT :
 const Profile = ({profile,email}) => {
-  // CONTEXTES : 
+  
+  //----------------------------------------------CONTEXTS :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
-  //STATES : 
+  //----------------------------------------------STATES : 
   const [userProfile, setUserProfile] = useState(true);
   const [show, setShow] = useState(false);
 
-  //FONCTIONS : 
+  //----------------------------------------------FUNCTIONS :
+
   //Pour savoir si le user authentifié à un profil :
   const fetchUserProfile = async userId => {
     try {
       const data = await userAPI.findOne(userId);
-      // console.log(data)
       if(!data.profile){
-        // console.log("pas de profil")
         setUserProfile(false)
       }
     }catch(error){
@@ -33,7 +38,7 @@ const Profile = ({profile,email}) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   
-  //EFFETS :
+  //----------------------------------------------EFFECTS :
   useEffect(()=>{
     fetchUserProfile(userId)
   },[])
@@ -56,12 +61,12 @@ const Profile = ({profile,email}) => {
             </Modal>
 
             <div className="col-lg-6 col-md-12 col-sm-12 profile_title p-1 my-2">
+
             <div className="alert alert alert-primary mx-2">
                 <h1 className="profile_name">
                   {profile.firstName}{" "}
                   {profile.type.name === "musicien.ne" && profile.lastName}
                 </h1>
-
                 <p className="profile_type text-center"> {profile.type.name} </p>
               </div>
 
@@ -93,7 +98,6 @@ const Profile = ({profile,email}) => {
                   </div>
                 </div>
               }
-              
 
               <div className="profile_info localization p-1 m-2 alert alert-secondary">
                 <h3>Région</h3>
@@ -161,7 +165,6 @@ const Profile = ({profile,email}) => {
               </button>
             </div>
           }
-
         </div>
      );
 }

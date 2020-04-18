@@ -5,10 +5,15 @@ const ProfilesCards = ({paginatedProfiles}) => {
   return (
     <>
       <div className="card-deck">
+
         {paginatedProfiles.map(profile => (
+
           <div key={profile.id} className={"card profileCard bg-light text-white shadow my-5 " + profile.type.name}>
+
             <Link to={"/profils/" + profile.id} >
+
               <img className="card-img-top img-fluid" src={profile.pictureUrl} alt="Card image cap" />
+              
               <div className="card-body p-2">
                   <h5 className="card-title text-primary">
                     {profile.firstName} {profile.lastName}
@@ -19,9 +24,13 @@ const ProfilesCards = ({paginatedProfiles}) => {
                   {profile.localization.region}
                   </p>
               </div>
+
             </Link>
+
           </div>
+
         ))}
+
       </div>
     </>
   );
