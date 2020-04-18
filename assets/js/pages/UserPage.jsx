@@ -16,7 +16,7 @@ import UserContext from "../contexts/UserContext";
 import userAPI from "../services/userAPI";
 import AuthAPI from "../services/authAPI";
 
-import UserPageLoader from "../components/loaders/UserPageLoader";
+
 import CssUserPageLoader from "../components/loaders/CssUserPageLoader";
 
 const UserPage = ({ history }) => {

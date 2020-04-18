@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import ProfilesAPI from "../services/profilesAPI";
 
 import Profile from "../components/Profile";
-import ProfileLoader from "../components/loaders/ProfileLoader";
+
 import CssProfileLoader from "../components/loaders/CssProfileLoader";
 import { Link } from "react-router-dom";
 

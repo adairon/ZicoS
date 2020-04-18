@@ -24,7 +24,7 @@ import ProfilesCards from "../components/ProfilesCards";
 import Pagination from "../components/Pagination";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-import ProfilesCardsLoader from "../components/loaders/ProfilesCardsLoader";
+
 import instrumentsAPI from "../services/instrumentsAPI";
 import localizationAPI from "../services/localizationAPI";
 import CssProfilesCardsLoader from "../components/loaders/CssProfileCardsLoader";
