@@ -1,13 +1,20 @@
+//----------------------------------------------IMPORTS :
 import React, { useState, useContext, useEffect } from "react";
-import AuthAPI from "../services/authAPI";
+//context:
 import AuthContext from "../contexts/AuthContext";
-import Field from "../components/forms/Field";
 import UserContext from "../contexts/UserContext";
+//API:
+import AuthAPI from "../services/authAPI";
+//components:
+import Field from "../components/forms/Field";
 
+//----------------------------------------------FUNCTIONNAL COMPONENT :
 const LoginPage = ({ history }) => {
+  //----------------------------------------------CONTEXTS :
   const { setIsAuthenticated } = useContext(AuthContext);
   const {setUserId} = useContext(UserContext);
 
+  //----------------------------------------------STATES :
   // State pour gérer les identifiants : objet vide par défaut
   const [credentials, setCredentials] = useState({
     username: "",
@@ -16,10 +23,10 @@ const LoginPage = ({ history }) => {
   //State pour gérer les erreurs d'identifiants
   const [error, setError] = useState("");
 
+  //----------------------------------------------FUNCTIONS :
   // fonction pour enregistrer la valeur saisie dans le champs du formulaire et la passer dans le state
   const handleChange = ({ currentTarget }) => {
     const { value, name } = currentTarget;
-
     setCredentials({ ...credentials, [name]: value });
   };
 
@@ -47,12 +54,16 @@ const LoginPage = ({ history }) => {
     }
   };
 
+  //----------------------------------------------RETURN :
   return (
     <>
       <div className="fondPage bg-secondary py-4 d-flex align-items-center">
         <div className="container bg-light shadow rounded p-5">
+        
           <h1>Connexion à ZicoS</h1>
+
             <form onSubmit={handleSubmit}>
+            
               <Field
                 label="Adresse email"
                 name="username"
@@ -61,6 +72,7 @@ const LoginPage = ({ history }) => {
                 placeholder="Adresse email de connexion"
                 error={error}
               />
+
               <Field
                 label="Mot de passe"
                 name="password"
@@ -68,11 +80,13 @@ const LoginPage = ({ history }) => {
                 onChange={handleChange}
                 type="password"
               />
+
               <div className="form-group">
                 <button type="submit" className="btn btn-success">
                   Se connecter
                 </button>
               </div>
+
             </form>
           </div>
       </div>

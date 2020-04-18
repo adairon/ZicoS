@@ -22,7 +22,8 @@ const Navbar = ({ history }) => {
   const { userId, setUserId } = useContext(UserContext);
 
   //----------------------------------------------STATE :
-
+  //state pour gérer les states en prenant en compte un nettoyage de l'effet
+  const [mounted, setMounted] = useState();
   // state pour le profil du user authentifié
   const [userProfile, setUserProfile] = useState("");
 
@@ -55,8 +56,10 @@ const Navbar = ({ history }) => {
   // effet qui se déclenche si l'utilisateur est authentifié et qui se nettoie au démontage
   if (isAuthenticated) {
     useEffect(() => {
+      setMounted(true)
       fetchUserProfile(userId);
       return () => {
+        setMounted(false)
       }
     }, []);
   }
@@ -103,7 +106,7 @@ const Navbar = ({ history }) => {
               </>
             }
 
-            {isAuthenticated && 
+            {(isAuthenticated && mounted) && 
             <>
               <li className="nav-item dropdown mx-5 my-auto">
                 <a className="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

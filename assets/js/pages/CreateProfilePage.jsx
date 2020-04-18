@@ -76,6 +76,7 @@ const CreateProfilePage = ({ history }) => {
   const [step3Class, setStep3Class] = useState("");
   const [collapse, setCollapse] = useState("");
   const [btnLabel, setBtnLabel] = useState("");
+  
 
   // ---------------------------------------------- FUNCTIONS :
 

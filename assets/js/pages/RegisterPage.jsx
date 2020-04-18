@@ -2,17 +2,16 @@
 import React, { useState,useContext,useEffect } from "react";
 
 import {toast} from "react-toastify"
-
+//react bootstrap:
 import Collapse from 'react-bootstrap/Collapse'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
 import Modal from 'react-bootstrap/Modal'
-
+//contexts:
 import LogedInModalContext from "../contexts/LogedInModalContext";
-
+// API:
 import userAPI from "../services/userAPI";
-
+//components:
 import Field from "../components/forms/Field";
 import LoginModal from "../components/LoginModal";
 import CGU from "../components/CGU";
@@ -43,10 +42,8 @@ const RegisterPage = ({history}) => {
   const [show, setShow] = useState(false);
 
   //pour gérer la validation
-  const [validated, setValidated] = useState(false);
   const [clicCount, setClicCount] = useState(1);
   const [btnDisabled, setBtnDisabled] = useState("disabled")
-  const [termsValidation, setTermsValidation] = useState()
   
   //----------------------------------------------FUNCTIONS :
   //gestion modal CGU :
@@ -56,12 +53,12 @@ const RegisterPage = ({history}) => {
   //fct pour gérer les changements dans le formulaire :
   const handleChange = ({ currentTarget }) => {
     // extrait le name et la value depuis le champs en cours (currentTarget)
-    // console.log(currentTarget);
     const { name, value } = currentTarget;
     //modifie le profil dans l'état en prenant tout ce qu'il y a déjà dans le profil mais écrase la propriété qu'il y a dans name par la donnée "value"
     setUser({ ...user, [name]: value });
   };
 
+  //pour gérer la disponibilité du bouton de confirmation en fonction de l'acceptation des CGU (avec compteur de clics):
   const enableConfim = () => {
     setClicCount(clicCount + 1);
     if (clicCount % 2 !== 0) {
@@ -81,7 +78,7 @@ const RegisterPage = ({history}) => {
       setErrors(apiErrors)
       return;
     }
-    //Erreur si la date de naissance est vide (car ce cas de figure est non gérer par l'api)
+    //Erreur si la date de naissance est vide (car ce cas de figure est non géré par l'api)
     if(user.birthDate === ""){
       apiErrors.birthDate = "Votre date de naissance est obligatoire"
       setErrors(apiErrors)
@@ -89,11 +86,11 @@ const RegisterPage = ({history}) => {
     }
     try{
       await userAPI.register(user);
-      // //on "vide" les erreurs
+      // on "vide" les erreurs
       setErrors({})
-      // //notification toast:
+      // notification toast:
       toast.success("Votre compte est bien créé ! Connectez vous")
-      // //redirection vers la page de login :
+      // redirection vers la page de login :
       history.replace('/login')
     }catch(error){
       console.log(error.response)
@@ -105,7 +102,6 @@ const RegisterPage = ({history}) => {
         setErrors(apiErrors)
       }
     }
-    // console.log(user);
   };
 
   //----------------------------------------------EFFECTS :
@@ -123,11 +119,14 @@ const RegisterPage = ({history}) => {
     <>
       <div className="fondPage bg-secondary p-4 d-flex align-items-center">
         <div className="container bg-light shadow rounded p-5">
+
           <h1>Inscription sur ZicoS</h1>
+
           <p className="text-center">
             Pour créer votre profil et découvrir des groupes ou musiciens.nes, vous dévez d'abord créer un compte si vous n'en avez pas.<br/>
             Créer un compte et un profil sur ZicoS c'est rapide et aussi gratuit !
             </p>
+
           <div className="d-flex justify-content-center">
             <Button
               onClick={() => setOpen(!open)}
@@ -137,11 +136,14 @@ const RegisterPage = ({history}) => {
             >
               Créez votre compte
             </Button>
+
             <LoginModal libBtn="J'ai déjà un compte" variant="link"/>
-          </div>         
+          </div>  
+
           <Collapse in={open}>
             <div id="example-collapse-text">
               <form onSubmit={handleSubmit}>
+                
                 <div className="row mt-4">
                   <div className="col">
                     <Field
@@ -154,6 +156,7 @@ const RegisterPage = ({history}) => {
                       onChange={handleChange}
                     />
                   </div>
+
                   <div className="col">
                     <Field
                       name="birthDate"
@@ -175,6 +178,7 @@ const RegisterPage = ({history}) => {
                   value={user.password}
                   onChange={handleChange}
                 />
+
                 <Field
                   name="passwordConfirm"
                   label="Confirmez votre mot de passe"
@@ -184,25 +188,30 @@ const RegisterPage = ({history}) => {
                   value={user.passwordConfirm}
                   onChange={handleChange}
                 />
+
                   <Form.Group className="d-flex">
+
                     <Form.Check
                       required
                       onChange={enableConfim}
                       label={"J'ai lu et j'accepte les" + " "}
-                      isInvalid={termsValidation}
-                      feedback="Vous devez accepter les conditions générales d'utilisation pour créer un compte"
                     />
+
                     <Button variant="link" onClick={handleShow} className="ml-1 border-0 p-0">
                       conditions générales d'utilisation
                     </Button>
+
                   </Form.Group>
 
                 <button type="submit" className="btn btn-success" disabled={btnDisabled}>
                     Confirmation
                 </button>
+
               </form>
             </div>
+
           </Collapse>
+
           <Modal show={show} onHide={handleClose} centered>
             <Modal.Header className="bg-primary text-light" closeButton>
               <Modal.Title >Conditions générales d'utilisation</Modal.Title>
@@ -216,6 +225,7 @@ const RegisterPage = ({history}) => {
               </Button>
             </Modal.Footer>
           </Modal>
+
         </div>
       </div>
     </>
