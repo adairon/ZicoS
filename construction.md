@@ -452,5 +452,5 @@ Pour éviter que les erreurs soient écrites dans un fichier inaccessible en pro
 - On passe les clés d'authentification de jwt dans notre dépot git (en mettant en commentaire la ligne correspondante dans le fichier ```.gitignore```):
     - ```/config/jwt/*.pem```
 - Pour préciser que l'appli à rendre visible se situe dans le dossier "public", on créé dans la racine du projet un fichier ```Procfile``` contenant : 
-    - ```web: $(composer config bin-dir)/heroku-php-appache2 public/```
+    - ```web: $(composer config bin-dir)/heroku-php-apache2 public/```
 

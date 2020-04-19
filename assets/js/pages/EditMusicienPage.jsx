@@ -19,6 +19,7 @@ import stylesAPI from "../services/stylesAPI";
 import profilesAPI from "../services/profilesAPI";
 import userAPI from "../services/userAPI";
 import levelsAPI from "../services/levelsAPI";
+import { PICTURE_API } from "../config";
 //components:
 import Field from "../components/forms/Field";
 import Select from "../components/forms/Select";
@@ -167,7 +168,7 @@ const EditMusicienPage = (props) => {
     const data = new FormData()
     data.append('file', event.target.files[0])
     try{
-      axios.post("http://localhost:8000/api/media_objects", data,{})
+      axios.post(PICTURE_API data,{})
            .then(response => {setImage(response.data.contentUrl)})
       setBtnLabel("Image chargée")
     }catch(error){

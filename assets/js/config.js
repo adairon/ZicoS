@@ -6,5 +6,6 @@ export const TYPES_API = API_URL + "types";
 export const STYLES_API = API_URL + "styles";
 export const LOCALIZATIONS_API = API_URL + "localizations";
 export const LEVELS_API = API_URL + "levels";
+export const PICTURE_API = API_URL + "media_objects";
 export const INSTRUMENTS_API = API_URL + "instruments";
 export const LOGIN_API = API_URL + "login_check";

@@ -18,6 +18,7 @@ import profilesAPI from "../services/profilesAPI";
 import userAPI from "../services/userAPI";
 import stylesAPI from "../services/stylesAPI";
 import levelsAPI from "../services/levelsAPI";
+import { PICTURE_API } from "../config";
 //components :
 import Select from "../components/forms/Select";
 import CssProfileLoader from "../components/loaders/CssProfileLoader";
@@ -162,7 +163,7 @@ const EditGroupPage = (props) => {
     data.append("file", event.target.files[0]);
     try {
       axios
-        .post("http://localhost:8000/api/media_objects", data, {})
+        .post(PICTURE_API, data, {})
         .then((response) => {
           setImage(response.data.contentUrl);
         });

@@ -21,6 +21,7 @@ import stylesAPI from "../services/stylesAPI";
 import userAPI from "../services/userAPI";
 import levelsAPI from "../services/levelsAPI";
 import profilesAPI from "../services/profilesAPI";
+import { PICTURE_API } from "../config";
 //iamges:
 import robotPicture from "../../images/placeholders/profile_picture/raphael_dairon-robot-vinyl.jpg";
 
@@ -195,7 +196,7 @@ const CreateProfilePage = ({ history }) => {
     const data = new FormData()
     data.append('file', event.target.files[0])
     try{
-      axios.post("http://localhost:8000/api/media_objects", data,{})
+      axios.post(PICTURE_API, data,{})
            .then(response => {setImage(response.data.contentUrl)})
       setBtnLabel("Image chargée")
     }catch(error){
