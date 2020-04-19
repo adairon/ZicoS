@@ -511,7 +511,7 @@ const CreateProfilePage = ({ history }) => {
                         name="biography"
                         as="textarea"
                         rows="3"
-                        placeholder="Un petit texte de présentation ? Décrivez votre style, votre groupe, vos influences et inspirations..."
+                        placeholder="Un petit texte de présentation ? Présentez votre style, votre groupe, vos influences et inspirations... Décrivez ce que vous recherchez (un groupe débutant avec qui progresser ? un guitariste punk confirmé ?) "
                         value={profile.biography}
                         onChange={handleChange}
                       />
