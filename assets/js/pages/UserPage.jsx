@@ -15,6 +15,7 @@ import userAPI from "../services/userAPI";
 import AuthAPI from "../services/authAPI";
 //components:
 import CssUserPageLoader from "../components/loaders/CssUserPageLoader";
+import { USERS_API } from "../config";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT : 
 const UserPage = ({ history }) => {
@@ -58,7 +59,7 @@ const UserPage = ({ history }) => {
   const handleDelete = (id) => {
     //// console.log(id);
     //On supprime le compte
-    axios.delete("http://localhost:8000/api/users/" + id);
+    axios.delete(USERS_API + "/" + id);
     AuthAPI.logout();
     // on précise à l'application qu'on est déconnecté
     setIsAuthenticated(false);
