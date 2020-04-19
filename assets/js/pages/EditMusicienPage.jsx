@@ -168,7 +168,7 @@ const EditMusicienPage = (props) => {
     const data = new FormData()
     data.append('file', event.target.files[0])
     try{
-      axios.post(PICTURE_API data,{})
+      axios.post(PICTURE_API, data,{})
            .then(response => {setImage(response.data.contentUrl)})
       setBtnLabel("Image chargée")
     }catch(error){
