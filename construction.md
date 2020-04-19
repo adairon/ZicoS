@@ -437,6 +437,20 @@ Afin de pouvoir manipuler plus facilement l'adresse d'appel à l'API, on central
 - On modifie le fichier ```.env``` pour créer une noivelle variable d'environnement pour l'url de l'API.
 - on modifie l'url de l'API écrite en dur dans le fichier ```config.js``` . On utilise process.env de node pour lire les variables d'environnement: 
     - ```export const API_URL = process.env.API_URL;```
+#### Fichier htaccess
+Nécessaire pour gérer les routes avec les serveurs Apache :
+- ```composer require apache-pack```
+#### scripts de déploiement :
+Afin de lancer automatiquement (et sans demande de confirmation) la migration des bases de donnée, on écrit directement dans la partie "scripts" du fichier ```composer.json``` en rajoutant un script qui se lancera à chaque commande ```composer install``` ou ```composer update``` :
+- ```"doctrine:migrations:migrate --no-interaction": "symfony-cmd" ```
+#### récupérer les logs de l'application :
+Pour éviter que les erreurs soient écrites dans un fichier inaccessible en prod mais rester sur la ligne standard des erreurs en php.
+- dans le fichier ```config/packages/prod/monolog.yaml```
+- dans la partie "nested", on change le "path" (mettre l'ancien en commentaire") par : 
+    - ```path: "php://stderr"```
 #### Déploiement Heroku
 - On passe les clés d'authentification de jwt dans notre dépot git (en mettant en commentaire la ligne correspondante dans le fichier ```.gitignore```):
     - ```/config/jwt/*.pem```
+- Pour préciser que l'appli à rendre visible se situe dans le dossier "public", on créé dans la racine du projet un fichier ```Procfile``` contenant : 
+    - ```web: $(composer config bin-dir)/heroku-php-appache2 public/```
+
