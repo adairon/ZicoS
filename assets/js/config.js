@@ -1,4 +1,4 @@
-export const API_URL = "http://localhost:8000/api/";
+export const API_URL = process.env.API_URL;
 
 export const PROFILES_API = API_URL + "profiles";
 export const USERS_API = API_URL + "users";

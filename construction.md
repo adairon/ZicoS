@@ -423,4 +423,17 @@ HomePage.jsx
 #### Placeholder de chargement
 #### Cache ?
 
+### Déploiement:
+#### Configuration centralisée:
+Afin de pouvoir manipuler plus facilement l'adresse d'appel à l'API, on centralise notre configuration dans un fichier ```config.js```
+- On y exporte les url d'appel à l'API dans des variables
+- On importe ces variables dans nos différents services
+#### Variables d'environnement :
+- On installe un nouveau paquet node pour lire les fichiers .env : ```npm install dotenv```
+- On configure webpack Encore dans le fichier ```webpack.config.js```  en pour utiliser dotenv :
+    - 1ère ligne : ```require("dotenv").config();```
+    - avant l'export final : ```Encore.configureDefinePlugin(options => {options["process.env"].API_URL = process.env.API_URL;})```
 
+- On modifie le fichier ```.env``` pour créer une noivelle variable d'environnement pour l'url de l'API.
+- on modifie l'url de l'API écrite en dur dans le fichier ```config.js``` . On utilise process.env de node pour lire les variables d'environnement: 
+    - ```export const API_URL = process.env.API_URL;```
