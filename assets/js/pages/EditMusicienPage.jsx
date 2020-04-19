@@ -192,7 +192,7 @@ const EditMusicienPage = (props) => {
       const response = await profilesAPI.update(id,
         {
           ...profile,
-          pictureUrl: `/media/${image}`,
+          pictureUrl: `${image}`,
           type: `api/types/${profile.type}`,
           level: `api/levels/${profile.level}`,
           instrument: `api/instruments/${profile.instrument}`,
