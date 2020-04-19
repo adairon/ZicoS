@@ -253,7 +253,7 @@ const CreateProfilePage = ({ history }) => {
         const response = await profilesAPI.create(
           {
             ...profile,
-            pictureUrl: `/media/${image}`,
+            pictureUrl: `${image}`,
             type: `api/types/${profile.type}`,
             level: `api/levels/${profile.level}`,
             instrument: `api/instruments/${profile.instrument}`,

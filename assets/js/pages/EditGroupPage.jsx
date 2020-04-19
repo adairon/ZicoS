@@ -189,7 +189,7 @@ const EditGroupPage = (props) => {
     try {
       const response = await profilesAPI.update(id, {
         ...profile,
-        pictureUrl: `/media/${image}`,
+        pictureUrl: `${image}`,
         type: `api/types/${profile.type}`,
         style: `api/styles/${profile.style}`,
         level: `api/levels/${profile.level}`,
