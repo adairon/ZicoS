@@ -167,7 +167,6 @@ const EditGroupPage = (props) => {
         .then((response) => {
           setImage(response.data.contentUrl);
         });
-      setBtnColor("info");
       setBtnLabel("Image chargée");
     } catch (error) {
       console.log(error.response);
