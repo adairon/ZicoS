@@ -437,3 +437,6 @@ Afin de pouvoir manipuler plus facilement l'adresse d'appel à l'API, on central
 - On modifie le fichier ```.env``` pour créer une noivelle variable d'environnement pour l'url de l'API.
 - on modifie l'url de l'API écrite en dur dans le fichier ```config.js``` . On utilise process.env de node pour lire les variables d'environnement: 
     - ```export const API_URL = process.env.API_URL;```
+#### Déploiement Heroku
+- On passe les clés d'authentification de jwt dans notre dépot git (en mettant en commentaire la ligne correspondante dans le fichier ```.gitignore```):
+    - ```/config/jwt/*.pem```
