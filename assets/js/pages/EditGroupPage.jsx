@@ -149,7 +149,7 @@ const EditGroupPage = (props) => {
         level: level.id,
       });
       //Pour donner à l'image une valeur par défaut correspondant au nom du fichier déjà enregistré
-      setImage(dataProfile.pictureUrl.replace("/media/", "").toString());
+      setImage(dataProfile.pictureUrl.toString());
       setLoading(false);
     } catch (error) {
       console.log(error);

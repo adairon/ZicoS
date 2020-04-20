@@ -454,3 +454,14 @@ Pour éviter que les erreurs soient écrites dans un fichier inaccessible en pro
 - Pour préciser que l'appli à rendre visible se situe dans le dossier "public", on créé dans la racine du projet un fichier ```Procfile``` contenant : 
     - ```web: $(composer config bin-dir)/heroku-php-apache2 public/```
 
+### Délpoiement mutualisé (O2 Switch)
+- disposer d'un hébergement mutualisé
+- créer un sous domaine dont la racine sera le dossier "/public"
+- créer une base de donnée MySQL dédiée à la future appli
+- installer composer sur le serveur (voir doc hébergeur)
+- cloner le répot git
+- Se connecter en ftp pour éditer les variables d'environnement du fichier ```.env``` directement sur le serveur :
+    - ```APP_ENV=prod````
+    - ```DATABASE_URL``` : en fonction des données de la base MySQL : user, mot de passe, nom de la base, hote et port
+    - ```ÀPI_URL```: adresse du sous domaine + ```/API```
+
