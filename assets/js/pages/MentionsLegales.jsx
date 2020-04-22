@@ -4,16 +4,16 @@ import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { toast } from "react-toastify";
+//contexts: 
 import LogedInModalContext from "../contexts/LogedInModalContext";
 import AuthContext from "../contexts/AuthContext";
 
+//----------------------------------------------FUNCTIONNAL COMPONENT :
 const MentionsLegales = ({ history }) => {
-    //CONTEXTS :
+  //----------------------------------------------CONTEXTS :
   const { logedInModal, setLogedInModal } = useContext(LogedInModalContext);
-  const { isAuthenticated } = useContext(AuthContext);
 
   //----------------------------------------------EFFECTS :
-
   useEffect(() => {
     if (logedInModal) {
       setLogedInModal(false);
@@ -47,7 +47,7 @@ const MentionsLegales = ({ history }) => {
                     adairon@outlook.fr <br/>
 
                     <p className="my-3">
-                        Les contenus diffusés sur ZicoS appartiennent à l'utilisateur qui les diffuse (voir CGU). 
+                        Les contenus diffusés sur ZicoS appartiennent à l'utilisateur qui les diffuse (voir <Link to="/terms">CGU</Link>). 
                         ZicoS se réserve toutefois le droit de les utiliser à des fins promotionnelles ou de communication.
                     </p>
 
@@ -80,7 +80,7 @@ const MentionsLegales = ({ history }) => {
                     </h2>
 
                     Vous pouvez nous signaler tout contenu qui ne respecterait pas les CGU en nous écrivant à cette adresse : 
-                    <a href="mailto:adairon@outlook.fr"> 
+                    <a  className="ml-1" href="mailto:adairon@outlook.fr"> 
                      adairon@outlook.fr
                   </a>
 

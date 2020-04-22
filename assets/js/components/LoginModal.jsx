@@ -1,32 +1,31 @@
 //----------------------------------------------IMPORTS :
-import React, { useState, useContext } from "react";
-//import bootstrap react :
+import React, { useState, useContext, useEffect } from "react";
+//bootstrap react :
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-
+//contexts:
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
 import LogedInModalContext from "../contexts/LogedInModalContext";
-
-import Field from "./forms/Field";
+//API :
 import AuthAPI from "../services/authAPI";
-import { useEffect } from "react";
+//components:
+import Field from "./forms/Field";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 const LoginModal = ({ libBtn, variant, margin }) => {
-  
   //----------------------------------------------CONTEXTS :
 
   const { setIsAuthenticated } = useContext(AuthContext);
   const { setUserId } = useContext(UserContext);
-  const { logedInModal ,setLogedInModal } = useContext(LogedInModalContext);
+  const { logedInModal, setLogedInModal } = useContext(LogedInModalContext);
 
   //----------------------------------------------STATES :
 
   // State pour gérer les identifiants : objet vide par défaut
   const [credentials, setCredentials] = useState({
     username: "",
-    password: ""
+    password: "",
   });
   //State pour gérer les erreurs d'identifiants
   const [error, setError] = useState("");
@@ -42,10 +41,9 @@ const LoginModal = ({ libBtn, variant, margin }) => {
   };
 
   // fonction pour gérer la soumission du formulaire de connexion avec requête axios
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     // on évite le rechargement de la page :
     event.preventDefault();
-    // console.log(credentials)
     try {
       // on se connecte (génération d'un token)
       await AuthAPI.authenticate(credentials);
@@ -54,11 +52,9 @@ const LoginModal = ({ libBtn, variant, margin }) => {
       const id = AuthAPI.userId();
       setUserId(id);
       // On ne met pas d'erreur : DEBUG : ce changement de state se fait après le démontage du composant. On l'enlève et ça ne change rien à l'interface
-      // setError("");
       //on passe le context loged In modal à true :
       setLogedInModal(true);
       //on cache la modal
-      // setShow(false);
     } catch (error) {
       console.log(error.response);
       //si erreur de connexion : on définit un message qui s'affichera sous le champs du formulaire
@@ -73,7 +69,7 @@ const LoginModal = ({ libBtn, variant, margin }) => {
   const handleShow = () => {
     setCredentials({
       username: "",
-      password: ""
+      password: "",
     });
     setError("");
     setShow(true);
@@ -81,15 +77,15 @@ const LoginModal = ({ libBtn, variant, margin }) => {
 
   //----------------------------------------------EFFECTS :
 
-  useEffect(()=>{
-    setShow(false)
+  useEffect(() => {
+    setShow(false);
     return () => {
-      setShow(true)
-    }
-  },[logedInModal])
+      setShow(true);
+    };
+  }, [logedInModal]);
 
   //----------------------------------------------RETURN :
-  
+
   return (
     <>
       <Button
@@ -131,6 +127,7 @@ const LoginModal = ({ libBtn, variant, margin }) => {
             />
           </form>
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="success" onClick={handleSubmit}>
             Se connecter

@@ -1,26 +1,33 @@
+//----------------------------------------------IMPORTS :
+
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
+import ReactPlayer from 'react-player'
 import Modal from 'react-bootstrap/Modal'
+//contexts:
 import UserContext from "../contexts/UserContext";
+//API:
 import userAPI from "../services/userAPI";
+import {API_URL} from "../config"
 
+//----------------------------------------------FUNCTIONNAL COMPONENT :
 const Profile = ({profile,email}) => {
-  // CONTEXTES : 
+  
+  //----------------------------------------------CONTEXTS :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
-  //STATES : 
+  //----------------------------------------------STATES : 
   const [userProfile, setUserProfile] = useState(true);
   const [show, setShow] = useState(false);
 
-  //FONCTIONS : 
+  //----------------------------------------------FUNCTIONS :
+
   //Pour savoir si le user authentifié à un profil :
   const fetchUserProfile = async userId => {
     try {
       const data = await userAPI.findOne(userId);
-      // console.log(data)
       if(!data.profile){
-        // console.log("pas de profil")
         setUserProfile(false)
       }
     }catch(error){
@@ -31,14 +38,14 @@ const Profile = ({profile,email}) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   
-  //EFFETS :
+  //----------------------------------------------EFFECTS :
   useEffect(()=>{
     fetchUserProfile(userId)
   },[])
 
 
     return ( 
-        <div className="container profile border rounded py-2 bg-light shadow">
+        <div className="container profile border rounded py-2 bg-light shadow mb-5">
           <div className="row justify-content-center">
 
             <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex profile_figure" onClick={handleShow}>
@@ -54,19 +61,19 @@ const Profile = ({profile,email}) => {
             </Modal>
 
             <div className="col-lg-6 col-md-12 col-sm-12 profile_title p-1 my-2">
+
             <div className="alert alert alert-primary mx-2">
                 <h1 className="profile_name">
                   {profile.firstName}{" "}
                   {profile.type.name === "musicien.ne" && profile.lastName}
                 </h1>
-
                 <p className="profile_type text-center"> {profile.type.name} </p>
               </div>
 
               {profile.type.name === "musicien.ne" && (
                 <div className="profile_info instrus p-1 m-2 alert alert-secondary">
                   <div className="mx-2">
-                    <h3>Instrument : </h3>
+                    <h3>Instrument</h3>
                     <span className="badge badge-black">
                       {profile.instrument.name} 
                     </span>
@@ -75,7 +82,7 @@ const Profile = ({profile,email}) => {
               )}
               
               <div className="profile_info style p-1 m-2 alert alert-secondary">
-                <h3>Style de musique principal :</h3>
+                <h3>Style de musique principal</h3>
                 <span className="badge badge-black">
                   {profile.style.name}
                 </span>
@@ -91,13 +98,20 @@ const Profile = ({profile,email}) => {
                   </div>
                 </div>
               }
-              
 
               <div className="profile_info localization p-1 m-2 alert alert-secondary">
-                <h3>Région :</h3>
-                <span className="badge badge-black">
-                  {profile.localization.region}
-                </span>
+                <h3>Lieu</h3>
+                <div className="d-flex">
+
+                  <span className="badge badge-black mr-3">
+                    {profile.localization.region}
+                  </span>
+
+                  <span className="badge badge-black ml-3">
+                    {profile.localization.departement}
+                  </span>
+
+                </div>
               </div>
 
             </div>
@@ -119,6 +133,29 @@ const Profile = ({profile,email}) => {
               </p>
             </div>
           }
+
+          {profile.youtubeUrl && 
+            <div className="profile_link p-1 my-2 border border-light rounded">
+              <h3 className="profile_subtitle" >Découvrir {profile.firstName} </h3>
+              <div className='player-wrapper'>
+                <ReactPlayer 
+                  url={profile.youtubeUrl} 
+                  className='react-player'
+                  playing
+                  controls
+                  width='100%'
+                  height='100%'
+                  config={{
+                    youtube: {
+                      playerVars: { origin: {API_URL}, showinfo: 1 },
+                      embedOptions: {enablejsapi: 1}
+                    }
+                  }}  
+                  />
+              </div>
+            </div>
+          }
+
           {!userProfile && 
             <div className="d-flex my-3 justify-content-center">
               <Link to="/users/profile/new" className="btn btn-warning">
@@ -126,6 +163,7 @@ const Profile = ({profile,email}) => {
               </Link>
             </div>
           }
+
           {userProfile && 
             <div className="profil_contact d-flex my-3">
               <button className="btn btn-primary m-auto p-3" type="button">
@@ -135,7 +173,6 @@ const Profile = ({profile,email}) => {
               </button>
             </div>
           }
-
         </div>
      );
 }

@@ -19,6 +19,7 @@
     "dependencies": {
         "axios": "^0.18.1",
         "bootstrap": "^4.4.1",
+        "dotenv": "^8.2.0",
         "jwt-decode": "^2.2.0",
         "react": "^16.8.6",
         "react-bootstrap": "^1.0.0",
@@ -26,6 +27,7 @@
         "react-dom": "^16.8.6",
         "react-favicon": "0.0.18",
         "react-helmet": "^5.2.1",
+        "react-player": "^1.15.3",
         "react-router-dom": "^5.0.0",
         "react-scroll-up-button": "^1.6.4",
         "react-toastify": "^5.5.0"

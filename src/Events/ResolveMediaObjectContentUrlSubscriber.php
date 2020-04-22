@@ -1,7 +1,8 @@
 <?php
 // api/src/EventSubscriber/ResolveMediaObjectContentUrlSubscriber.php
 
-namespace App\EventSubscriber;
+// namespace App\EventSubscriber;
+namespace App\Events;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use ApiPlatform\Core\Util\RequestAttributesExtractor;

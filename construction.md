@@ -423,4 +423,50 @@ HomePage.jsx
 #### Placeholder de chargement
 #### Cache ?
 
+### Déploiement:
+#### Configuration centralisée:
+Afin de pouvoir manipuler plus facilement l'adresse d'appel à l'API, on centralise notre configuration dans un fichier ```config.js```
+- On y exporte les url d'appel à l'API dans des variables
+- On importe ces variables dans nos différents services
+#### Variables d'environnement :
+- On installe un nouveau paquet node pour lire les fichiers .env : ```npm install dotenv```
+- On configure webpack Encore dans le fichier ```webpack.config.js```  en pour utiliser dotenv :
+    - 1ère ligne : ```require("dotenv").config();```
+    - avant l'export final : ```Encore.configureDefinePlugin(options => {options["process.env"].API_URL = process.env.API_URL;})```
+
+- On modifie le fichier ```.env``` pour créer une noivelle variable d'environnement pour l'url de l'API.
+- on modifie l'url de l'API écrite en dur dans le fichier ```config.js``` . On utilise process.env de node pour lire les variables d'environnement: 
+    - ```export const API_URL = process.env.API_URL;```
+#### Fichier htaccess
+Nécessaire pour gérer les routes avec les serveurs Apache :
+- ```composer require apache-pack```
+#### scripts de déploiement :
+Afin de lancer automatiquement (et sans demande de confirmation) la migration des bases de donnée, on écrit directement dans la partie "scripts" du fichier ```composer.json``` en rajoutant un script qui se lancera à chaque commande ```composer install``` ou ```composer update``` :
+- ```"doctrine:migrations:migrate --no-interaction": "symfony-cmd" ```
+#### récupérer les logs de l'application :
+Pour éviter que les erreurs soient écrites dans un fichier inaccessible en prod mais rester sur la ligne standard des erreurs en php.
+- dans le fichier ```config/packages/prod/monolog.yaml```
+- dans la partie "nested", on change le "path" (mettre l'ancien en commentaire") par : 
+    - ```path: "php://stderr"```
+#### Déploiement Heroku
+- On passe les clés d'authentification de jwt dans notre dépot git (en mettant en commentaire la ligne correspondante dans le fichier ```.gitignore```):
+    - ```/config/jwt/*.pem```
+- Pour préciser que l'appli à rendre visible se situe dans le dossier "public", on créé dans la racine du projet un fichier ```Procfile``` contenant : 
+    - ```web: $(composer config bin-dir)/heroku-php-apache2 public/```
+
+### Délpoiement mutualisé (O2 Switch)
+- disposer d'un hébergement mutualisé
+- créer un sous domaine dont la racine sera le dossier "/public"
+- créer une base de donnée MySQL dédiée à la future appli
+- installer composer sur le serveur (voir doc hébergeur)
+- cloner le répot git
+- Se connecter en ftp pour éditer les variables d'environnement du fichier ```.env``` directement sur le serveur :
+    - ```APP_ENV=prod````
+    - ```DATABASE_URL``` : en fonction des données de la base MySQL : user, mot de passe, nom de la base, hote et port
+    - ```ÀPI_URL```: adresse du sous domaine + ```/API```
+#### Pour générer la build npm :
+On génère la build en local si on a pas node et npm sur le serveur mitualisé (ce qui est souvent le cas) :
+- sur fichier ```.env``` en local : on met dans la variable ```ÀPI_URL``` l'url de l'API qui sera déployée sur le serveur distant
+- on lance en local la commande (dans le répertoire racine du projet) : ```npm run build``` pour générer les bons fichiers et nottament les points d'entrée de webpack
+- on transfère le fichier ```public/build``` généré en local vers le dossier ```public/``` du serveur en ftp.
 

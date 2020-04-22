@@ -1,33 +1,25 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-
-// any CSS you import will output into a single css file (app.css in this case)
+//----------------------------------------------IMPORTS :
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Switch, Route, withRouter } from "react-router-dom";
 
-import Favicon from 'react-favicon';
-
+import ScrollUpButton from "react-scroll-up-button";
+//notif toast:
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import ScrollUpButton from "react-scroll-up-button";
-
+//contexts:
 import AuthContext from "./contexts/AuthContext";
 import UserContext from "./contexts/UserContext";
 import LogedInModalContext from "./contexts/LogedInModalContext";
 import UserProfileContext from "./contexts/UserProfileContext";
-
+// API:
 import AuthAPI from "./services/authAPI";
-
+//components:
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
-
+import ScrollToTop from "./components/ScrollToTop";
+//pages:
 import HomePage from "./pages/HomePage";
 import ProfilesPage from "./pages/ProfilesPages";
 import ProfilePage from "./pages/ProfilePage";
@@ -37,26 +29,30 @@ import CreateProfilePage from "./pages/CreateProfilePage";
 import EditMusicienPage from "./pages/EditMusicienPage";
 import EditGroupPage from "./pages/EditGroupPage";
 import RegisterPage from "./pages/RegisterPage";
-
-import "../css/bootstrap.css"
-import "../css/app.css";
 import AboutZicos from "./pages/AboutZicos";
-import CGU from "./pages/CGU";
+import cguPage from "./pages/cguPage";
 import MentionsLegales from "./pages/MentionsLegales";
+<<<<<<< HEAD
 import ScrollToTop from "./components/ScrollToTop";
 import Contact from "./pages/Contact";
 // import "../css/App.scss"
 
 
+=======
+// css:
+import "../css/bootstrap.min.css"
+import "../css/app.css";
+>>>>>>> master
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
 
 console.log("Salut ami ZicoS ! Alors, on joue de la console ;-) ?");
-// fonction pour charger le token
+// fonction pour charger le token:
 AuthAPI.setup();
 
+//----------------------------------------------FUNCTIONNAL COMPONENT :
+
 const App = () => {
+  //----------------------------------------------STATES :
   // state pour gérer le statut de connexion dans l'app en vérifiant avec AuthAPI
   const [isAuthenticated, setIsAuthenticated] = useState(
     AuthAPI.isAuthenticated()
@@ -71,6 +67,7 @@ const App = () => {
   // on créé un nouveau composant depuis la Navbar pour pouvoir lui passer en props history avec withRouter
   const NavBarWithRouter = withRouter(Navbar);
 
+  //----------------------------------------------RETURN :
   return (
     <>
     <AuthContext.Provider
@@ -110,14 +107,18 @@ const App = () => {
                 <PrivateRoute path="/users/profile/new" component={CreateProfilePage}/>
                 <PrivateRoute path="/users/:id" component={UserPage} />
                 <Route path="/about" component={AboutZicos} />
+<<<<<<< HEAD
                 <Route path="/terms" component={CGU} />
                 <Route path="/contact" component={Contact} />
+=======
+                <Route path="/terms" component={cguPage} />
+>>>>>>> master
                 <Route path="/mentions_legales" component={MentionsLegales} />
                 <Route path="/" component={HomePage} />
               </Switch>
               <Footer />
             </HashRouter>
-            <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
+            <ToastContainer position={toast.POSITION.BOTTOM_CENTER} autoClose={3000} />
             <ScrollUpButton />
           </UserProfileContext.Provider>
         </LogedInModalContext.Provider>
@@ -126,6 +127,8 @@ const App = () => {
     </>
   );
 };
+
+//---------------------------------------------- RENDER :
 
 // On récupère la div avec l'id "app" qu'on a créé dans le block body de index.html.twig :
 const rootElement = document.querySelector("#app");

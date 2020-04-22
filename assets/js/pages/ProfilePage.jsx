@@ -1,14 +1,12 @@
 //----------------------------------------------IMPORTS :
 import React, { useState, useEffect } from "react";
-
-import { Helmet } from "react-helmet";
-
-import ProfilesAPI from "../services/profilesAPI";
-
-import Profile from "../components/Profile";
-import ProfileLoader from "../components/loaders/ProfileLoader";
-import CssProfileLoader from "../components/loaders/CssProfileLoader";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
+//API:
+import ProfilesAPI from "../services/profilesAPI";
+//Components
+import Profile from "../components/Profile";
+import CssProfileLoader from "../components/loaders/CssProfileLoader";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 const ProfilePage = (props) => {
@@ -25,6 +23,7 @@ const ProfilePage = (props) => {
     biography: "",
     pictureUrl: "",
     linkUrl: "",
+    youtubeUrl:"",
     instrument: "",
     localization: "",
     style: "",
@@ -37,7 +36,6 @@ const ProfilePage = (props) => {
   const fetchProfile = async (id) => {
     try {
       const data = await ProfilesAPI.findOne(id);
-      // console.log(data);
       const {
         lastName,
         firstName,
@@ -46,6 +44,7 @@ const ProfilePage = (props) => {
         biography,
         email,
         linkUrl,
+        youtubeUrl,
         instrument,
         localization,
         style,
@@ -60,6 +59,7 @@ const ProfilePage = (props) => {
         biography,
         email,
         linkUrl,
+        youtubeUrl,
         instrument,
         localization,
         style,
@@ -75,7 +75,7 @@ const ProfilePage = (props) => {
   //----------------------------------------------EFFECTS :
   //On récupère le profil au chargement de la page
   useEffect(() => {
-    // setLoading(true);
+    setLoading(true);
     fetchProfile(id);
   }, [id]);
 
@@ -94,11 +94,13 @@ const ProfilePage = (props) => {
         )}
 
         {!loading && <Profile profile={profile} email={profile.user.email} />}
+
         <div className="d-flex justify-content-center">
-          <Link className="btn btn-outline-black my-3" to="/profils">
+          <Link className="btn btn-outline-black" to="/profils">
             Retour aux profils
           </Link>
         </div>
+
       </div>
     </>
   );

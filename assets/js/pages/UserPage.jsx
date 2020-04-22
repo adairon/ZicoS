@@ -1,38 +1,39 @@
+//----------------------------------------------IMPORTS :
 import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import axios from "axios";
-
 import Helmet from "react-helmet";
-
+import { toast } from "react-toastify";
+//bootstrap:
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
-
-import { toast } from "react-toastify";
-
+//contexts:
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
-
+//API:
 import userAPI from "../services/userAPI";
 import AuthAPI from "../services/authAPI";
-
-import UserPageLoader from "../components/loaders/UserPageLoader";
+//components:
 import CssUserPageLoader from "../components/loaders/CssUserPageLoader";
+import { USERS_API } from "../config";
 
+//----------------------------------------------FUNCTIONNAL COMPONENT : 
 const UserPage = ({ history }) => {
-  //CONTEXTES :
+  //----------------------------------------------CONTEXTS :
+
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId, setUserId } = useContext(UserContext);
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
-  // STATES :
+  const { setIsAuthenticated } = useContext(AuthContext);
+
+  //----------------------------------------------STATES:
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({});
   const [typeGroupe, setTypeGroupe] = useState(false);
   const [typeMusicien, setTypeMusicien] = useState(false);
 
+  //----------------------------------------------FUNCTIONS :
   // Gestion de la modal
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -40,20 +41,14 @@ const UserPage = ({ history }) => {
   const fetchUserProfile = async (userId) => {
     try {
       const data = await userAPI.findOne(userId);
-      // console.log(data);
       setUser(data);
       if (data.profile) {
-        // console.log("il y a un profil")
         if (data.profile.type.name === "groupe") {
-          // console.log("groupe")
           setTypeGroupe(true);
         } else if (data.profile.type.name === "musicien.ne") {
-          // console.log("musicien")
           setTypeMusicien(true);
         }
       }
-      // else{console.log("pas de profil")}
-
       setLoading(false);
     } catch (error) {
       console.log(error.message);
@@ -62,10 +57,9 @@ const UserPage = ({ history }) => {
 
   //fonction pour gérer la suppression du compte :
   const handleDelete = (id) => {
-    // console.log(id);
+    //// console.log(id);
     //On supprime le compte
-    axios.delete("http://localhost:8000/api/users/" + id);
-    // .then(response => console.log(response));
+    axios.delete(USERS_API + "/" + id);
     AuthAPI.logout();
     // on précise à l'application qu'on est déconnecté
     setIsAuthenticated(false);
@@ -73,9 +67,9 @@ const UserPage = ({ history }) => {
     toast.error("Votre compte a bien été supprimé");
     // on se redirige vers la page d'accueil avec history
     history.push("/");
-    // //TODO : NOTIF TOAST
   };
 
+  //----------------------------------------------EFFECTS :
   // On lance la fonction de récupération des infos du User au chargement du composant
   useEffect(() => {
     setLoading(true);
@@ -87,8 +81,10 @@ const UserPage = ({ history }) => {
       <Helmet>
         <title>Zicos : mon compte </title>
       </Helmet>
+
       <div className="fondPage bg-secondary py-4 d-flex align-items-center">
         <div className="container bg-light shadow rounded p-5">
+
           <h1>MON COMPTE</h1>
           <h2>Mes infos</h2>
 
@@ -103,13 +99,15 @@ const UserPage = ({ history }) => {
                 </span>
               </div>
 
-              {!user.profile && (
-                //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
-                <Link to="/users/profile/new" className="btn btn-primary">
-                  Créer un profil ZicoS
-                </Link>
-              )}
               <div className="d-flex justify-content-center">
+
+                {!user.profile && (
+                  //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
+                  <Link to="/users/profile/new" className="btn btn-success m-4">
+                    Créer un profil ZicoS
+                  </Link>
+                )}
+
                 {typeMusicien && (
                   //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
                   <Link
@@ -134,7 +132,7 @@ const UserPage = ({ history }) => {
                   Supprimer mon compte
                 </Button>
 
-                <Modal show={show} onHide={handleClose} animation={false}>
+                <Modal show={show} onHide={handleClose} centered>
                   <Modal.Header closeButton className="bg-danger text-light">
                     <Modal.Title>Attention !</Modal.Title>
                   </Modal.Header>
@@ -144,30 +142,29 @@ const UserPage = ({ history }) => {
                     Êtes-vous certain.e de vouloir supprimer votre compte ?
                   </Modal.Body>
                   <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                      Finalement non
-                    </Button>
+
                     <Button
                       variant="danger"
                       onClick={() => handleDelete(user.id)}
                     >
                       Supprimer mon compte
                     </Button>
+
+                    <Button variant="secondary" onClick={handleClose}>
+                      Finalement non
+                    </Button>
+
                   </Modal.Footer>
                 </Modal>
 
-                {/* <button
-                  className="btn btn-danger m-4"
-                  onClick={() => handleDelete(user.id)}
-                >
-                  Supprimer mon compte
-                </button> */}
               </div>
+
               <div className="d-flex justify-content-center">
                 <Link className="btn btn-outline-black my-3" to="/profils">
                   Retour aux profils
                 </Link>
               </div>
+
             </>
           )}
         </div>

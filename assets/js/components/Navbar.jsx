@@ -1,35 +1,27 @@
 //----------------------------------------------IMPORTS :
-
 import React, { useContext, useState, useEffect } from "react";
-
 import { NavLink } from "react-router-dom";
-
 import { toast } from "react-toastify";
-
+//contexts:
 import AuthContext from "../contexts/AuthContext";
 import UserContext from "../contexts/UserContext";
 import UserProfileContext from "../contexts/UserProfileContext"
-
+//API:
 import AuthAPI from "../services/authAPI";
 import userAPI from "../services/userAPI";
-
+//components:
 import LoginModal from "./LoginModal";
-
-import Logo from "../../images/logos/ZicoS.png";
+//images:
 import LogoDark from "../../images/logos/ZicoS-inverted.png";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
-
 const Navbar = ({ history }) => {
   //----------------------------------------------CONTEXTS :
-
   //On utilise le hook useContext pour récupérer les infos de connexion passées via le contexte AuthContext
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const { userId, setUserId } = useContext(UserContext);
-  const {userProfileId, setUserProfileId} = useContext(UserProfileContext)
 
   //----------------------------------------------STATE :
-
   //state pour gérer les states en prenant en compte un nettoyage de l'effet
   const [mounted, setMounted] = useState();
   // state pour le profil du user authentifié
@@ -37,17 +29,14 @@ const Navbar = ({ history }) => {
 
   //----------------------------------------------FUNCTIONS :
 
-  // const fetchUserProfile = async userId => {
-  //   try {
-  //     const data = await userAPI.findOne(userId);
-  //     console.log(data.profile.id);
-  //     // if(mounted){
-  //       setUserProfile(data.profile.id);
-  //     // }
-  //   } catch (error) {
-  //     console.log(error.response);
-  //   }
-  // };
+  const fetchUserProfile = async userId => {
+    try {
+      const data = await userAPI.findOne(userId);
+        setUserProfile(data.profile.id);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
 
   // fonction pour gérer la déconnexion
@@ -57,7 +46,7 @@ const Navbar = ({ history }) => {
     // on précise à l'application qu'on est déconnecté
       setIsAuthenticated(false);
       setUserId("");
-      setUserProfileId("")
+      setUserProfile("")
     toast.info(" Vous êtes déconnecté. À bientôt sur ZicoS !");
     // on se redirige vers la page d'accueil avec history
     history.push("/");
@@ -65,15 +54,15 @@ const Navbar = ({ history }) => {
 
   //----------------------------------------------EFFECTS :
   // effet qui se déclenche si l'utilisateur est authentifié et qui se nettoie au démontage
-  // if (isAuthenticated) {
-  //   useEffect(() => {
-  //     fetchUserProfile(userId);
-  //     // setMounted(true)
-  //     return () => {
-  //       // setMounted(false)
-  //     }
-  //   }, []);
-  // }
+  if (isAuthenticated) {
+    useEffect(() => {
+      setMounted(true)
+      fetchUserProfile(userId);
+      return () => {
+        setMounted(false)
+      }
+    }, []);
+  }
 
   //----------------------------------------------RETURN :
 
@@ -105,31 +94,34 @@ const Navbar = ({ history }) => {
               <NavLink className="btn btn-outline-black my-1" to="/profils" > Profils </NavLink>
             </li>
             }
+
             {!isAuthenticated && 
               <>
-              <li className="nav-item mx-5 my-auto">
-                <NavLink to="/register" className="nav-link mx-1 my-1"> Inscription </NavLink>
-              </li>
-              <li className="nav-item mx-5 my-auto">
-                <LoginModal libBtn="Connexion" variant="outline-primary" />
-              </li>
+                <li className="nav-item mx-5 my-auto">
+                  <NavLink to="/register" className="nav-link mx-1 my-1"> Inscription </NavLink>
+                </li>
+                <li className="nav-item mx-5 my-auto">
+                  <LoginModal libBtn="Connexion" variant="outline-primary" />
+                </li>
               </>
             }
-            {isAuthenticated && 
+
+            {(isAuthenticated && mounted) && 
             <>
-            <li className="nav-item dropdown mx-5 my-auto">
-              <a className="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Mon Compte
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <NavLink to={"/users/" + userId} className="dropdown-item" href="#" > Mes infos </NavLink>
-                {userProfileId && (<NavLink to={"/profils/" + userProfileId} className="dropdown-item" > Voir mon profil </NavLink> )}
-                <div className="dropdown-divider"></div>
-                <button onClick={handleLogout} className="dropdown-item text-danger" > Déconnexion </button>
-              </div>
-            </li>
+              <li className="nav-item dropdown mx-5 my-auto">
+                <a className="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Mon Compte
+                </a>
+                <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <NavLink to={"/users/" + userId} className="dropdown-item" href="#" > Mes infos </NavLink>
+                  {userProfile && (<NavLink to={"/profils/" + userProfile} className="dropdown-item" > Voir mon profil </NavLink> )}
+                  <div className="dropdown-divider"></div>
+                  <button onClick={handleLogout} className="dropdown-item text-danger" > Déconnexion </button>
+                </div>
+              </li>
             </>
             }
+            
         </ul>
       </div>
     </nav>

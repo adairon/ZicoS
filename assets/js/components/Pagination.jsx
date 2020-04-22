@@ -25,10 +25,10 @@ const Pagination = ({ currentPage, itemsPerPage, length, onPageChanged }) => {
           </button>
         </li>
         {/* On "mape" sur le tableau des pages pour générer la bonne pagination */}
-        {pages.map(page => (
+        {pages.map((page) => (
           <li
             key={page}
-            // condition : si la page en court est la même que la page affichée sur la pagination, alors c'est la page active
+            // condition : si la page en cours est la même que la page affichée sur la pagination, alors c'est la page active
             className={"page-item" + (currentPage === page && " active")}
           >
             <button className="page-link" onClick={() => onPageChanged(page)}>
@@ -54,8 +54,7 @@ const Pagination = ({ currentPage, itemsPerPage, length, onPageChanged }) => {
 };
 
 Pagination.getData = (items, currentPage, itemsPerPage) => {
-  //pour gérer les profils à afficher par page :
-  //d'où on part (start) et pendant combien (itemsPerPage)
+  //pour gérer les profils à afficher par page : d'où on part (start) et pendant combien (itemsPerPage)
   const start = currentPage * itemsPerPage - itemsPerPage;
   return items.slice(start, start + itemsPerPage);
 };

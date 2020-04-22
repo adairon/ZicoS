@@ -1,40 +1,40 @@
-//----------------------------------------------IMPORT :
+//----------------------------------------------IMPORTS :
 import React, { useEffect, useState, useContext } from "react";
 import { Helmet } from "react-helmet";
-
+import { Link } from "react-router-dom";
+import Axios from "axios";
+//react bootstrap:
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import Collapse from "react-bootstrap/Collapse";
 import Badge from 'react-bootstrap/Badge'
-
-import logoProfiles from "../../images/logos/ZicoS.png";
-
+//contexts:
 import UserContext from "../contexts/UserContext";
 import UserProfileContext from "../contexts/UserProfileContext";
-
+//API:
 import ProfilesAPI from "../services/profilesAPI";
 import TypeAPI from "../services/typeAPI";
 import StylesAPI from "../services/stylesAPI";
 import userAPI from "../services/userAPI";
 import levelsAPI from "../services/levelsAPI";
-
-import ProfilesCards from "../components/ProfilesCards";
-import Pagination from "../components/Pagination";
-import { Link } from "react-router-dom";
-import Axios from "axios";
-import ProfilesCardsLoader from "../components/loaders/ProfilesCardsLoader";
 import instrumentsAPI from "../services/instrumentsAPI";
 import localizationAPI from "../services/localizationAPI";
+//components
+import ProfilesCards from "../components/ProfilesCards";
+import Pagination from "../components/Pagination";
 import CssProfilesCardsLoader from "../components/loaders/CssProfileCardsLoader";
+//images:
+import logoProfiles from "../../images/logos/ZicoS.png";
 
+//----------------------------------------------FUNCTIONNAL COMPONENT : 
 const ProfilesPage = (props) => {
   //----------------------------------------------CONTEXTES :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
-  const { userProfileId, setUserProfileId } = useContext(UserProfileContext);
+  const { setUserProfileId } = useContext(UserProfileContext);
 
   //----------------------------------------------STATES :
   // states pour les données récupérées via requêtes axios :
@@ -45,15 +45,11 @@ const ProfilesPage = (props) => {
   const [instruments, setInstruments] = useState([]);
   const [localizations, setLocalizations] = useState([]);
   const [levels, setLevels] = useState([])
-  const [user, setUser] = useState({});
-  
   const [loading, setLoading] = useState(true);
-
   //state pour gérer la page en cours (pagination)
   const [currentPage, setCurrentPage] = useState(1);
   // state pour gérer la recherche
   const [search, setSearch] = useState("");
-  const [filterType, setFilterType] = useState("");
   const [libFilterType, setLibFilterType] = useState("")
   const [disableTypeBtn, setDisableTypeBtn] = useState(false)
   const [libFilterStyle, setLibFilterStyle] = useState("")
@@ -76,7 +72,6 @@ const ProfilesPage = (props) => {
       const data = await ProfilesAPI.findAll({ cancelToken: source.token });
       setProfiles(data);
       setAllProfiles(data);
-      // console.log(data);
       setLoading(false);
     } catch (error) {
       if (Axios.isCancel(error)) {
@@ -91,7 +86,6 @@ const ProfilesPage = (props) => {
     try {
       const dataType = await TypeAPI.findAll({ cancelToken: source.token });
       setTypes(dataType);
-      // console.log(dataType)
     } catch (error) {
       if (Axios.isCancel(error)) {
         console.log("request cancelled");
@@ -105,7 +99,6 @@ const ProfilesPage = (props) => {
     try {
       const dataStyle = await StylesAPI.findAll({ cancelToken: source.token });
       setStyles(dataStyle);
-      //   console.log(dataStyle);
     } catch (error) {
       if (Axios.isCancel(error)) {
         console.log("request cancelled");
@@ -135,7 +128,6 @@ const ProfilesPage = (props) => {
       const dataLocals = await localizationAPI.findAll({
         cancelToken: source.token,
       });
-      // console.log(dataLocals)
       setLocalizations(dataLocals);
     } catch (error) {
       console.log(error.response);
@@ -147,7 +139,6 @@ const ProfilesPage = (props) => {
       const dataLevels = await levelsAPI.findAll({
         cancelToken: source.token,
       });
-      // console.log(dataLevels)
       setLevels(dataLevels);
     }catch(error){
       console.log(error.response)
@@ -158,7 +149,6 @@ const ProfilesPage = (props) => {
   const fetchUserProfile = async (userId) => {
     try {
       const data = await userAPI.findOne(userId);
-      // console.log(data)
       if (data.profile) {
         setUserProfileId(data.profile.id);
       } else {
@@ -169,7 +159,7 @@ const ProfilesPage = (props) => {
     }
   };
 
-  //----------------------------------------------EFFETS :
+  //----------------------------------------------EFFECTS :
   //On lance un "effet" au chargement du composant pour récupérer les données
   useEffect(() => {
     fetchProfiles();
@@ -190,7 +180,6 @@ const ProfilesPage = (props) => {
   const [open, setOpen] = useState(false);
 
   const handleFilter = ({ currentTarget }) => {
-    // console.log(currentTarget.id)
     setSearch(currentTarget.id);
     setCurrentPage(1);
     setProfiles(searchedProfiles)
@@ -222,16 +211,11 @@ const ProfilesPage = (props) => {
     handleFilter({currentTarget})
   }
 
-  // const handleSearch = ({currentTarget}) => {
-  //   setSearch(currentTarget.value)
-  //   setCurrentPage(1)
-  // }
-
   const searchedProfiles = profiles.filter(
     (p) =>
       p.type.name.toLowerCase().includes(search.toLowerCase()) ||
       p.style.name.toLowerCase().includes(search.toLowerCase()) ||
-      p.localization.region.toLowerCase() === search.toLowerCase() ||
+      p.localization.departement.toLowerCase() === search.toLowerCase() ||
       (p.instrument && p.instrument.name.toLowerCase() === search.toLowerCase()) ||
       (p.level && p.level.name.toLowerCase() === search.toLowerCase())
   );
@@ -268,7 +252,6 @@ const ProfilesPage = (props) => {
 
   /*----------------------------- GESTION MODAL --------------------------------------- */
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -278,6 +261,7 @@ const ProfilesPage = (props) => {
       <Helmet>
         <title>Zicos : Profils</title>
       </Helmet>
+
       <div className="bg-secondary py-4">
         <div className="container">
           <div className="Profiles_title pt-3">
@@ -296,7 +280,8 @@ const ProfilesPage = (props) => {
 
           {/* ------------------------------------------ Modal si pas de profil ---------------------------------------- */}
 
-          <Modal show={show} onHide={handleClose}>
+          <Modal show={show} onHide={handleClose} centered>
+
             <Modal.Header closeButton className="bg-primary">
               <Modal.Title>
                 <h2 className="text-light">
@@ -304,6 +289,7 @@ const ProfilesPage = (props) => {
                 </h2>
               </Modal.Title>
             </Modal.Header>
+
             <Modal.Body>
               <p>
                 Un profil est nécessaire afin de pouvoir contacter les groupes
@@ -313,10 +299,12 @@ const ProfilesPage = (props) => {
                 Voulez-vous créer votre profil maintenant ?
               </p>
             </Modal.Body>
+
             <Modal.Footer>
               <Link to="/users/profile/new" className="btn btn-primary">
                 Oui ! Allons-y !
               </Link>
+
               <Button variant="secondary" onClick={handleClose}>
                 Non, pas maintenant.
               </Button>
@@ -339,6 +327,7 @@ const ProfilesPage = (props) => {
             onEntered={()=>{setlibSearchBtn("fermer la recherche")}}
             onExited={()=>{setlibSearchBtn("rechercher")}}
             >
+
             <div id="example-collapse-text">
               <div className="row justify-content-center">
                 <DropdownButton
@@ -348,7 +337,6 @@ const ProfilesPage = (props) => {
                   className="mx-3 my-2"
                   disabled={disableTypeBtn}
                 >
-                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {types.map((type) => (
                     <Dropdown.Item
                       key={type.id}
@@ -368,7 +356,6 @@ const ProfilesPage = (props) => {
                   className="mx-3 my-2"
                   disabled={disableStyleBtn}
                 >
-                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {styles.map((style) => (
                     <Dropdown.Item
                       key={style.id}
@@ -388,7 +375,6 @@ const ProfilesPage = (props) => {
                   className="mx-3 my-2"
                   disabled={disableInstrumentBtn}
                 >
-                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {instruments.map((instru) => (
                     <Dropdown.Item
                       key={instru.id}
@@ -408,7 +394,6 @@ const ProfilesPage = (props) => {
                   className="mx-3 my-2"
                   disabled={disableLevelBtn}
                 >
-                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {levels.map((level) => (
                     <Dropdown.Item
                       key={level.id}
@@ -424,40 +409,39 @@ const ProfilesPage = (props) => {
                 <DropdownButton
                   variant="outline-black"
                   id="dropdown-basic-button"
-                  title="Régions"
-                  className="mx-3 my-2"
+                  title="Département"
+                  className="mx-3 my-2 scrollable-menu"
                   disabled={disableLocalizationBtn}
                 >
-                  {/* <Dropdown.Item className="disabled">Tous</Dropdown.Item> */}
                   {localizations.map((localization) => (
                     <Dropdown.Item
                       key={localization.id}
-                      value={localization.region}
-                      id={localization.region}
+                      value={localization.departement}
+                      id={localization.departement}
                       onClick={handleFilterLocal}
                     >
-                      {localization.region}
+                      {localization.departement}
                     </Dropdown.Item>
                   ))}
                 </DropdownButton>
               </div>
-
+              {/* -------------------- Badges des filtres sélectionnés ------------------ */}
               <div className="row justify-content-center my-3">
-              <Badge variant="primary" className="mx-5 my-2">
-                {libFilterType}
-              </Badge>
-              <Badge variant="primary" className="mx-5 my-2">
-                {libFilterStyle}
-              </Badge>
-              <Badge variant="primary" className="mx-5 my-2">
-                {libFilterInstrument}
-              </Badge>
-              <Badge variant="primary" className="mx-5 my-2">
-                {libFilterLevel}
-              </Badge>
-              <Badge variant="primary" className="mx-5 my-2">
-                {libFilterLocalization}
-              </Badge>
+                <Badge variant="primary" className="mx-5 my-2">
+                  {libFilterType}
+                </Badge>
+                <Badge variant="primary" className="mx-5 my-2">
+                  {libFilterStyle}
+                </Badge>
+                <Badge variant="primary" className="mx-5 my-2">
+                  {libFilterInstrument}
+                </Badge>
+                <Badge variant="primary" className="mx-5 my-2">
+                  {libFilterLevel}
+                </Badge>
+                <Badge variant="primary" className="mx-5 my-2">
+                  {libFilterLocalization}
+                </Badge>
               </div>
 
               <div className="row justify-content-center my-3">
@@ -468,18 +452,10 @@ const ProfilesPage = (props) => {
                   Effacer les filtres
                 </Button>
               </div>
-              {/* ---------------------------------------- RECHERCHE ---------------------------------------- */}
-              {/* <div className="form-group m-5">
-                  <input type="text" className="form-control" placeholder="Rechercher..." onChange={handleSearch} value={search} />
-                </div> */}
             </div>
           </Collapse>
 
           {/*  ---------------------------------------- PROFILS ---------------------------------------- */}
-          
-
-          {/* {loading && <ProfilesCardsLoader />} */}
-
           {loading && <CssProfilesCardsLoader/>}
 
           {!loading && <ProfilesCards paginatedProfiles={paginatedProfiles} />}
@@ -487,24 +463,22 @@ const ProfilesPage = (props) => {
           {(!loading && !searchedProfiles.length) && 
             <>
               <div className="m-5 p-5 bg-light shadow rounded">
-                <h2 className="text-center">Malheureusement, aucun profil ne correspond à votre recherche</h2>
+                <h2 className="text-center">
+                  Malheureusement, aucun profil ne correspond à votre recherche
+                </h2>
+
                 <div className="row justify-content-center my-3">
                   <Button
-                    variant="warning"
+                    variant="primary"
                     onClick={cancelFilters}
                   >
-                    Effacer la recherche
+                    Voir tous les profils
                   </Button>
-              </div>
-
+                </div>
               </div>
             </>
           }
-
-
-
           {/* ---------------------------------------- PAGINATION ---------------------------------------- */}
-
           {itemsPerPage < searchedProfiles.length && (
             <Pagination
               currentPage={currentPage}
