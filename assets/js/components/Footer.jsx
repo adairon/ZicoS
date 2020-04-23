@@ -11,6 +11,7 @@ const Footer = (props) => {
                         <Link to="/about" className="mx-4 btn btn-link text-light"> à propos </Link>
                         <Link to="/terms" className="mx-4 btn btn-link text-light"> Conditions Générales d'Utilisation</Link>
                         <Link to="/mentions_legales" className="mx-4 btn btn-link text-light"> Mentions légales</Link>
+                        <Link to="/contact" className="mx-4 btn btn-link text-light"> Nous contacter</Link>
                     </div>
                 </div>
             </footer>

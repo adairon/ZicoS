@@ -1,9 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 
-
+//---------------------------------------------- FUNCTIONNAL COMPONENT :
 const Contact = (props) => {
+
+  //---------------------------------------------- STATES :
+  const [validated, setValidated] = useState(false);
+
+  const [errors, setErrors] = useState({
+      email:"",
+      object:"",
+      message:""
+  })
+
+//----------------------------------------------FUNCTIONS :
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+  };
+
+//----------------------------------------------RETURN :
     return ( 
         <>
             <Helmet>
@@ -13,26 +37,45 @@ const Contact = (props) => {
             <div className="bg-secondary py-4">
                 <div className="container bg-light shadow rounded p-5">
                     <h1>Nous contacter</h1>
-                    <form action="contact.php" method="POST" className="m-5">
-                        <div className="form-group">
-                            <label htmlFor="email">Votre adresse email</label>
-                            <input type="email" className="form-control" id="email" name="email" placeholder="votre adresse email"/>
+
+                    <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                        <div action="contact.php" method="POST" className="m-5">
+
+                            <Form.Group controlId="email">
+                                <Form.Label>Votre adresse email </Form.Label>
+                                <Form.Control type="email" placeholder="votre adresse email" required name="email" />
+                                <Form.Text className="text-muted">
+                                    Cette adresse nous est nécessaire pour vous répondre
+                                </Form.Text>
+                                <Form.Control.Feedback type="invalid">
+                                    Merci de renseigner une adresse email valide
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group controlId="object">
+                                <Form.Label>Objet</Form.Label>
+                                <Form.Control placeholder="Quel est l'objet de votre message ?" required name="object" />
+                                <Form.Control.Feedback type="invalid">
+                                    Merci de préciser l'objet de votre message
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Form.Group controlId="message">
+                                <Form.Label>Votre message</Form.Label>
+                                <Form.Control placeholder="votre message..." as="textarea" rows="4" required name="message"/>
+                                <Form.Control.Feedback type="invalid">
+                                    Votre message est bien vide...
+                                </Form.Control.Feedback>
+                            </Form.Group>
+
+                            <Button variant="success" type="submit">
+                                Envoyer
+                            </Button>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="object">Objet</label>
-                            <input type="text" className="form-control" id="object" name="object" placeholder="objet de votre message"/>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="message">Votre message</label>
-                            <textarea className="form-control" id="message" name="message" rows="4" placeholder="Votre message"></textarea>
-                        </div>
-                        <button type="submit" className="btn btn-success">Envoyer</button>
-                    </form>
-                    
+
+                    </Form>
                 </div>
             </div>
-
-
         </>
      );
 }
