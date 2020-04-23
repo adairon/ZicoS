@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button'
 const Contact = ({history}) => {
 
   //---------------------------------------------- STATES :
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState("needs-validation");
   const [message, setMessage] = useState({
       email:"",
       object:"",
@@ -29,16 +29,16 @@ const handleSubmit = (event) => {
       event.preventDefault();
       event.stopPropagation();
     } else {
-        axios({
-            method: "POST",
-            url: "contact.php",
-            headers: { 'content-type': 'application/json' },
-            data: message
-        })
+        // axios({
+        //     method: "POST",
+        //     url: "/contact.php",
+        //     headers: { 'content-type': 'application/json' },
+        //     data: message
+        // })
         toast.info("Votre message a bien été envoyé")
         history.replace('/')
     }
-    setValidated(true);
+    setValidated("was-validated");
   };
 
 //----------------------------------------------RETURN :
@@ -52,7 +52,7 @@ const handleSubmit = (event) => {
                 <div className="container bg-light shadow rounded p-5">
                     <h1>Nous contacter</h1>
 
-                    <Form noValidate validated={validated} onSubmit={handleSubmit} className="m-5">
+                    <form action="contact.php" method="POST" noValidate  onSubmit={handleSubmit} className={validated}>
 
                             <Form.Group controlId="email">
                                 <Form.Label>Votre adresse email </Form.Label>
@@ -85,7 +85,7 @@ const handleSubmit = (event) => {
                                 Envoyer
                             </Button>
 
-                    </Form>
+                    </form>
                 </div>
             </div>
         </>
