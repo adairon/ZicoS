@@ -1,44 +1,23 @@
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
-import {toast} from "react-toastify"
-import axios from 'axios';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 
 //---------------------------------------------- FUNCTIONNAL COMPONENT :
-const Contact = ({history}) => {
+const Contact = (props) => {
 
   //---------------------------------------------- STATES :
   const [validated, setValidated] = useState("needs-validation");
-  const [message, setMessage] = useState({
-      email:"",
-      object:"",
-      message:""
-  })
 
 //----------------------------------------------FUNCTIONS :
-  const handleChange =({currentTarget}) => {
-      const {name, value} = currentTarget;
-      setMessage({...message, [name]: value});
-  }
 
 const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    } else {
-        event.preventDefault();
-        // axios({
-        //     method: "POST",
-        //     url: "/contact.php",
-        //     headers: { 'content-type': 'application/json' },
-        //     data: message
-        // })
-        toast.info("Votre message a bien été envoyé")
-        history.replace('/')
-    }
+    } 
     setValidated("was-validated");
   };
 
@@ -57,7 +36,7 @@ const handleSubmit = (event) => {
 
                             <Form.Group controlId="email">
                                 <Form.Label>Votre adresse email </Form.Label>
-                                <Form.Control type="email" placeholder="votre adresse email" required name="email" onChange={handleChange} />
+                                <Form.Control type="email" placeholder="votre adresse email" required name="email"/>
                                 <Form.Text className="text-muted">
                                     Cette adresse nous est nécessaire pour vous répondre
                                 </Form.Text>
@@ -68,7 +47,7 @@ const handleSubmit = (event) => {
 
                             <Form.Group controlId="object">
                                 <Form.Label>Objet</Form.Label>
-                                <Form.Control placeholder="Quel est l'objet de votre message ?" required name="object" onChange={handleChange} />
+                                <Form.Control placeholder="Quel est l'objet de votre message ?" required name="object"/>
                                 <Form.Control.Feedback type="invalid">
                                     Merci de préciser l'objet de votre message
                                 </Form.Control.Feedback>
@@ -76,7 +55,7 @@ const handleSubmit = (event) => {
 
                             <Form.Group controlId="message">
                                 <Form.Label>Votre message</Form.Label>
-                                <Form.Control placeholder="votre message..." as="textarea" rows="4" required name="message" onChange={handleChange} />
+                                <Form.Control placeholder="votre message..." as="textarea" rows="4" required name="message"/>
                                 <Form.Control.Feedback type="invalid">
                                     Votre message est bien vide...
                                 </Form.Control.Feedback>

@@ -16,4 +16,6 @@ if ($_POST){
     $headers .= "From: <" . $fromEmail . ">";
     
     mail('adairon@outlook.fr', $objet, $message, $headers);
+
+    header('location: /');
 }
