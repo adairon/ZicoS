@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
 import {toast} from "react-toastify"
+import axios from 'axios';
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
@@ -10,17 +11,34 @@ const Contact = ({history}) => {
 
   //---------------------------------------------- STATES :
   const [validated, setValidated] = useState(false);
+  const [message, setMessage] = useState({
+      email:"",
+      object:"",
+      message:""
+  })
 
 //----------------------------------------------FUNCTIONS :
-  const handleSubmit = (event) => {
+  const handleChange =({currentTarget}) => {
+      const {name, value} = currentTarget;
+      setMessage({...message, [name]: value});
+  }
+
+const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else {
+        axios({
+            method: "POST",
+            url: "contact.php",
+            headers: { 'content-type': 'application/json' },
+            data: message
+        })
+        toast.info("Votre message a bien été envoyé")
+        history.replace('/')
     }
     setValidated(true);
-    toast.info("Votre message a bien été envoyé")
-    history.replace('/')
   };
 
 //----------------------------------------------RETURN :
@@ -34,12 +52,11 @@ const Contact = ({history}) => {
                 <div className="container bg-light shadow rounded p-5">
                     <h1>Nous contacter</h1>
 
-                    <Form noValidate validated={validated} onSubmit={handleSubmit}>
-                        <div action="contact.php" method="POST" className="m-5">
+                    <Form noValidate validated={validated} onSubmit={handleSubmit} className="m-5">
 
                             <Form.Group controlId="email">
                                 <Form.Label>Votre adresse email </Form.Label>
-                                <Form.Control type="email" placeholder="votre adresse email" required name="email" />
+                                <Form.Control type="email" placeholder="votre adresse email" required name="email" onChange={handleChange} />
                                 <Form.Text className="text-muted">
                                     Cette adresse nous est nécessaire pour vous répondre
                                 </Form.Text>
@@ -50,7 +67,7 @@ const Contact = ({history}) => {
 
                             <Form.Group controlId="object">
                                 <Form.Label>Objet</Form.Label>
-                                <Form.Control placeholder="Quel est l'objet de votre message ?" required name="object" />
+                                <Form.Control placeholder="Quel est l'objet de votre message ?" required name="object" onChange={handleChange} />
                                 <Form.Control.Feedback type="invalid">
                                     Merci de préciser l'objet de votre message
                                 </Form.Control.Feedback>
@@ -58,7 +75,7 @@ const Contact = ({history}) => {
 
                             <Form.Group controlId="message">
                                 <Form.Label>Votre message</Form.Label>
-                                <Form.Control placeholder="votre message..." as="textarea" rows="4" required name="message"/>
+                                <Form.Control placeholder="votre message..." as="textarea" rows="4" required name="message" onChange={handleChange} />
                                 <Form.Control.Feedback type="invalid">
                                     Votre message est bien vide...
                                 </Form.Control.Feedback>
@@ -67,7 +84,6 @@ const Contact = ({history}) => {
                             <Button variant="success" type="submit">
                                 Envoyer
                             </Button>
-                        </div>
 
                     </Form>
                 </div>

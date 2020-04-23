@@ -468,5 +468,6 @@ Pour éviter que les erreurs soient écrites dans un fichier inaccessible en pro
 On génère la build en local si on a pas node et npm sur le serveur mitualisé (ce qui est souvent le cas) :
 - sur fichier ```.env``` en local : on met dans la variable ```ÀPI_URL``` l'url de l'API qui sera déployée sur le serveur distant
 - on lance en local la commande (dans le répertoire racine du projet) : ```npm run build``` pour générer les bons fichiers et nottament les points d'entrée de webpack
+    - ```API_URL="'http://zicos.antoine-dairon.fr/api/'"```
 - on transfère le fichier ```public/build``` généré en local vers le dossier ```public/``` du serveur en ftp.
 

@@ -32,10 +32,10 @@ import RegisterPage from "./pages/RegisterPage";
 import AboutZicos from "./pages/AboutZicos";
 import cguPage from "./pages/cguPage";
 import MentionsLegales from "./pages/MentionsLegales";
+import Contact from "./pages/Contact";
 // css:
 import "../css/bootstrap.min.css"
 import "../css/app.css";
-import Contact from "./pages/Contact";
 
 
 console.log("Salut ami ZicoS ! Alors, on joue de la console ;-) ?");

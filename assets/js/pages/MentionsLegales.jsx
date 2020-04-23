@@ -79,10 +79,8 @@ const MentionsLegales = ({ history }) => {
                             Signalements :
                         </h2>
 
-                        Vous pouvez nous signaler tout contenu qui ne respecterait pas les CGU en nous écrivant à cette adresse : 
-                        <a  className="ml-1" href="mailto:adairon@outlook.fr"> 
-                        adairon@outlook.fr
-                    </a>
+                        Vous pouvez nous signaler tout contenu inapproprié ou qui ne respecterait pas les CGU : 
+                        <Link to="/contact"> Nous contacter</Link>
 
                     </div>
                 </div>
