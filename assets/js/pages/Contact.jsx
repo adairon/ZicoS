@@ -29,6 +29,7 @@ const handleSubmit = (event) => {
       event.preventDefault();
       event.stopPropagation();
     } else {
+        event.preventDefault();
         // axios({
         //     method: "POST",
         //     url: "/contact.php",
@@ -81,7 +82,7 @@ const handleSubmit = (event) => {
                                 </Form.Control.Feedback>
                             </Form.Group>
 
-                            <Button variant="success" type="submit">
+                            <Button variant="success" type="submit" >
                                 Envoyer
                             </Button>
 
