@@ -1,20 +1,15 @@
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
+import {toast} from "react-toastify"
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
 
 //---------------------------------------------- FUNCTIONNAL COMPONENT :
-const Contact = (props) => {
+const Contact = ({history}) => {
 
   //---------------------------------------------- STATES :
   const [validated, setValidated] = useState(false);
-
-  const [errors, setErrors] = useState({
-      email:"",
-      object:"",
-      message:""
-  })
 
 //----------------------------------------------FUNCTIONS :
   const handleSubmit = (event) => {
@@ -23,8 +18,9 @@ const Contact = (props) => {
       event.preventDefault();
       event.stopPropagation();
     }
-
     setValidated(true);
+    toast.info("Votre message a bien été envoyé")
+    history.replace('/')
   };
 
 //----------------------------------------------RETURN :
