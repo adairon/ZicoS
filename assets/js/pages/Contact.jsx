@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
@@ -17,7 +18,9 @@ const handleSubmit = (event) => {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    } 
+    } else {
+        toast.success("Votre message a bien été envoyé")
+    }
     setValidated("was-validated");
   };
 

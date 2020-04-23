@@ -6,7 +6,7 @@ if ($_POST){
     http_response_code(200);
     
     $fromEmail = $_POST['email'];
-    $objet = $_POST['object'];
+    $objet = "ZicoS-contact : ".$_POST['object'];
     $message = $_POST['message'];
     
     //headers :
