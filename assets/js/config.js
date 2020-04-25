@@ -2,6 +2,7 @@ export const API_URL = process.env.API_URL;
 
 export const PROFILES_API = API_URL + "profiles";
 export const USERS_API = API_URL + "users";
+export const MESSAGES_API = API_URL + "messages";
 export const TYPES_API = API_URL + "types";
 export const STYLES_API = API_URL + "styles";
 export const LOCALIZATIONS_API = API_URL + "localizations";
