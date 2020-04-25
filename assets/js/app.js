@@ -25,6 +25,7 @@ import ProfilesPage from "./pages/ProfilesPages";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import UserPage from "./pages/UserPage";
+import Messages from "./pages/Messages";
 import CreateProfilePage from "./pages/CreateProfilePage";
 import EditMusicienPage from "./pages/EditMusicienPage";
 import EditGroupPage from "./pages/EditGroupPage";
@@ -99,6 +100,7 @@ const App = () => {
                 <PrivateRoute path="/users/profile/band/:id" component={EditGroupPage}/>
                 <PrivateRoute path="/users/profile/new" component={CreateProfilePage}/>
                 <PrivateRoute path="/users/:id" component={UserPage} />
+                <PrivateRoute path="/messages" component={Messages} />
                 <Route path="/about" component={AboutZicos} />
                 <Route path="/terms" component={cguPage} />
                 <Route path="/mentions_legales" component={MentionsLegales} />

@@ -291,6 +291,11 @@ On veut que , depuis le token, on puisse récupérer l'id de l'utilisateur conne
 - doc : https://github.com/lexik/LexikJWTAuthenticationBundle/blob/master/Resources/doc/2-data-customization.md
 - On créé un nouvel évènement : jwtCreatedSubscriber
 
+#### Ne recevoir via la requête à l'API que les messages concernant l'utilisateur concerné
+- Si requête GET pour les Messages, on récupère tous les messages via API plateforme or, on ne veut que ceux pour lesquels l'utilisateur connecté est soit l'auteur soit le destinataire. Pour celà, on va modifier la requête envoyée à API Plateform avec Doctrine.
+- on créé un nouveau dossier ```src/Doctrine```
+- on y créé un fichier ```CurrentUserExtension.php```
+
 ## Développement Front-End
 
 ### Mise en place de Webpack Encore
@@ -468,6 +473,6 @@ Pour éviter que les erreurs soient écrites dans un fichier inaccessible en pro
 On génère la build en local si on a pas node et npm sur le serveur mitualisé (ce qui est souvent le cas) :
 - sur fichier ```.env``` en local : on met dans la variable ```ÀPI_URL``` l'url de l'API qui sera déployée sur le serveur distant
 - on lance en local la commande (dans le répertoire racine du projet) : ```npm run build``` pour générer les bons fichiers et nottament les points d'entrée de webpack
-    - ```API_URL="'http://zicos.antoine-dairon.fr/api/'"```
+    - ```API_URL="'https://zicos.antoine-dairon.fr/api/'"```
 - on transfère le fichier ```public/build``` généré en local vers le dossier ```public/``` du serveur en ftp.
 

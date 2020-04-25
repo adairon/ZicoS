@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -28,13 +30,13 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"user_read","profiles_read"})
+     * @Groups({"user_read","profiles_read","messages_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"user_read","profiles_read"})
+     * @Groups({"user_read","profiles_read","messages_read"})
      * @Assert\NotBlank(message="Une adresse email est obligatoire pour se créer un compte !")
      * @Assert\Email(message="Le format de l'adresse email '{{ value }}' n'est pas valide")
      */
@@ -56,7 +58,7 @@ class User implements UserInterface
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Profile", mappedBy="user", cascade={"persist", "remove"})
-     * @Groups({"user_read"})
+     * @Groups({"user_read","messages_read"})
      */
     private $profile;
 
@@ -67,6 +69,24 @@ class User implements UserInterface
      * @Assert\Date(message="La date doit être au format AAAA-MM-JJ (année-mois-jour ; on y travaille...)")
      */
     private $birthDate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="forUser")
+     * @Groups({"user_read"})
+     */
+    private $messagesFor;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="fromUser")
+     * @Groups({"user_read"})
+     */
+    private $messagesFrom;
+
+    public function __construct()
+    {
+        $this->messagesFor = new ArrayCollection();
+        $this->messagesFrom = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -174,4 +194,67 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessagesFor(): Collection
+    {
+        return $this->messagesFor;
+    }
+
+    public function addMessagesFor(Message $messagesFor): self
+    {
+        if (!$this->messagesFor->contains($messagesFor)) {
+            $this->messagesFor[] = $messagesFor;
+            $messagesFor->setForUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesFor(Message $messagesFor): self
+    {
+        if ($this->messagesFor->contains($messagesFor)) {
+            $this->messagesFor->removeElement($messagesFor);
+            // set the owning side to null (unless already changed)
+            if ($messagesFor->getForUser() === $this) {
+                $messagesFor->setForUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessagesFrom(): Collection
+    {
+        return $this->messagesFrom;
+    }
+
+    public function addMessagesFrom(Message $messagesFrom): self
+    {
+        if (!$this->messagesFrom->contains($messagesFrom)) {
+            $this->messagesFrom[] = $messagesFrom;
+            $messagesFrom->setFromUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessagesFrom(Message $messagesFrom): self
+    {
+        if ($this->messagesFrom->contains($messagesFrom)) {
+            $this->messagesFrom->removeElement($messagesFrom);
+            // set the owning side to null (unless already changed)
+            if ($messagesFrom->getFromUser() === $this) {
+                $messagesFrom->setFromUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

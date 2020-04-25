@@ -36,20 +36,20 @@ class Profile
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read", "messages_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read", "messages_read"})
      * @Assert\NotBlank(message="Votre prénom ou le nom de votre groupe est obligatoire")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read"})
+     * @Groups({"profiles_read", "type_read", "instrument_read", "level_read", "localization_read", "style_read", "user_read", "messages_read"})
      */
     private $lastName;
 
