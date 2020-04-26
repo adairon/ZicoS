@@ -25,6 +25,7 @@ class Message
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"messages_read","user_read"})
      */
     private $id;
 
@@ -44,13 +45,13 @@ class Message
 
     /**
      * @ORM\Column(type="text")
-     * @Groups({"messages_read"})
+     * @Groups({"messages_read","user_read"})
      */
     private $message;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"messages_read"})
+     * @Groups({"messages_read","user_read"})
      */
     private $sentAt;
 
