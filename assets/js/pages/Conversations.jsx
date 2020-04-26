@@ -9,7 +9,7 @@ import userAPI from "../services/userAPI";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 
-const Messages = (props) => {
+const Conversations = (props) => {
   //----------------------------------------------CONTEXTES :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
@@ -30,8 +30,8 @@ const Messages = (props) => {
         console.log(data);
         setMessages(data);
         data.map(m => (
-            console.log(m.fromUser.id),
-            console.log(m.forUser.id),
+            // console.log(m.fromUser.id),
+            // console.log(m.forUser.id),
             (m.forUser.id !== userId && fromUsersTab.push(m.forUser.id+"_"+m.forUser.profile.firstName)),
             (m.fromUser.id !== userId && fromUsersTab.push(m.fromUser.id+"_"+m.fromUser.profile.firstName))
             // (m.forUser.id !== userId && (
@@ -88,8 +88,8 @@ const Messages = (props) => {
 
           <div className="bg-secondary shadow-none rounded p-1 m-1 row messenger_container">
           
-            <div className="conversations bg-light rounded border border-dark col-4">
-                Mes conversations
+            <div className="conversations bg-light rounded border border-dark col-12 py-2">
+                 
                 {Array.from(new Set(fromUsersTab)).map(fromUser =>(
                     <div key={fromUser} className="border border-dark p-2">
                         <h3>Conversation avec {fromUser.replace(/.*_/, "")}</h3>
@@ -97,9 +97,6 @@ const Messages = (props) => {
                 ))}
             </div>
 
-            <div className="messages_view border border-primary col-8">
-                Mes messages
-            </div>
 
           </div>
         </div>
@@ -108,4 +105,4 @@ const Messages = (props) => {
   );
 };
 
-export default Messages;
+export default Conversations;

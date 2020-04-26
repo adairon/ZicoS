@@ -115,6 +115,8 @@ const Navbar = ({ history }) => {
                 <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <NavLink to={"/users/" + userId} className="dropdown-item" href="#" > Mes infos </NavLink>
                   {userProfile && (<NavLink to={"/profils/" + userProfile} className="dropdown-item" > Voir mon profil </NavLink> )}
+                  <NavLink to={"/inbox"} className="dropdown-item" href="#" > Mes messages reçus </NavLink>
+
                   <div className="dropdown-divider"></div>
                   <button onClick={handleLogout} className="dropdown-item text-danger" > Déconnexion </button>
                 </div>
