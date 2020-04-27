@@ -69,16 +69,35 @@ const MessagesSent = (props) => {
       <div className="fondPage bg-secondary py-4 d-flex align-items-center">
         <div className="container bg-light shadow rounded p-5">
           <h1>Mes messages envoyés</h1>
-          <div className="form-group">
-            <input
-              type="text"
-              onChange={handleSearch}
-              value={search}
-              className="form-control col-6 my-5 mx-auto"
-              placeholder="Rechercher dans mes messages envoyés..."
-            />
-          </div>
           {loading && <CssMessagesLoader/> }
+          {(!loading && messages.length>0) && 
+            <div className="form-group">
+              <input
+                type="text"
+                onChange={handleSearch}
+                value={search}
+                className="form-control col-6 my-5 mx-auto"
+                placeholder="Rechercher dans mes messages envoyés..."
+              />
+            </div>
+          }
+
+          {(!loading && !messages.length) &&
+            <>
+              <div className="m-5 p-5 bg-light shadow rounded">
+                <h2 className="text-center">
+                  Vous n'avez envoyé aucun message pour le moment. <br/>
+                  Recherchez des profils qui vous intéressent et contactez les pour jouer ensemble !
+                </h2>
+
+                <div className="row justify-content-center my-3">
+                  <Link className="btn btn-outline-black my-1" to="/profils">
+                    Voir les Profils
+                  </Link>
+                </div>
+              </div>
+            </>
+          }
           
           {!loading &&  filteredMessages.map(
             (message) =>
@@ -104,8 +123,18 @@ const MessagesSent = (props) => {
                     </div>
                   </Card.Footer>
                 </Card>
-              )
-          )}
+              ))}
+          {(!loading && !filteredMessages.length) &&
+            <>
+              <div className="m-5 p-5 bg-light shadow rounded">
+                <h2 className="text-center">
+                  Auncun message ne correspond à cette recherche.
+                </h2>
+                <div className="row justify-content-center my-3">
+                </div>
+              </div>
+            </>
+          }
         </div>
       </div>
     </>
