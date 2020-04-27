@@ -1,4 +1,4 @@
-# Zicos VERSION 0.1 : Construction
+# Zicos : Construction
 
 ## Install Symfony version 4.x.x
 Utilisation de la version 4.4 de Symfony et non de la version 5 car version 4.4 mieux maitrisée. Mise à jour éventuelle vers la version 5 dans un deuxième temps.  
@@ -68,23 +68,11 @@ Les types de données de l'application :
 - id (généré automatiquement)
 - name (type="string")
 
-__à voir plus tard :__
-
-9. Recherche (critères de recherche) :
-- id (généré automatiquement)
-- critere (type="string")
-- type (type = "relation" avec Type)
-- style (type = "relation" avec Style)
-- departement (type = "relation" avec Departement)
-
-__TODO : Pour la messagerie, voir le composant Messenger de Symfony (messagerie interne type mail)__
-10. Message (système de messagerie interne) :
-- id (généré automatiquement)
-- objet (type="string")
+8. Message :
+- forUser -> destinataire du message (type="relation" - "ManyToOne")
+- fromUser -> auteur du message (type="relation" - "ManyToOne")
 - message (type="text")
-- auteur (type="relation" avec User)
-- detsinataire (type="relation" avec User)
-
+- sentAt (type="DateTime")
 
 Pour créer les entités : ```bin/console make:entity``` 
 Pour créer l'entité User : ```bin/console make:user``` 
@@ -96,12 +84,10 @@ Pour créer l'entité User : ```bin/console make:user```
 --> créé les tables dans MySQL  (vérification dans phpMyAdmin)
 
 ### Fixtures
-- on utilise les fixtures pour créer des données et on va utiliser la librairie faker pour les alimenter.
+- on utilise les fixtures pour créer des fausses données et on va utiliser la librairie faker pour les alimenter.
 ```composer require orm-fixtures fzaninotto/faker --dev```  
 puis  
 ```bin/console make:fixtures```
-
-
 
 1. types de musique à créer :  
 - Disco
@@ -122,7 +108,6 @@ puis
 - Zouk
 - Latino
 - Hard Rock
-- Autre
 
 2. instruments de musique :
 - Guitare
@@ -144,7 +129,6 @@ puis
 - Platines
 - Chant (lead)
 - Chant (Choeurs)
-- Autre
 
 3. Liste des départements français (numéro + libellé)
 
@@ -156,9 +140,8 @@ puis
 - on charge les données créées dans les fixtures : ```bin/console doctrine:fixtures:load```
 
 ### Upload de Photo
-- utiliser le bundle Symfony VichUploaderBundle
+- On utilise le bundle Symfony VichUploaderBundle
 - voir tuto : https://www.youtube.com/watch?v=OZBVd4ZTIqk
-
 
 ### API Platform
 
@@ -464,15 +447,16 @@ Pour éviter que les erreurs soient écrites dans un fichier inaccessible en pro
 - créer un sous domaine dont la racine sera le dossier "/public"
 - créer une base de donnée MySQL dédiée à la future appli
 - installer composer sur le serveur (voir doc hébergeur)
-- cloner le répot git
+- cloner le répot git (branche master)
 - Se connecter en ftp pour éditer les variables d'environnement du fichier ```.env``` directement sur le serveur :
-    - ```APP_ENV=prod````
+    - ```APP_ENV=prod```
     - ```DATABASE_URL``` : en fonction des données de la base MySQL : user, mot de passe, nom de la base, hote et port
-    - ```ÀPI_URL```: adresse du sous domaine + ```/API```
+    - ```ÀPI_URL```: adresse du sous domaine + ```/api```
+        - ex pour déploiement O2 Switch antoine.dairon.fr : ```API_URL="'https://zicos.antoine-dairon.fr/api/'"```
 #### Pour générer la build npm :
 On génère la build en local si on a pas node et npm sur le serveur mitualisé (ce qui est souvent le cas) :
 - sur fichier ```.env``` en local : on met dans la variable ```ÀPI_URL``` l'url de l'API qui sera déployée sur le serveur distant
-- on lance en local la commande (dans le répertoire racine du projet) : ```npm run build``` pour générer les bons fichiers et nottament les points d'entrée de webpack
+- on lance en local la commande (dans le répertoire racine du projet) : ```npm run build``` pour générer les bons fichiers et notament les points d'entrée de webpack
     - ```API_URL="'https://zicos.antoine-dairon.fr/api/'"```
 - on transfère le fichier ```public/build``` généré en local vers le dossier ```public/``` du serveur en ftp.
 

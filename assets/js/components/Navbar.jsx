@@ -57,7 +57,7 @@ const Navbar = ({ history }) => {
   // effet qui se déclenche si l'utilisateur est authentifié et qui se nettoie au démontage
   if (isAuthenticated) {
     useEffect(() => {
-      // setMounted(true)
+      setMounted(true)
       fetchUserProfile(userId);
       return () => {
         setMounted(false)

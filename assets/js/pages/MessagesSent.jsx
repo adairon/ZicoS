@@ -124,7 +124,7 @@ const MessagesSent = (props) => {
                   </Card.Footer>
                 </Card>
               ))}
-          {(!loading && !filteredMessages.length) &&
+          {(!loading && messages.length>0 && !filteredMessages.length) &&
             <>
               <div className="m-5 p-5 bg-light shadow rounded">
                 <h2 className="text-center">
