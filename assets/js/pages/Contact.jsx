@@ -32,7 +32,7 @@ const handleSubmit = (event) => {
             </Helmet>
 
             <div className="bg-secondary py-4">
-                <div className="container bg-light shadow rounded p-5">
+                <div className="container bg-light shadow rounded p-5 my-5 mx-auto">
                     <h1>Nous contacter</h1>
 
                     <form action="contact.php" method="POST" noValidate  onSubmit={handleSubmit} className={validated}>
