@@ -424,7 +424,10 @@ footer {
   height: 180px;
   animation: loader 2s infinite ease-in-out;
 }
-
+.loadingSearch{
+  height: 35px;
+  animation: loader 2s infinite ease-in-out;
+}
 
 @keyframes loader {
   0% {

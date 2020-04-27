@@ -79,6 +79,9 @@ function isAuthenticated() {
   return false;
 }
 
+/**
+ * Permet de récupérer l'id de l'utilisateur connecté dans le token
+ */
 function userId(){
   // 1. voir si on a un token
   const token = window.localStorage.getItem("authToken");

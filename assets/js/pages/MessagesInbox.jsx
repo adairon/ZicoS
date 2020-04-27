@@ -25,7 +25,7 @@ const MessagesInbox = (props) => {
 //       id:"",
 //       firstName:""
 //   })
-  const [user, setUser] = useState({});
+  // const [user, setUser] = useState({});
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   //----------------------------------------------FUNCTIONS :
@@ -53,15 +53,15 @@ const MessagesInbox = (props) => {
   //NOTE : fromUsers tab : firstName : fromUserstab[i].replace(/.*_/, "")
   //NOTE : fromUsers tab : id : fromUserstab[i].replace(/_.*$/,"")
 
-  const fetchUserMessages = async (userId) => {
-      try{
-        const data = await userAPI.findOne(userId);
-        // console.log(data)
-        setUser(data)
-      }catch(error){
-          console.log(error.response)
-      }
-  }
+  // const fetchUserMessages = async (userId) => {
+  //     try{
+  //       const data = await userAPI.findOne(userId);
+  //       // console.log(data)
+  //       setUser(data)
+  //     }catch(error){
+  //         console.log(error.response)
+  //     }
+  // }
 
   // Gestion de la recherche
   const handleSearch = ({ currentTarget }) => {
@@ -76,7 +76,7 @@ const MessagesInbox = (props) => {
   //----------------------------------------------EFFECT :
   useEffect(() => {
     fetchMessages();
-    fetchUserMessages(userId);
+    // fetchUserMessages(userId);
     return () => {
         source.cancel();
       };
