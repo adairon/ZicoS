@@ -8,36 +8,40 @@ import UserContext from "../contexts/UserContext";
 import MessagesAPI from "../services/messagesAPI";
 import userAPI from "../services/userAPI";
 import { Link } from "react-router-dom";
+//Components :
 import MessageModal from "../components/MessageModal";
+import CssMessagesLoader from "../components/loaders/CssMessagesLoader";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
 
-const Conversations = (props) => {
+const MessagesInbox = (props) => {
   //----------------------------------------------CONTEXTES :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
   //----------------------------------------------STATES :
   const [messages, setMessages] = useState([]);
   const [fromUsersTab, setFormUsersTab] = useState([]);
-  const [fromUsers, setFromUsers] = useState({
-      id:"",
-      firstName:""
-  })
+//   const [fromUsers, setFromUsers] = useState({
+//       id:"",
+//       firstName:""
+//   })
   const [user, setUser] = useState({});
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
   //----------------------------------------------FUNCTIONS :
   let source = Axios.CancelToken.source();
 
   const fetchMessages = async () => {
       try{
         const data = await MessagesAPI.findAll({cancelToken: source.token})
-        console.log(data);
+
         setMessages(data);
-        data.map(m => (
-            (m.forUser.id !== userId && fromUsersTab.push(m.forUser.id+"_"+m.forUser.profile.firstName)),
-            (m.fromUser.id !== userId && fromUsersTab.push(m.fromUser.id+"_"+m.fromUser.profile.firstName))
-        ))
-        // console.log(fromUsers)
-        console.log(Array.from(new Set(fromUsersTab)))
+        setLoading(false);
+        // data.map(m => (
+        //     (m.forUser.id !== userId && fromUsersTab.push(m.forUser.id+"_"+m.forUser.profile.firstName)),
+        //     (m.fromUser.id !== userId && fromUsersTab.push(m.fromUser.id+"_"+m.fromUser.profile.firstName))
+        // ))
+        // console.log(Array.from(new Set(fromUsersTab)))
       }catch(error){
         if (Axios.isCancel(error)) {
             console.log("request cancelled");
@@ -58,12 +62,25 @@ const Conversations = (props) => {
           console.log(error.response)
       }
   }
+
+  // Gestion de la recherche
+  const handleSearch = ({ currentTarget }) => {
+    setSearch(currentTarget.value);
+  };
+
+  const filteredMessages = messages.filter(
+      m =>
+      m.message.toLowerCase().includes(search.toLowerCase()) ||
+      m.fromUser.profile.firstName.toLowerCase().includes(search.toLowerCase())
+  )
   //----------------------------------------------EFFECT :
-  //TODO : modifier l'effet pour que s'affiche le dernier message envoyé et aussi le dernier message reçu.
   useEffect(() => {
     fetchMessages();
-    fetchUserMessages(userId)
-  },[]);
+    fetchUserMessages(userId);
+    return () => {
+        source.cancel();
+      };
+  },[messages]);
 
 
 
@@ -78,17 +95,32 @@ const Conversations = (props) => {
       <div className="fondPage bg-secondary py-4 d-flex align-items-center">
         <div className="container bg-light shadow rounded p-5">
           <h1>Mes Messages reçus</h1>
-            {messages.map(message=>(
+          <div className="form-group">
+            <input
+              type="text"
+              onChange={handleSearch}
+              value={search}
+              className="form-control col-6 my-5 mx-auto"
+              placeholder="Rechercher dans mes messages reçus..."
+            />
+          </div>
+          {loading && <CssMessagesLoader/> }
+            {!loading && filteredMessages.map(message=>(
                 (message.forUser.id === userId && 
-                    <Card key={message.id} className="border border-primary my-3">
-                    <Card.Body>
-                        <Card.Title as="h2">
+                    <Card key={message.id} className="my-5 shadow">
+                    <Card.Header className="bg-primary text-center">
+                        <Card.Title>
                             message de 
-                                <Link to={"/profils/" + message.fromUser.profile.id} >
+                            <Link 
+                                to={"/profils/" + message.fromUser.profile.id} 
+                                className="text-white"
+                                >
                                     {" " + message.fromUser.profile.firstName}
-                                </Link>
+                            </Link>
                             
                         </Card.Title>
+                    </Card.Header>
+                    <Card.Body>
                         <Card.Text>
                             {message.message}
                         </Card.Text>
@@ -102,7 +134,8 @@ const Conversations = (props) => {
                                 <MessageModal
                                     libBtn="Répondre"
                                     variant="primary"
-                                    forUser={message.fromUser.id}
+                                    forUserId={message.fromUser.id}
+                                    forUserName={message.fromUser.profile.firstName}
                                 />
                             </div>
                         </div>
@@ -116,4 +149,4 @@ const Conversations = (props) => {
   );
 };
 
-export default Conversations;
+export default MessagesInbox;

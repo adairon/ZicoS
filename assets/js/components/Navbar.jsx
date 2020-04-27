@@ -33,6 +33,7 @@ const Navbar = ({ history }) => {
     try {
       const data = await userAPI.findOne(userId);
         setUserProfile(data.profile.id);
+        setMounted(true)
     } catch (error) {
       console.log(error.response);
     }
@@ -56,7 +57,7 @@ const Navbar = ({ history }) => {
   // effet qui se déclenche si l'utilisateur est authentifié et qui se nettoie au démontage
   if (isAuthenticated) {
     useEffect(() => {
-      setMounted(true)
+      // setMounted(true)
       fetchUserProfile(userId);
       return () => {
         setMounted(false)
@@ -116,6 +117,7 @@ const Navbar = ({ history }) => {
                   <NavLink to={"/users/" + userId} className="dropdown-item" href="#" > Mes infos </NavLink>
                   {userProfile && (<NavLink to={"/profils/" + userProfile} className="dropdown-item" > Voir mon profil </NavLink> )}
                   <NavLink to={"/inbox"} className="dropdown-item" href="#" > Mes messages reçus </NavLink>
+                  <NavLink to={"/sentmessages"} className="dropdown-item" href="#" > Mes messages envoyés </NavLink>
 
                   <div className="dropdown-divider"></div>
                   <button onClick={handleLogout} className="dropdown-item text-danger" > Déconnexion </button>

@@ -420,6 +420,12 @@ footer {
   animation: loader 2s infinite ease-in-out;
 }
 
+.loadingMessage{
+  height: 180px;
+  animation: loader 2s infinite ease-in-out;
+}
+
+
 @keyframes loader {
   0% {
     background-color: rgba(165, 165, 165, 0.3);

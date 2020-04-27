@@ -10,8 +10,10 @@ import UserContext from "../contexts/UserContext";
 import userAPI from "../services/userAPI";
 import {API_URL} from "../config"
 
+import MessageModal from "./MessageModal";
+
 //----------------------------------------------FUNCTIONNAL COMPONENT :
-const Profile = ({profile,email}) => {
+const Profile = ({profile, email}) => {
   
   //----------------------------------------------CONTEXTS :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
@@ -166,11 +168,21 @@ const Profile = ({profile,email}) => {
 
           {userProfile && 
             <div className="profil_contact d-flex my-3">
-              <button className="btn btn-primary m-auto p-3" type="button">
+
+            <MessageModal
+              libBtn="Envoyer un message"
+              variant="primary"
+              margin="m-auto"
+              forUserId={profile.user.id}
+              forUserName={profile.firstName}
+            />
+
+              {/* <button className="btn btn-primary m-auto p-3" type="button">
                   <a className="text-white" href={"mailto:" + profile.email}> 
                     Envoyer un mail
                   </a>
-              </button>
+              </button> */}
+
             </div>
           }
         </div>

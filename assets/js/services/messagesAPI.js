@@ -7,8 +7,8 @@ function findAll({cancelToken}){
         .then(response => response.data["hydra:member"]);
 }
 
-function send (message) {
-    return axios.post(MESSAGE_API, message)
+function send(message){
+    return axios.post(MESSAGES_API, message);
 }
 
 export default {

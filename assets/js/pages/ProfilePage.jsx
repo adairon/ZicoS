@@ -93,7 +93,11 @@ const ProfilePage = (props) => {
           </div>
         )}
 
-        {!loading && <Profile profile={profile} email={profile.user.email} />}
+        {!loading && 
+          <Profile 
+            profile={profile} 
+            email={profile.user.email}
+          />}
 
         <div className="d-flex justify-content-center">
           <Link className="btn btn-outline-black" to="/profils">
