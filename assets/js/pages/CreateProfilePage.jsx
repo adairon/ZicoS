@@ -24,6 +24,7 @@ import profilesAPI from "../services/profilesAPI";
 import { PICTURE_API } from "../config";
 //iamges:
 import robotPicture from "../../images/placeholders/profile_picture/raphael_dairon-robot-vinyl.jpg";
+import ZicoSLogo from "../../images/placeholders/profile_picture/Logo-ZicoS-Primary.png"
 
 //---------------------------------------------- FUNCTIONNAL COMPONENT :
 const CreateProfilePage = ({ history }) => {
@@ -37,7 +38,7 @@ const CreateProfilePage = ({ history }) => {
     firstName: "",
     lastName: "",
     biography: "",
-    pictureUrl: robotPicture,
+    pictureUrl: ZicoSLogo,
     linkUrl: "",
     youtubeUrl:"",
     instrument: "",
@@ -61,7 +62,7 @@ const CreateProfilePage = ({ history }) => {
     style: "",
     level: "",
   });
-  const [image, setImage] = useState(robotPicture);
+  const [image, setImage] = useState(ZicoSLogo);
   const [types, setTypes] = useState([]);
   const [instruments, setIntruments] = useState([]);
   const [localizations, setLocalizations] = useState([]);
