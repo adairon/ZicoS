@@ -64,6 +64,7 @@ const EditGroupPage = (props) => {
   const [show, setShow] = useState(false);
   const [image, setImage] = useState("");
   const [btnLabel, setBtnLabel] = useState("");
+  const [btnVariant, setBtnVariant] = useState("");
   const [loading, setLoading] = useState(true);
 
   //----------------------------------------------FUNCTIONS :
@@ -158,19 +159,21 @@ const EditGroupPage = (props) => {
 
   // ------------------------------------- FONCTIONS EDITION FORMULAIRE :
   // Fonctions pour l'upload de l'image :
-  const handleFile = (event) => {
+  const handleFile = async (event) => {
     const data = new FormData();
     data.append("file", event.target.files[0]);
     try {
-      axios
-        .post(PICTURE_API, data, {})
-        .then((response) => {
-          setImage(response.data.contentUrl);
-        });
-      setBtnLabel("Image chargée");
-    } catch (error) {
+      await axios.post(PICTURE_API, data, {}).then((response) => {
+        // console.log(response.status)
+        setImage(response.data.contentUrl),
+        setProfile({...profile, pictureUrl: response.data.contentUrl})
+        setBtnLabel("Image enregistrée"),
+        setBtnVariant("success")
+      })
+    }catch(error) {
       console.log(error.response);
-      setUploadError(true);
+      setBtnLabel("Désolé, votre image n'a pas pu être chargée. Essayez de choisir une image plus petite (max 2 Mo)"),
+      setBtnVariant("danger");
     }
   };
 
@@ -253,7 +256,7 @@ const EditGroupPage = (props) => {
                       formEncType="multipart/form-data"
                     />
 
-                    <span className="badge badge-success">{btnLabel}</span>
+                    <span className={"badge badge-" + btnVariant}>{btnLabel}</span>
                   </div>
                 </figure>
 

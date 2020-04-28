@@ -443,20 +443,23 @@ Pour éviter que les erreurs soient écrites dans un fichier inaccessible en pro
     - ```web: $(composer config bin-dir)/heroku-php-apache2 public/```
 
 ### Délpoiement mutualisé (O2 Switch)
-- disposer d'un hébergement mutualisé
+- disposer d'un hébergement mutualisé avec terminal ou accès SSH
 - créer un sous domaine dont la racine sera le dossier "/public"
 - créer une base de donnée MySQL dédiée à la future appli
 - installer composer sur le serveur (voir doc hébergeur)
-- cloner le répot git (branche master)
+- cloner le répot git (branche master) dans un dossier "zicos" (via terminal du serveur ou accès SSH)
+    - ```git clone https://github.com/adairon/ZicoS.git zicos```
 - Se connecter en ftp pour éditer les variables d'environnement du fichier ```.env``` directement sur le serveur :
     - ```APP_ENV=prod```
     - ```DATABASE_URL``` : en fonction des données de la base MySQL : user, mot de passe, nom de la base, hote et port
     - ```ÀPI_URL```: adresse du sous domaine + ```/api```
+    - ```CORS_ALLOW_ORIGIN=^.*$```
         - ex pour déploiement O2 Switch antoine.dairon.fr : ```API_URL="'https://zicos.antoine-dairon.fr/api/'"```
+- installer toutes les dépendances et lancer les scripts de migration (via terminal du serveur ou accès SSH) : ```composer install```
 #### Pour générer la build npm :
 On génère la build en local si on a pas node et npm sur le serveur mitualisé (ce qui est souvent le cas) :
 - sur fichier ```.env``` en local : on met dans la variable ```ÀPI_URL``` l'url de l'API qui sera déployée sur le serveur distant
-- on lance en local la commande (dans le répertoire racine du projet) : ```npm run build``` pour générer les bons fichiers et notament les points d'entrée de webpack
     - ```API_URL="'https://zicos.antoine-dairon.fr/api/'"```
+- on lance en local la commande (dans le répertoire racine du projet) : ```npm run build``` pour générer les bons fichiers et notament les points d'entrée de webpack
 - on transfère le fichier ```public/build``` généré en local vers le dossier ```public/``` du serveur en ftp.
 
