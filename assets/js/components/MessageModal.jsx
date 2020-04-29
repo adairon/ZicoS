@@ -19,6 +19,8 @@ const MessageModal = ({ libBtn, variant, margin, forUserId, forUserName }) => {
     message: "",
   });
   const [validated, setValidated] = useState(false);
+  const [invalid, setInvalid] = useState()
+  const [messageError, setMessageError] = useState("");
 
   //----------------------------------------------FUNCTIONS :
 
@@ -34,21 +36,27 @@ const MessageModal = ({ libBtn, variant, margin, forUserId, forUserName }) => {
   const handleSubmit = async (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-        setShow(true)
+      event.preventDefault();
+      event.stopPropagation();
+      setMessageError("Votre message est bien vide...");
+      setShow(true);
     } else {
-        event.preventDefault();
-        try {
-          await messagesAPI.send(messageToSend);
-          toast.success("Votre message a bien été envoyé");
-          setShow(false);
-        } catch (error) {
-          console.log(error.response);
-          toast.warning("Un problème est survenu, votre message n'est pas parti...")
-        }
+      event.preventDefault();
+      try {
+        await messagesAPI.send(messageToSend);
+        toast.success("Votre message a bien été envoyé");
+        setShow(false);
+      } catch (error) {
+        console.log(error.response);
+        setValidated(false)
+        setMessageError(error.response.data["hydra:description"])
+        setInvalid(true)
+        toast.warning(
+          "Un problème est survenu, votre message n'est pas parti..."
+        );
       }
-      setValidated(true);
+    }
+    setValidated(true);
   };
 
   //----------------------------------------------RETURN :
@@ -74,17 +82,18 @@ const MessageModal = ({ libBtn, variant, margin, forUserId, forUserName }) => {
               <Form.Label>Votre message à {" " + forUserName} </Form.Label>
 
               <Form.Control
-                placeholder="votre message..."
+                placeholder="votre message (250 caractères max)..."
                 as="textarea"
                 rows="4"
                 required
                 name="message"
                 value={messageToSend.message}
                 onChange={handleChange}
+                isInvalid={invalid}
               />
 
               <Form.Control.Feedback type="invalid">
-                Votre message est bien vide...
+                {messageError}
               </Form.Control.Feedback>
             </Form.Group>
           </Modal.Body>

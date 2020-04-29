@@ -171,8 +171,6 @@ puis
 5. Collections et Items Operations
 configuration des opérations disponibles (paramétrages avec l'API dans les entités) pour les collections et les items
 
-__A VOIR : DANS UN PREMIER TEMPS, ON LAISSE TOUTES LES ROUTES OUVERTES PAR DEFAUT ??__
-
 - Collections operations :  
 On peut Récupérer TOUTES les instances de l'entité (GET) et/ou en créer une nouvelle (POST)
     - User : POST
@@ -359,8 +357,7 @@ Requête http avec tous les profils (non paginée par l'API) et pagination gér�
 Requêtes http partielles et paginées (si requêtes trop lourdes car bcp d'éléments à récupérer)
 
 ### Services
-- On créé des services pour gérer les requêtes Http via axios :
-    - requêtes GET vers tous les profils
+- On créé des services pour gérer les requêtes Http via axios vers notre API
 
 ### Navbar
 #### Composant
@@ -460,6 +457,8 @@ Pour éviter que les erreurs soient écrites dans un fichier inaccessible en pro
 On génère la build en local si on a pas node et npm sur le serveur mitualisé (ce qui est souvent le cas) :
 - sur fichier ```.env``` en local : on met dans la variable ```ÀPI_URL``` l'url de l'API qui sera déployée sur le serveur distant
     - ```API_URL="'https://zicos.antoine-dairon.fr/api/'"```
+    - à la place de 
+    - ```API_URL="'http://localhost:8000/api/'"```
 - on lance en local la commande (dans le répertoire racine du projet) : ```npm run build``` pour générer les bons fichiers et notament les points d'entrée de webpack
 - on transfère le fichier ```public/build``` généré en local vers le dossier ```public/``` du serveur en ftp.
 

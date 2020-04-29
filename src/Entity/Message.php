@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ApiResource(
@@ -46,6 +47,7 @@ class Message
     /**
      * @ORM\Column(type="text")
      * @Groups({"messages_read","user_read"})
+     * @Assert\Length(max=250, maxMessage="Votre texte est un peu trop long ! Il ne doit pas dépasser les {{ limit }} caractères")
      */
     private $message;
 
