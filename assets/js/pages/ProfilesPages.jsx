@@ -33,7 +33,6 @@ const ProfilesPage = (props) => {
   //----------------------------------------------CONTEXTES :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
-
   const { setUserProfileId } = useContext(UserProfileContext);
 
   //----------------------------------------------STATES :

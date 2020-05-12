@@ -105,7 +105,7 @@ const HomePage = ({ history }) => {
 
             <div className="row justify-content-end">
               <h2 className="pt-5 home_title col-lg-8 col-md-12 col-sm-12 text-center">
-                Musicien.ne reherche groupe
+                Musicien.ne recherche groupe
               </h2>
             </div>
 

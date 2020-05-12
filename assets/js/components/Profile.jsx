@@ -1,192 +1,211 @@
 //----------------------------------------------IMPORTS :
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ReactPlayer from 'react-player'
-import Modal from 'react-bootstrap/Modal'
+import ReactPlayer from "react-player";
+import Modal from "react-bootstrap/Modal";
 //contexts:
 import UserContext from "../contexts/UserContext";
 //API:
 import userAPI from "../services/userAPI";
-import {API_URL} from "../config"
+import { API_URL } from "../config";
 
 import MessageModal from "./MessageModal";
 
 //----------------------------------------------FUNCTIONNAL COMPONENT :
-const Profile = ({profile, email}) => {
-  
+const Profile = ({ profile, email }) => {
   //----------------------------------------------CONTEXTS :
   //On récupère l'id de l'utilisateur authentifié avec le contexte :
   const { userId } = useContext(UserContext);
 
-  //----------------------------------------------STATES : 
+  //----------------------------------------------STATES :
   const [userProfile, setUserProfile] = useState(true);
+  const [userProfileId, setUserProfileId] = useState("");
   const [show, setShow] = useState(false);
+  const [typeGroupe, setTypeGroupe] = useState(false);
+  const [typeMusicien, setTypeMusicien] = useState(false);
 
   //----------------------------------------------FUNCTIONS :
 
   //Pour savoir si le user authentifié à un profil :
-  const fetchUserProfile = async userId => {
+  const fetchUserProfile = async (userId) => {
     try {
       const data = await userAPI.findOne(userId);
-      if(!data.profile){
-        setUserProfile(false)
+      if (!data.profile) {
+        setUserProfile(false);
+      } else {
+        setUserProfileId(data.profile.id)
+        if (data.profile.type.name === "groupe") {
+          setTypeGroupe(true);
+        } else if (data.profile.type.name === "musicien.ne") {
+          setTypeMusicien(true);
+        }
       }
-    }catch(error){
-      console.log(error.response)
+    } catch (error) {
+      console.log(error.response);
     }
-  }
+  };
   //fct pour gérer l'affichage de la photo en modal
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  
+
   //----------------------------------------------EFFECTS :
-  useEffect(()=>{
-    fetchUserProfile(userId)
-  },[])
+  useEffect(() => {
+    fetchUserProfile(userId);
+  }, []);
 
+  return (
+    <div className="container profile border rounded py-2 bg-light shadow mb-5">
+      <div className="row justify-content-center">
+        <figure
+          className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex profile_figure"
+          onClick={handleShow}
+        >
+          <img
+            className="img-thumbnail profile_picture"
+            src={profile.pictureUrl}
+            alt=""
+          />
+        </figure>
 
-    return ( 
-        <div className="container profile border rounded py-2 bg-light shadow mb-5">
-          <div className="row justify-content-center">
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Body>
+            <img src={profile.pictureUrl} className="img-fluid" />
+          </Modal.Body>
+        </Modal>
 
-            <figure className="col-lg-6 col-md-12 col-sm-12 profile_pic p-1 my-2 d-flex profile_figure" onClick={handleShow}>
-              <img className="img-thumbnail profile_picture" src={profile.pictureUrl} alt="" />
-            </figure>
+        <div className="col-lg-6 col-md-12 col-sm-12 profile_title p-1 my-2">
+          <div className="alert alert alert-primary mx-2">
+            <h1 className="profile_name">
+              {profile.firstName}{" "}
+              {profile.type.name === "musicien.ne" && profile.lastName}
+            </h1>
+            <p className="profile_type text-center"> {profile.type.name} </p>
+          </div>
 
-            <Modal show={show} onHide={handleClose}>
-        
-              <Modal.Body>
-                <img src={profile.pictureUrl} className="img-fluid"/>
-              </Modal.Body>
-              
-            </Modal>
-
-            <div className="col-lg-6 col-md-12 col-sm-12 profile_title p-1 my-2">
-
-            <div className="alert alert alert-primary mx-2">
-                <h1 className="profile_name">
-                  {profile.firstName}{" "}
-                  {profile.type.name === "musicien.ne" && profile.lastName}
-                </h1>
-                <p className="profile_type text-center"> {profile.type.name} </p>
-              </div>
-
-              {profile.type.name === "musicien.ne" && (
-                <div className="profile_info instrus p-1 m-2 alert alert-secondary">
-                  <div className="mx-2">
-                    <h3>Instrument</h3>
-                    <span className="badge badge-black">
-                      {profile.instrument.name} 
-                    </span>
-                  </div>
-                </div>
-              )}
-              
-              <div className="profile_info style p-1 m-2 alert alert-secondary">
-                <h3>Style de musique principal</h3>
+          {profile.type.name === "musicien.ne" && (
+            <div className="profile_info instrus p-1 m-2 alert alert-secondary">
+              <div className="mx-2">
+                <h3>Instrument</h3>
                 <span className="badge badge-black">
-                  {profile.style.name}
+                  {profile.instrument.name}
                 </span>
               </div>
- 
-              {profile.level && 
-                <div className="profile_info level p-1 m-2 alert alert-secondary">
-                  <div className="mx-2">
-                    <h3 >Niveau</h3>
-                    <span className="badge badge-black">
-                      {profile.level.name}
-                    </span>
-                  </div>
-                </div>
-              }
-
-              <div className="profile_info localization p-1 m-2 alert alert-secondary">
-                <h3>Lieu</h3>
-                <div className="d-flex">
-
-                  <span className="badge badge-black mr-3">
-                    {profile.localization.region}
-                  </span>
-
-                  <span className="badge badge-black ml-3">
-                    {profile.localization.departement}
-                  </span>
-
-                </div>
-              </div>
-
             </div>
+          )}
 
+          <div className="profile_info style p-1 m-2 alert alert-secondary">
+            <h3>Style de musique principal</h3>
+            <span className="badge badge-black">{profile.style.name}</span>
           </div>
-          
-          {profile.biography && 
-          <div className="profile_bio p-1 my-2 border border-light rounded">
-            <h3 className="profile_subtitle" >Présentation : </h3>
-            <p> {profile.biography} </p>
-          </div>
-          }
 
-          {profile.linkUrl && 
-            <div className="profile_link p-1 my-2 border border-light rounded">
-              <h3 className="profile_subtitle" >Liens :</h3>
-              <p className="profile_link_url">
-                <a target="_blank" href={profile.linkUrl}> {profile.linkUrl} </a>{" "}
-              </p>
-            </div>
-          }
-
-          {profile.youtubeUrl && 
-            <div className="profile_link p-1 my-2 border border-light rounded">
-              <h3 className="profile_subtitle" >Découvrir {profile.firstName} </h3>
-              <div className='player-wrapper'>
-                <ReactPlayer 
-                  url={profile.youtubeUrl} 
-                  className='react-player'
-                  playing
-                  controls
-                  width='100%'
-                  height='100%'
-                  config={{
-                    youtube: {
-                      playerVars: { origin: {API_URL}, showinfo: 1 },
-                      embedOptions: {enablejsapi: 1}
-                    }
-                  }}  
-                  />
+          {profile.level && (
+            <div className="profile_info level p-1 m-2 alert alert-secondary">
+              <div className="mx-2">
+                <h3>Niveau</h3>
+                <span className="badge badge-black">{profile.level.name}</span>
               </div>
             </div>
-          }
+          )}
 
-          {!userProfile && 
-            <div className="d-flex my-3 justify-content-center">
-              <Link to="/users/profile/new" className="btn btn-warning">
-                Pour contacter {profile.firstName}, <br/> Créez votre profil
-              </Link>
+          <div className="profile_info localization p-1 m-2 alert alert-secondary">
+            <h3>Lieu</h3>
+            <div className="d-flex">
+              <span className="badge badge-black mr-3">
+                {profile.localization.region}
+              </span>
+
+              <span className="badge badge-black ml-3">
+                {profile.localization.departement}
+              </span>
             </div>
-          }
-
-          {userProfile && 
-            <div className="profil_contact d-flex my-3">
-
-            <MessageModal
-              libBtn="Envoyer un message"
-              variant="primary"
-              margin="m-auto"
-              forUserId={profile.user.id}
-              forUserName={profile.firstName}
-            />
-
-              {/* <button className="btn btn-primary m-auto p-3" type="button">
-                  <a className="text-white" href={"mailto:" + profile.email}> 
-                    Envoyer un mail
-                  </a>
-              </button> */}
-
-            </div>
-          }
+          </div>
         </div>
-     );
-}
- 
+      </div>
+
+      {profile.biography && (
+        <div className="profile_bio p-1 my-2 border border-light rounded">
+          <h3 className="profile_subtitle">Présentation : </h3>
+          <p> {profile.biography} </p>
+        </div>
+      )}
+
+      {profile.linkUrl && (
+        <div className="profile_link p-1 my-2 border border-light rounded">
+          <h3 className="profile_subtitle">Liens :</h3>
+          <p className="profile_link_url">
+            <a target="_blank" href={profile.linkUrl}>
+              {" "}
+              {profile.linkUrl}{" "}
+            </a>{" "}
+          </p>
+        </div>
+      )}
+
+      {profile.youtubeUrl && (
+        <div className="profile_link p-1 my-2 border border-light rounded">
+          <h3 className="profile_subtitle">Découvrir {profile.firstName} </h3>
+          <div className="player-wrapper">
+            <ReactPlayer
+              url={profile.youtubeUrl}
+              className="react-player"
+              playing
+              controls
+              width="100%"
+              height="100%"
+              config={{
+                youtube: {
+                  playerVars: { origin: { API_URL }, showinfo: 1 },
+                  embedOptions: { enablejsapi: 1 },
+                },
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {!userProfile && (
+        <div className="d-flex my-3 justify-content-center">
+          <Link to="/users/profile/new" className="btn btn-warning">
+            Pour contacter {profile.firstName}, <br /> Créez votre profil
+          </Link>
+        </div>
+      )}
+
+      <div className="profil_contact d-flex my-3 justify-content-center">
+
+        {(userProfile && profile.user.id !== userId) && (
+          <MessageModal
+            libBtn="Envoyer un message"
+            variant="primary"
+            margin="m-auto"
+            forUserId={profile.user.id}
+            forUserName={profile.firstName}
+          />
+        )}
+
+        {(typeMusicien && profile.user.id === userId) && (
+          //Bouton de modification du profil si mucicien
+          <Link
+            to={"/users/profile/musicien/" + userProfileId}
+            className="btn btn-primary m-4"
+          >
+            Modifier mon profil
+          </Link>
+        )}
+
+        {(typeGroupe && profile.user.id === userId) && (
+          //Bouton de modification du profil si groupe
+          <Link
+            to={"/users/profile/band/" + userProfileId}
+            className="btn btn-primary m-4"
+          >
+            Modifier le profil de mon groupe
+          </Link>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default Profile;

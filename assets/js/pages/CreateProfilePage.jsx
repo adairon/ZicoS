@@ -255,6 +255,7 @@ const CreateProfilePage = ({ history }) => {
     try {
       if (!groupEdit) {
         //Si c'est un profil musicien.ne; on envoie une requête en post via axios en passant ce profile en objet
+        console.log(profile)
         const response = await profilesAPI.create(
           {
             ...profile,

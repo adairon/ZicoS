@@ -109,7 +109,7 @@ const UserPage = ({ history }) => {
                 )}
 
                 {typeMusicien && (
-                  //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
+                  //Bouton de modification du profil si mucicien
                   <Link
                     to={"/users/profile/musicien/" + user.profile.id}
                     className="btn btn-primary m-4"
@@ -119,7 +119,7 @@ const UserPage = ({ history }) => {
                 )}
 
                 {typeGroupe && (
-                  //Bouton de création de profil ne s'affiche que si l'utilisateur a un profil
+                  //Bouton de modification du profil si groupe
                   <Link
                     to={"/users/profile/band/" + user.profile.id}
                     className="btn btn-primary m-4"

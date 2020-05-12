@@ -51,7 +51,7 @@ const AboutZicos = ({ history }) => {
                 <h2 className="my-5"> Vous êtes un groupe ? </h2>
                 <div className="about_text mx-5 mb-4 text-justify">
                     Vous avez besoin d'un nouveau membre dans votre équipe? Malheureusement, dans votre entourage - proche ou éloigné - personne ne correspond à ce que vous cherchez? Vous avez besoin de quelqu'un qui a les mêmes influences, qui joue le même style de musique et surtout, du bon instrument ! Vous avez besoin d'un nouveau membre qui soit près de chez vous, de votre lieu de rassemblement, de répétition.
-                    Alors, bienvenu sur ZicoS !
+                    Alors, bienvenue sur ZicoS !
                     Vous trouverez ici ce musicien ou cette musicienne tant recherché.e. Sur ZicoS, vous pourrez chercher et filtrer parmi tous nos profils de musiciens et musicennes et contacter le futur membre de votre groupe. <br/>
                     N'attendez plus, <Link to="/register"> inscrivez-vous </Link> et créez le profil de votre groupe !
                 </div>

@@ -123,7 +123,7 @@ const RegisterPage = ({history}) => {
           <h1>Inscription sur ZicoS</h1>
 
           <p className="text-center">
-            Pour créer votre profil et découvrir des groupes ou musiciens.nes, vous dévez d'abord créer un compte si vous n'en avez pas.<br/>
+            Pour créer votre profil et découvrir des groupes ou musiciens.nes, vous devez d'abord créer un compte.<br/>
             Créer un compte et un profil sur ZicoS c'est rapide et aussi gratuit !
             </p>
 
