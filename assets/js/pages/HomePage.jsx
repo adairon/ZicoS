@@ -111,7 +111,7 @@ const HomePage = ({ history }) => {
 
             <div className="home_text row justify-content-start">
               <p className="text-center col-lg-6 col-md-12 col-sm-12">
-                Grace à ZicoS, trouvez un groupe près de chez vous qui vous
+                Grâce à ZicoS, trouvez un groupe près de chez vous qui vous
                 ressemble.
               </p>
             </div>

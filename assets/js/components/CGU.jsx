@@ -47,7 +47,7 @@ const CGU = (props) => {
                       <ul>
                           <li>ne pas diffuser de contenu choquant, violent ou illégal</li>
                           <li>ne pas diffuser de contenu ayant un lien avec des activités ou actes illégaux</li>
-                          <li>ne pas faire l'appologie d'activités ou actes illégaux</li>
+                          <li>ne pas faire l'apologie d'activités ou actes illégaux</li>
                       </ul>
 
                   ZicoS se réserve le droit de supprimer tout contenu ne respectant pas ces conditions et de suspendre voire de supprimer le compte de l'utilisateur. En cas de diffusion de contenu sortant du cadre prévu par la loi, ZicoS se réserve le droit de signaler l'utilisateur aux autorités compétentes
