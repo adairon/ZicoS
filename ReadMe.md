@@ -6,12 +6,14 @@
     - _DATABASE_USERNAME_ : nom d'utilisateur pour se connecter à la base de données.
     - _DATABASE_PASSWORD_ : Mot de passe pour se connecter à la base de données.
     - _DATABES_HOST_ : url d'accès à la base de données.
-    - _PORT_ : Port d'acès à la base de données.
+    - _PORT_ : Port d'accès à la base de données.
     - _DATABASE_NAME_ : nom de la base de données.
 3. Configurer l'url de l'API dans le fichier .env :
 - ex : ```API_URL="'http://localhost:8000/api/'"```
 4. installer toutes les dépendances et lancer les scripts de migration (via terminal du serveur ou accès SSH) : 
 - __Commande Terminal :__ ```composer install```
-5. lancer une première build pour vérifier que tout fonctionne correctement : 
+5. installer les modules npm : 
+- __Commande Terminal :__ ```npm install``
+6. lancer une première build pour vérifier que tout fonctionne correctement : 
 - __Commande Terminal :__ ```npm run build```
 
