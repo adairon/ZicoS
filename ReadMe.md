@@ -13,7 +13,7 @@
 4. installer toutes les dépendances et lancer les scripts de migration (via terminal du serveur ou accès SSH) : 
 - __Commande Terminal :__ ```composer install```
 5. installer les modules npm : 
-- __Commande Terminal :__ ```npm install``
+- __Commande Terminal :__ ```npm install```
 6. lancer une première build pour vérifier que tout fonctionne correctement : 
 - __Commande Terminal :__ ```npm run build```
 
